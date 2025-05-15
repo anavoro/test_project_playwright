@@ -18,9 +18,9 @@ export class HomePage extends BasePage {
   catalogButton: Locator;
 
   // Search
-  searchInput: Locator;
-  searchForm: Locator;
-  searchIcon: Locator;
+  topSearchInput: Locator;
+  bodySearchForm: Locator;
+  bodySearchInput: Locator;
 
   // Telegram popup
   telegramBotContainer: Locator;
@@ -55,38 +55,38 @@ export class HomePage extends BasePage {
 
     this.logo = page.locator('[data-testid="logo"]');
 
-    this.announcementsLink = page.locator('a.Navbar_link__UhyJF[href="/products/"]');
-    this.requestsMapLink = page.locator('a.Navbar_link__UhyJF[href="/requests-map/"]');
-    this.tendersMapLink = page.locator('a.Navbar_link__UhyJF[href="/tenders-map/"]');
-    this.createAnnouncementLink = page.locator('a.Navbar_addAnnouncement__ZFXeC[href="/create-unit/"]');
+    this.announcementsLink = page.locator('a[href="/products/"]');
+    this.requestsMapLink = page.locator('a[href="/requests-map/"]');
+    this.tendersMapLink = page.locator('a[href="/tenders-map/"]');
+    this.createAnnouncementLink = page.locator('a[href="/create-unit/"]');
 
     this.loginButton = page.locator('div.NavbarAuthBlock_buttonEnter__c9siH');
     this.catalogButton = page.locator('div.NavbarCatalog_label__s1meA');
 
-    this.searchInput = page.locator('input.MainSearch_input__Kr9pB');
-    this.searchForm = page.locator('div.MainSearch_inputForm__lnh50');
-    this.searchIcon = page.locator('div.MainSearch_searchIcon__ay5K2');
+    this.topSearchInput = page.locator('header [data-testid="searchInput"]'); 
+    this.bodySearchForm = page.locator('[data-testid="searchForm"]');
+    this.bodySearchInput = this.bodySearchForm.locator('[data-testid="searchInput"]');
 
     this.telegramBotContainer = page.locator('div.RequestsPopup_container__J8leY');
     this.goToTelegramButton = page.locator('button.ItemButtons_blueBtn__MwFcv.ItemButtons_fullWidth__3HqA0');
     this.closeTelegramPopupButton = page.locator('div.RequestsPopup_cross__bwnMj');
 
-    this.servicesTitle = page.locator('h2.RentzilaProposes_title__8KLJ7', { hasText: 'Послуги' });
+    this.servicesTitle = page.getByRole('heading', { name: 'Послуги' });
     this.servicesPopularButton = page.locator('[data-testid="services__populyarni"]');
     this.servicesAgriculturalButton = page.locator('[data-testid="services__silskogospodarski"]');
     this.servicesConstructionButton = page.locator('[data-testid="services__budivelni"]');
     this.servicesOtherButton = page.locator('[data-testid="services__inshi"]');
 
-    this.equipmentTitle = page.locator('h2.RentzilaProposes_title__8KLJ7', { hasText: 'Спецтехніка' });
+    this.equipmentTitle = page.getByRole('heading', { name: 'Спецтехніка' });
     this.equipmentPopularButton = page.locator('[data-testid="specialEquipment__populyarna"]');
     this.equipmentAgriculturalButton = page.locator('[data-testid="specialEquipment__silskogospodarska"]');
     this.equipmentConstructionButton = page.locator('[data-testid="specialEquipment__budivelna"]');
     this.equipmentOtherButton = page.locator('[data-testid="specialEquipment__insha"]');
 
-    this.contactTitle = page.locator('h2.ConsultationForm_title__Irmcc');
-    this.nameInput = page.locator('input.ConsultationForm_input__r8dGs[name="name"]');
-    this.phoneInput = page.locator('input#mobile.ConsultationForm_input__r8dGs');
-    this.orderConsultationButton = page.locator('button.ItemButtons_darkBlueRoundBtn___4GDw');
+    this.contactTitle = page.getByRole('heading', { name: 'У Вас залишилися питання?' });
+    this.nameInput = page.locator('input[name="name"]');
+    this.phoneInput = page.locator('input#mobile');
+    this.orderConsultationButton = page.getByRole('button', { name: 'Замовити консультацію' });
 
     this.footer = page.locator('div.Footer_container__5d2_x');
   }
@@ -123,11 +123,22 @@ export class HomePage extends BasePage {
     await this.click(this.catalogButton);
   }
 
-  async search(searchText: string) {
-    await this.searchInput.fill(searchText);
-    await this.searchIcon.click();
+  async searchInBody(searchText: string) {
+    await this.bodySearchInput.fill(searchText);
+    await this.bodySearchInput.press('Enter');
   }
 
+  async searchInHeader(searchText: string) {
+    await this.topSearchInput.fill(searchText);
+    await this.topSearchInput.press('Enter');
+  }
+
+  async search(searchText: string, location: 'header' | 'body' = 'body') {
+    const target = location === 'header' ? this.topSearchInput : this.bodySearchInput;
+    await target.fill(searchText);
+    await target.press('Enter');
+  }
+  
   async isTelegramBotPopupVisible() {
     return await this.telegramBotContainer.isVisible();
   }
@@ -172,7 +183,6 @@ export class HomePage extends BasePage {
     await expect(this.announcementsLink).toBeVisible();
     await expect(this.loginButton).toBeVisible();
     await expect(this.catalogButton).toBeVisible();
-    await expect(this.searchInput).toBeVisible();
     await expect(this.servicesTitle).toBeVisible();
     await expect(this.equipmentTitle).toBeVisible();
     await expect(this.contactTitle).toBeVisible();
