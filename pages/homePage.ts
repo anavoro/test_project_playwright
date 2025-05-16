@@ -7,8 +7,8 @@ export class HomePage extends BasePage {
 
   // Navigation
   announcementsLink: Locator;
-  requestsMapLink: Locator;
-  tendersMapLink: Locator;
+  requestsLink: Locator;
+  tendersLink: Locator;
   createAnnouncementLink: Locator;
 
   // Authentication
@@ -55,21 +55,21 @@ export class HomePage extends BasePage {
 
     this.logo = page.locator('[data-testid="logo"]');
 
-    this.announcementsLink = page.locator('a[href="/products/"]');
-    this.requestsMapLink = page.locator('a[href="/requests-map/"]');
-    this.tendersMapLink = page.locator('a[href="/tenders-map/"]');
+    this.announcementsLink = page.locator('a.Navbar_link__UhyJF[href="/products/"]');
+    this.requestsLink = page.locator('a[href="/requests-map/"]');
+    this.tendersLink = page.locator('a[href="/tenders-map/"]');
     this.createAnnouncementLink = page.locator('a[href="/create-unit/"]');
 
-    this.loginButton = page.locator('div.NavbarAuthBlock_buttonEnter__c9siH');
-    this.catalogButton = page.locator('div.NavbarCatalog_label__s1meA');
+    this.loginButton = page.getByText('Вхід');
+    this.catalogButton = page.getByText('Каталог');
 
     this.topSearchInput = page.locator('header [data-testid="searchInput"]'); 
     this.bodySearchForm = page.locator('[data-testid="searchForm"]');
     this.bodySearchInput = this.bodySearchForm.locator('[data-testid="searchInput"]');
 
-    this.telegramBotContainer = page.locator('div.RequestsPopup_container__J8leY');
-    this.goToTelegramButton = page.locator('button.ItemButtons_blueBtn__MwFcv.ItemButtons_fullWidth__3HqA0');
-    this.closeTelegramPopupButton = page.locator('div.RequestsPopup_cross__bwnMj');
+    this.telegramBotContainer = page.locator('[data-testid="completeTenderRectangle"]');
+    this.goToTelegramButton = page.getByRole('button', { name: 'Перейти до Telegram-боту' });
+    this.closeTelegramPopupButton = page.locator('[data-testid="crossButton"]');
 
     this.servicesTitle = page.getByRole('heading', { name: 'Послуги' });
     this.servicesPopularButton = page.locator('[data-testid="services__populyarni"]');
@@ -88,7 +88,7 @@ export class HomePage extends BasePage {
     this.phoneInput = page.locator('input#mobile');
     this.orderConsultationButton = page.getByRole('button', { name: 'Замовити консультацію' });
 
-    this.footer = page.locator('div.Footer_container__5d2_x');
+    this.footer = page.locator('[class*="Footer_container"]');
   }
 
   async navigateToHomePage(baseUrl: string) {
@@ -104,11 +104,11 @@ export class HomePage extends BasePage {
   }
 
   async navigateToRequestsMap() {
-    await this.click(this.requestsMapLink);
+    await this.click(this.requestsLink);
   }
 
   async navigateToTendersMap() {
-    await this.click(this.tendersMapLink);
+    await this.click(this.tendersLink);
   }
 
   async navigateToCreateAnnouncement() {
@@ -138,7 +138,7 @@ export class HomePage extends BasePage {
     await target.fill(searchText);
     await target.press('Enter');
   }
-  
+
   async isTelegramBotPopupVisible() {
     return await this.telegramBotContainer.isVisible();
   }
