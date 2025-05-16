@@ -11,7 +11,7 @@ It includes automated end-to-end UI tests with support for multiple browsers, Al
 
 ```bash
 git clone https://github.com/anavoro/test_project_playwright.git
-cd pytest
+cd test_project_playwright
 ```
 
 2. Install the necessary dependencies:
