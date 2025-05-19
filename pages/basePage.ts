@@ -23,4 +23,8 @@ export class BasePage {
     await expect(locator).toBeVisible({ timeout: options?.timeout || 5000 });
     await locator.click();
   }
+
+  public getPage() {
+    return this.page;
+  }
 }
