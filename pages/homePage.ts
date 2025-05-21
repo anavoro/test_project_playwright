@@ -1,9 +1,11 @@
-import { Page, Locator, expect } from '@playwright/test';
-import { BasePage } from './basePage';
+import { Page, Locator, expect } from "@playwright/test";
+import { BasePage } from "./basePage";
+import testData from "../data/dataMainPage.json";
 
 export class HomePage extends BasePage {
   // Logo element
-  logo: Locator;
+  logoHeader: Locator;
+  logoFooter: Locator;
 
   // Navigation
   announcementsLink: Locator;
@@ -21,6 +23,15 @@ export class HomePage extends BasePage {
   topSearchInput: Locator;
   bodySearchForm: Locator;
   bodySearchInput: Locator;
+  historyOfSearching: Locator;
+  servicesOfSearching: Locator;
+  sowingOfServicesSearching: Locator
+  sprayingOfServicesSearching: Locator
+  fertilizerOfServicesSearching: Locator
+  categoryOfSearching: Locator;
+  truckСrane25СategoryOfSearching: Locator;
+  truckСrane40СategoryOfSearching: Locator;
+  towerСraneСategoryOfSearching: Locator;
 
   // Telegram popup
   telegramBotContainer: Locator;
@@ -34,6 +45,15 @@ export class HomePage extends BasePage {
   servicesConstructionButton: Locator;
   servicesOtherButton: Locator;
 
+  //Selections of popular services
+  servicePopularComplexOfWork: Locator;
+  servicePopularLoadingAndUnloading: Locator;
+  servicePopularRoadWorks: Locator;
+  servicePopularAsphalting: Locator;
+  servicePopularPlowWork: Locator;
+  servicePopularTransportationOfMaterials: Locator;
+  servicePopularHoistWork: Locator;
+
   // Equipment section
   equipmentTitle: Locator;
   equipmentPopularButton: Locator;
@@ -41,54 +61,197 @@ export class HomePage extends BasePage {
   equipmentConstructionButton: Locator;
   equipmentOtherButton: Locator;
 
+  // Selections of popular equipments
+  equipmentPopularSeeder: Locator;
+  equipmentPopularTractor: Locator;
+  equipmentPopularSprayer: Locator;
+  equipmentPopularExcavator: Locator;
+  equipmentPopularForklift: Locator;
+  equipmentPopularHoist: Locator;
+  equipmentPopularUtilityVehicles: Locator;
+
   // Contact section
+  contactSection: Locator;
   contactTitle: Locator;
   nameInput: Locator;
   phoneInput: Locator;
   orderConsultationButton: Locator;
+  emptyNameFieldError: Locator;
+  emptyPhoneFieldError: Locator;
+  emptyFieldPhoneErrorIncorrectData: Locator;
+  formForNameInputAndError: Locator;
+  formForPhoneInputAndError: Locator;
 
   // Footer
   footer: Locator;
+  aboutUs: Locator;
+  privacyPolicy: Locator;
+  rulesOfUsingFilesOfCookies: Locator;
+  termsOfAccessAndUsing: Locator;
+  forUsers: Locator;
+  advertisement: Locator;
+  tenders: Locator;
+  copyright: Locator;
+  contacts: Locator;
+  emailOfCompany: Locator;
 
   constructor(page: Page) {
     super(page);
 
-    this.logo = page.locator('[data-testid="logo"]');
+    this.logoHeader = page.locator('[data-testid="logo"]').first();
+    this.logoFooter = page.locator('[data-testid="logo"]').nth(1);
 
-    this.announcementsLink = page.locator('a.Navbar_link__UhyJF[href="/products/"]');
+    this.announcementsLink = page.locator(
+      'a.Navbar_link__UhyJF[href="/products/"]'
+    );
     this.requestsLink = page.locator('a[href="/requests-map/"]');
     this.tendersLink = page.locator('a[href="/tenders-map/"]');
     this.createAnnouncementLink = page.locator('a[href="/create-unit/"]');
 
-    this.loginButton = page.getByText('Вхід');
-    this.catalogButton = page.getByText('Каталог');
+    this.loginButton = page.getByText("Вхід");
+    this.catalogButton = page.getByText("Каталог");
 
-    this.topSearchInput = page.locator('header [data-testid="searchInput"]'); 
-    this.bodySearchForm = page.locator('[data-testid="searchForm"]');
-    this.bodySearchInput = this.bodySearchForm.locator('[data-testid="searchInput"]');
+    this.topSearchInput = page.locator('header [data-testid="searchInput"]');
+    this.bodySearchForm = page.locator('[data-testid="searchForm"]').first();
+    this.bodySearchInput = this.bodySearchForm.locator(
+      '[data-testid="searchInput"]'
+    ).first();
+    this.historyOfSearching = page.locator('[class*="LeftsideSearch_title__FkeCp"]:has-text("Історія пошуку")');
+    this.servicesOfSearching = page.locator('[class*="LeftsideSearch_title__FkeCp"]:has-text("Послуги")');
+    this.sowingOfServicesSearching = page.locator('[data-testid="resultItem"]:has-text("Посів технічних та зернових культур")');
+    this.sprayingOfServicesSearching = page.locator('[data-testid="resultItem"]:has-text("Обприскування")');
+    this.fertilizerOfServicesSearching = page.locator('[data-testid="resultItem"]:has-text("Внесення добрив")');
+    this.categoryOfSearching = page.locator('[class*="LeftsideSearch_title__FkeCp"]:has-text("Категорії")');
+    this.truckСrane25СategoryOfSearching = page.locator('[data-testid="resultItem"]:has-text("автокрани ДО 25 ТОНН")');
+    this.truckСrane40СategoryOfSearching = page.locator('[data-testid="resultItem"]:has-text("автокрани ДО 40 ТОНН")');
+    this.towerСraneСategoryOfSearching = page.locator('[data-testid="resultItem"]:has-text("баштові крани")');
 
-    this.telegramBotContainer = page.locator('[data-testid="completeTenderRectangle"]');
-    this.goToTelegramButton = page.getByRole('button', { name: 'Перейти до Telegram-боту' });
+    this.telegramBotContainer = page.locator(
+      '[data-testid="completeTenderRectangle"]'
+    );
+    this.goToTelegramButton = page.getByRole("button", {
+      name: "Перейти до Telegram-боту",
+    });
     this.closeTelegramPopupButton = page.locator('[data-testid="crossButton"]');
 
-    this.servicesTitle = page.getByRole('heading', { name: 'Послуги' });
-    this.servicesPopularButton = page.locator('[data-testid="services__populyarni"]');
-    this.servicesAgriculturalButton = page.locator('[data-testid="services__silskogospodarski"]');
-    this.servicesConstructionButton = page.locator('[data-testid="services__budivelni"]');
+    this.servicesTitle = page.getByRole("heading", { name: "Послуги" });
+    this.servicesPopularButton = page.locator(
+      '[data-testid="services__populyarni"]'
+    );
+    this.servicesAgriculturalButton = page.locator(
+      '[data-testid="services__silskogospodarski"]'
+    );
+    this.servicesConstructionButton = page.locator(
+      '[data-testid="services__budivelni"]'
+    );
     this.servicesOtherButton = page.locator('[data-testid="services__inshi"]');
 
-    this.equipmentTitle = page.getByRole('heading', { name: 'Спецтехніка' });
-    this.equipmentPopularButton = page.locator('[data-testid="specialEquipment__populyarna"]');
-    this.equipmentAgriculturalButton = page.locator('[data-testid="specialEquipment__silskogospodarska"]');
-    this.equipmentConstructionButton = page.locator('[data-testid="specialEquipment__budivelna"]');
-    this.equipmentOtherButton = page.locator('[data-testid="specialEquipment__insha"]');
+    this.servicePopularComplexOfWork = page.locator(
+      '[data-testid="service__kompleks-robit"]'
+    );
+    this.servicePopularLoadingAndUnloading = page.locator(
+      '[data-testid="service__navantazhennya-ta-rozvantazhennya"]'
+    );
+    this.servicePopularRoadWorks = page.locator(
+      '[data-testid="service__dorozhni-roboti"]'
+    );
+    this.servicePopularPlowWork = page.locator(
+      '[data-testid="service__orannya-zemli"]'
+    );
+    this.servicePopularTransportationOfMaterials = page.locator(
+      '[data-testid="service__perevezennya-materialiv"]'
+    );
+    this.servicePopularHoistWork = page.locator(
+      '[data-testid="service__pidiomni-roboti"]'
+    );
+    this.servicePopularAsphalting = page.locator(
+      '[data-testid="service__asfaltuvannya"]'
+    );
 
-    this.contactTitle = page.getByRole('heading', { name: 'У Вас залишилися питання?' });
-    this.nameInput = page.locator('input[name="name"]');
-    this.phoneInput = page.locator('input#mobile');
-    this.orderConsultationButton = page.getByRole('button', { name: 'Замовити консультацію' });
+    this.equipmentTitle = page.getByRole("heading", { name: "Спецтехніка" });
+    this.equipmentPopularButton = page.locator(
+      '[data-testid="specialEquipment__populyarna"]'
+    );
+    this.equipmentAgriculturalButton = page.locator(
+      '[data-testid="specialEquipment__silskogospodarska"]'
+    );
+    this.equipmentConstructionButton = page.locator(
+      '[data-testid="specialEquipment__budivelna"]'
+    );
+    this.equipmentOtherButton = page.locator(
+      '[data-testid="specialEquipment__insha"]'
+    );
 
-    this.footer = page.locator('[class*="Footer_container"]');
+    this.equipmentPopularSeeder = page.locator(
+      '[data-testid="category__sivalki"]'
+    );
+    this.equipmentPopularTractor = page.locator(
+      '[data-testid="category__traktori"]'
+    );
+    this.equipmentPopularSprayer = page.locator(
+      '[data-testid="category__obpriskuvachi"]'
+    );
+    this.equipmentPopularExcavator = page.locator(
+      '[data-testid="category__ekskavatori"]'
+    );
+    this.equipmentPopularForklift = page.locator(
+      '[data-testid="category__navantazhuvachi"]'
+    );
+    this.equipmentPopularHoist = page.locator(
+      '[data-testid="category__pidiomniki"]'
+    );
+    this.equipmentPopularUtilityVehicles = page.locator(
+      '[data-testid="category__komunalni-mashini"]'
+    );
+
+    this.contactSection = page.locator(
+      '[class*="Layouts_consultation__JUU1R"]'
+    );
+    this.formForNameInputAndError = page.locator(
+      '[class*="ConsultationForm_name__3bVcz"]'
+    );
+    this.formForPhoneInputAndError = page.locator(
+      '[class*="ConsultationForm_phone__vEOS9"]'
+    );
+    this.contactTitle = this.contactSection.getByRole("heading", {
+      name: "У Вас залишилися питання?",
+    });
+    this.nameInput = this.contactSection.locator('input[name="name"]');
+    this.phoneInput = this.contactSection.locator("input#mobile");
+    this.orderConsultationButton = this.contactSection.getByRole("button", {
+      name: "Замовити консультацію",
+    });
+    this.emptyNameFieldError = this.formForNameInputAndError.locator(
+      '[class*="ConsultationForm_error_message__jleeD"]:has-text("Поле не може бути порожнім")'
+    );
+    this.emptyPhoneFieldError = this.formForPhoneInputAndError.locator(
+      '[class*="ConsultationForm_error_message__jleeD"]:has-text("Поле не може бути порожнім")'
+    );
+    this.emptyFieldPhoneErrorIncorrectData = page.locator(
+      '[class*="ConsultationForm_error_message__jleeD"]:has-text("Телефон не пройшов валідацію")'
+    );
+
+    this.footer = page.locator('[class*="Footer_footer__Dhw_9"]');
+    this.aboutUs = this.footer.locator('[data-testid="content"]');
+    this.privacyPolicy = this.footer.locator('a[href="/privacy-policy/"]');
+    this.rulesOfUsingFilesOfCookies = this.footer.locator(
+      'a[href="/cookie-policy/"]'
+    );
+    this.termsOfAccessAndUsing = this.footer.locator(
+      'a[href="/terms-conditions/"]'
+    );
+    this.forUsers = this.footer.locator(
+      '[class*="RentzilaForBuyers_title__k3tHn"]'
+    );
+    this.advertisement = this.footer.locator('a[href="/products/"]');
+    this.tenders = this.footer.locator('a[href="/tenders-map/"]');
+    this.copyright = this.footer.locator('[data-testid="copyright"]');
+    this.contacts = this.footer.locator(
+      '[class*="RentzilaContacts_title__SxcO7"]'
+    );
+    this.emailOfCompany = this.footer.locator(
+      'a[href="mailto:info@rentzila.com.ua"]'
+    );
   }
 
   async navigateToHomePage(baseUrl: string) {
@@ -96,7 +259,7 @@ export class HomePage extends BasePage {
   }
 
   async clickLogo() {
-    await this.click(this.logo);
+    await this.click(this.logoHeader);
   }
 
   async navigateToAnnouncements() {
@@ -119,24 +282,120 @@ export class HomePage extends BasePage {
     await this.click(this.loginButton);
   }
 
+  async clickEmailOfCompany() {
+    await this.click(this.emailOfCompany);
+  }
+
+  async clickTenders() {
+    await this.click(this.tenders);
+  }
+
+  async clickAdvertisement() {
+    await this.click(this.advertisement);
+  }
+
+  async clickTermsOfAccessAndUsing() {
+    await this.click(this.termsOfAccessAndUsing);
+  }
+
+  async clickRulesOfUsingFilesOfCookies() {
+    await this.click(this.rulesOfUsingFilesOfCookies);
+  }
+
+  async clickPrivacyPolicy() {
+    await this.click(this.privacyPolicy);
+  }
+
   async clickCatalog() {
     await this.click(this.catalogButton);
   }
 
+  async clickServicePopularComplexOfWork() {
+    await this.click(this.servicePopularComplexOfWork);
+  }
+
+  async clickServicePopularLoadingAndUnloading() {
+    await this.click(this.servicePopularLoadingAndUnloading);
+  }
+
+  async clickServicePopularRoadWorks() {
+    await this.click(this.servicePopularRoadWorks);
+  }
+
+  async clickServicePopularPlowWork() {
+    await this.click(this.servicePopularPlowWork);
+  }
+
+  async clickServicePopularTransportationOfMaterials() {
+    await this.click(this.servicePopularTransportationOfMaterials);
+  }
+
+  async clickServicePopularHoistWork() {
+    await this.click(this.servicePopularHoistWork);
+  }
+
+  async clickServicePopularAsphalting() {
+    await this.click(this.servicePopularAsphalting);
+  }
+
+  async clickEquipmentPopularHoist() {
+    await this.click(this.equipmentPopularHoist);
+  }
+
+  async clickEquipmentPopularForklift() {
+    await this.click(this.equipmentPopularForklift);
+  }
+
+  async clickEquipmentPopularExcavator() {
+    await this.click(this.equipmentPopularExcavator);
+  }
+
+  async clickEquipmentPopularSeeder() {
+    await this.click(this.equipmentPopularSeeder);
+  }
+
+  async clickEquipmentPopularSprayer() {
+    await this.click(this.equipmentPopularSprayer);
+  }
+
+  async clickEquipmentPopularTractor() {
+    await this.click(this.equipmentPopularTractor);
+  }
+
+  async clickEquipmentPopularUtilityVehicles() {
+    await this.click(this.equipmentPopularUtilityVehicles);
+  }
+
+  async clickPhoneInput() {
+    await this.click(this.phoneInput);
+  }
+
   async searchInBody(searchText: string) {
+    await this.bodySearchInput.click();
+    
+    await expect(this.historyOfSearching).toBeVisible();
+    await expect(this.servicesOfSearching).toBeVisible();
+    await expect(this.sowingOfServicesSearching).toBeVisible();
+    await expect(this.sprayingOfServicesSearching).toBeVisible();
+    await expect(this.fertilizerOfServicesSearching).toBeVisible();
+    await expect(this.categoryOfSearching).toBeVisible();
+    await expect(this.truckСrane25СategoryOfSearching).toBeVisible();
+    await expect(this.truckСrane40СategoryOfSearching).toBeVisible();
+    await expect(this.towerСraneСategoryOfSearching).toBeVisible();
     await this.bodySearchInput.fill(searchText);
-    await this.bodySearchInput.press('Enter');
+    await this.bodySearchInput.press("Enter");
   }
 
   async searchInHeader(searchText: string) {
     await this.topSearchInput.fill(searchText);
-    await this.topSearchInput.press('Enter');
+    await this.topSearchInput.press("Enter");
   }
 
-  async search(searchText: string, location: 'header' | 'body' = 'body') {
-    const target = location === 'header' ? this.topSearchInput : this.bodySearchInput;
+  async search(searchText: string, location: "header" | "body" = "body") {
+    const target =
+      location === "header" ? this.topSearchInput : this.bodySearchInput;
     await target.fill(searchText);
-    await target.press('Enter');
+    await target.press("Enter");
   }
 
   async isTelegramBotPopupVisible() {
@@ -153,7 +412,9 @@ export class HomePage extends BasePage {
     await this.click(this.goToTelegramButton);
   }
 
-  async selectServiceCategory(category: 'popular' | 'agricultural' | 'construction' | 'other') {
+  async selectServiceCategory(
+    category: "popular" | "agricultural" | "construction" | "other"
+  ) {
     const categoryMap = {
       popular: this.servicesPopularButton,
       agricultural: this.servicesAgriculturalButton,
@@ -163,7 +424,9 @@ export class HomePage extends BasePage {
     await this.click(categoryMap[category]);
   }
 
-  async selectEquipmentCategory(category: 'popular' | 'agricultural' | 'construction' | 'other') {
+  async selectEquipmentCategory(
+    category: "popular" | "agricultural" | "construction" | "other"
+  ) {
     const categoryMap = {
       popular: this.equipmentPopularButton,
       agricultural: this.equipmentAgriculturalButton,
