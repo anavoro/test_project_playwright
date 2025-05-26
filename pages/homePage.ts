@@ -6,6 +6,7 @@ export class HomePage extends BasePage {
   logo: Locator;
 
   // Navigation
+  mainContainer: Locator;
   announcementsLink: Locator;
   requestsLink: Locator;
   tendersLink: Locator;
@@ -13,6 +14,12 @@ export class HomePage extends BasePage {
 
   // Authentication
   loginButton: Locator;
+  avatarBlock: Locator;
+  dropdownMenuContainer: Locator;
+  dropdownProfileEmail: Locator;
+  tendersBtn: Locator;
+  profileBtn: Locator;
+  logoutBtn: Locator;
 
   // Catalog
   catalogButton: Locator;
@@ -55,12 +62,20 @@ export class HomePage extends BasePage {
 
     this.logo = page.locator('[data-testid="logo"]');
 
+    this.mainContainer = page.locator('[class^="Layouts_main__"]')
     this.announcementsLink = page.locator('a.Navbar_link__UhyJF[href="/products/"]');
     this.requestsLink = page.locator('a[href="/requests-map/"]');
     this.tendersLink = page.locator('a[href="/tenders-map/"]');
     this.createAnnouncementLink = page.locator('a[href="/create-unit/"]');
 
     this.loginButton = page.getByText('Вхід');
+    this.avatarBlock = page.locator('[data-testid="avatarBlock"]');
+    this.dropdownMenuContainer = page.locator('[class^="ProfileDropdownMenu_container__"]');
+    this.dropdownProfileEmail = page.locator('[data-testid="email"]');
+    this.tendersBtn = page.locator('[data-testid="tenders"]');
+    this.profileBtn = page.locator('[data-testid="profile"]');
+    this.logoutBtn = page.locator('[data-testid="logout"]');
+
     this.catalogButton = page.getByText('Каталог');
 
     this.topSearchInput = page.locator('header [data-testid="searchInput"]'); 
@@ -187,4 +202,23 @@ export class HomePage extends BasePage {
     await expect(this.equipmentTitle).toBeVisible();
     await expect(this.contactTitle).toBeVisible();
   }
+
+  async clickAvatar() {
+    await this.waitForElement(this.avatarBlock);
+    await this.click(this.avatarBlock);
+  }
+
+  async goToTenders() {
+    await this.click(this.avatarBlock);
+    await this.click(this.tendersBtn);
+  }
+
+  async clickProfile() {
+    await this.click(this.profileBtn);
+  }
+
+  async clickLogout() {
+    await this.click(this.logoutBtn);
+  }
+
 }
