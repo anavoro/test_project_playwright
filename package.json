@@ -23,6 +23,7 @@
     "allure-playwright": "^3.2.2"
   },
   "dependencies": {
+    "@types/leaflet": "^1.9.18",
     "dotenv": "^16.5.0"
   }
 }

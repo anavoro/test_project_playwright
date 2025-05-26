@@ -48,8 +48,7 @@ export class FootersPage extends BasePage {
     clickFn,
     expectedUrl,
     expectedVisibleLocator,
-    logo
-
+    logo,
   }: {
     clickFn: () => Promise<void>;
     expectedUrl: string;

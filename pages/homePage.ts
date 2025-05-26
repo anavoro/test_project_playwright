@@ -12,26 +12,35 @@ export class HomePage extends BasePage {
   requestsLink: Locator;
   tendersLink: Locator;
   createAnnouncementLink: Locator;
+  mapButton: Locator;
 
   // Authentication
   loginButton: Locator;
 
   // Catalog
   catalogButton: Locator;
+  firstDropDownMenuCatalog: Locator;
+  secondDropDownMenuCatalog: Locator;
+  thirdDropDownMenuCatalog: Locator;
 
   // Search
   topSearchInput: Locator;
+  dropDownSearchForm: Locator;
   bodySearchForm: Locator;
+  buttonCrossTop: Locator;
   bodySearchInput: Locator;
   historyOfSearching: Locator;
   servicesOfSearching: Locator;
-  sowingOfServicesSearching: Locator
-  sprayingOfServicesSearching: Locator
-  fertilizerOfServicesSearching: Locator
+  sowingOfServicesSearching: Locator;
+  sprayingOfServicesSearching: Locator;
+  fertilizerOfServicesSearching: Locator;
   categoryOfSearching: Locator;
   truckСrane25СategoryOfSearching: Locator;
   truckСrane40СategoryOfSearching: Locator;
   towerСraneСategoryOfSearching: Locator;
+  draglineСategoryOfSearching: Locator;
+  asphaltingServicesOfSearching: Locator;
+  cardContainer: Locator;
 
   // Telegram popup
   telegramBotContainer: Locator;
@@ -107,24 +116,61 @@ export class HomePage extends BasePage {
     this.requestsLink = page.locator('a[href="/requests-map/"]');
     this.tendersLink = page.locator('a[href="/tenders-map/"]');
     this.createAnnouncementLink = page.locator('a[href="/create-unit/"]');
+    this.mapButton = page.locator('[data-testid="mapButton"]');
 
     this.loginButton = page.getByText("Вхід");
     this.catalogButton = page.getByText("Каталог");
+    this.firstDropDownMenuCatalog = page.locator(
+      '[class="Catalog_parents__ThIGP"]'
+    );
+    this.secondDropDownMenuCatalog = page.locator(
+      '[class="Catalog_list__sVdCj"]'
+    );
+    this.thirdDropDownMenuCatalog = page.locator(
+      '[class="Catalog_list__sVdCj Catalog_listSecond__awZH7"]'
+    );
 
     this.topSearchInput = page.locator('header [data-testid="searchInput"]');
-    this.bodySearchForm = page.locator('[data-testid="searchForm"]').first();
+    this.buttonCrossTop = page.locator('[data-testid="searchClear"]');
+    this.dropDownSearchForm = page.locator('[data-testid="searchDropdown"]');
+    this.bodySearchForm = page.locator('[data-testid="searchForm"]');
     this.bodySearchInput = this.bodySearchForm.locator(
       '[data-testid="searchInput"]'
-    ).first();
-    this.historyOfSearching = page.locator('[class*="LeftsideSearch_title__FkeCp"]:has-text("Історія пошуку")');
-    this.servicesOfSearching = page.locator('[class*="LeftsideSearch_title__FkeCp"]:has-text("Послуги")');
-    this.sowingOfServicesSearching = page.locator('[data-testid="resultItem"]:has-text("Посів технічних та зернових культур")');
-    this.sprayingOfServicesSearching = page.locator('[data-testid="resultItem"]:has-text("Обприскування")');
-    this.fertilizerOfServicesSearching = page.locator('[data-testid="resultItem"]:has-text("Внесення добрив")');
-    this.categoryOfSearching = page.locator('[class*="LeftsideSearch_title__FkeCp"]:has-text("Категорії")');
-    this.truckСrane25СategoryOfSearching = page.locator('[data-testid="resultItem"]:has-text("автокрани ДО 25 ТОНН")');
-    this.truckСrane40СategoryOfSearching = page.locator('[data-testid="resultItem"]:has-text("автокрани ДО 40 ТОНН")');
-    this.towerСraneСategoryOfSearching = page.locator('[data-testid="resultItem"]:has-text("баштові крани")');
+    );
+    this.historyOfSearching = page.locator(
+      '[class*="LeftsideSearch_title__FkeCp"]:has-text("Історія пошуку")'
+    );
+    this.servicesOfSearching = page.locator(
+      '[class*="LeftsideSearch_title__FkeCp"]:has-text("Послуги")'
+    );
+    this.sowingOfServicesSearching = page.locator(
+      '[data-testid="resultItem"]:has-text("Посів технічних та зернових культур")'
+    );
+    this.sprayingOfServicesSearching = page.locator(
+      '[data-testid="resultItem"]:has-text("Обприскування")'
+    );
+    this.fertilizerOfServicesSearching = page.locator(
+      '[data-testid="resultItem"]:has-text("Внесення добрив")'
+    );
+    this.categoryOfSearching = page.locator(
+      '[class*="LeftsideSearch_title__FkeCp"]:has-text("Категорії")'
+    );
+    this.truckСrane25СategoryOfSearching = page.locator(
+      '[data-testid="resultItem"]:has-text("автокрани ДО 25 ТОНН")'
+    );
+    this.truckСrane40СategoryOfSearching = page.locator(
+      '[data-testid="resultItem"]:has-text("автокрани ДО 40 ТОНН")'
+    );
+    this.towerСraneСategoryOfSearching = page.locator(
+      '[data-testid="resultItem"]:has-text("баштові крани")'
+    );
+    this.draglineСategoryOfSearching = page.locator(
+      '[data-testid="resultItem"]:has-text("Драглайни")'
+    );
+    this.asphaltingServicesOfSearching = page.locator(
+      '[data-testid="resultItem"]:has-text("Асфальтування")'
+    );
+    this.cardContainer = page.locator('[data-testid="cardContainer"]');
 
     this.telegramBotContainer = page.locator(
       '[data-testid="completeTenderRectangle"]'
@@ -262,6 +308,14 @@ export class HomePage extends BasePage {
     await this.click(this.logoHeader);
   }
 
+  async clickMapButton() {
+    await this.click(this.mapButton);
+  }
+
+  async clickButtonCrossTop() {
+    await this.click(this.buttonCrossTop.nth(0));
+  }
+
   async navigateToAnnouncements() {
     await this.click(this.announcementsLink);
   }
@@ -274,12 +328,20 @@ export class HomePage extends BasePage {
     await this.click(this.tendersLink);
   }
 
+  async clickAsphaltingServicesOfSearching() {
+    await this.click(this.asphaltingServicesOfSearching.nth(1));
+  }
+
   async navigateToCreateAnnouncement() {
     await this.click(this.createAnnouncementLink);
   }
 
   async clickLogin() {
     await this.click(this.loginButton);
+  }
+
+  async clickDraglineСategoryOfSearching() {
+    await this.click(this.draglineСategoryOfSearching.nth(1));
   }
 
   async clickEmailOfCompany() {
@@ -308,6 +370,56 @@ export class HomePage extends BasePage {
 
   async clickCatalog() {
     await this.click(this.catalogButton);
+  }
+
+  async hoverToElementFromFirstCatalogDropDownMenu(name: string) {
+    await this.page
+      .locator('[class*="Catalog_parent__k_4MP"]', { hasText: name })
+      .getByText(name, { exact: true })
+      .hover();
+  }
+
+  async hoverToElementFromOthersCatalogDropDownMenu(name: string) {
+    await this.page
+      .locator('[class*="CatalogItem_item__xvBwY"]', { hasText: name })
+      .getByText(name, { exact: true })
+      .hover();
+  }
+
+  async verifyWhetherFirstDropDownMenuisVisible(arrayOfNames: string[]) {
+    await expect(this.firstDropDownMenuCatalog).toBeVisible();
+    for (let i = 0; i < arrayOfNames.length; i++) {
+      await expect(
+        this.page
+          .locator('[class*="Catalog_parent__k_4MP"]', {
+            hasText: arrayOfNames[i],
+          })
+          .getByText(arrayOfNames[i], { exact: true })
+      ).toBeVisible();
+    }
+  }
+
+  async verifyWhetherSecondDropDownMenuisVisible(arrayOfNames: string[]) {
+    await expect(this.secondDropDownMenuCatalog).toBeVisible();
+    for (let i = 0; i < arrayOfNames.length; i++) {
+      await expect(
+        this.page
+          .locator('[class*="CatalogItem_item__xvBwY"]', {
+            hasText: arrayOfNames[i],
+          })
+          .getByText(arrayOfNames[i], { exact: true })
+      ).toBeVisible();
+    }
+  }
+
+  async clickOnCertainElementAtDropDownCategoryMenu(
+    numberOfMenu: Locator,
+    textOfElement: string
+  ) {
+    await numberOfMenu
+      .locator('[class*="CatalogItem_item__xvBwY"]', { hasText: textOfElement })
+      .getByText(textOfElement, { exact: true })
+      .click();
   }
 
   async clickServicePopularComplexOfWork() {
@@ -370,25 +482,55 @@ export class HomePage extends BasePage {
     await this.click(this.phoneInput);
   }
 
+  async clickFirstCardContainer() {
+    await this.cardContainer.first().click();
+  }
+
   async searchInBody(searchText: string) {
-    await this.bodySearchInput.click();
-    
-    await expect(this.historyOfSearching).toBeVisible();
-    await expect(this.servicesOfSearching).toBeVisible();
-    await expect(this.sowingOfServicesSearching).toBeVisible();
-    await expect(this.sprayingOfServicesSearching).toBeVisible();
-    await expect(this.fertilizerOfServicesSearching).toBeVisible();
-    await expect(this.categoryOfSearching).toBeVisible();
-    await expect(this.truckСrane25СategoryOfSearching).toBeVisible();
-    await expect(this.truckСrane40СategoryOfSearching).toBeVisible();
-    await expect(this.towerСraneСategoryOfSearching).toBeVisible();
     await this.bodySearchInput.fill(searchText);
     await this.bodySearchInput.press("Enter");
   }
 
-  async searchInHeader(searchText: string) {
+  async verifyThatSearchFormHaveAdvertisements(searchText: string) {
+    await this.page.waitForTimeout(1000);
+    const count = await this.cardContainer.count();
+    console.log(count);
+    for (let i = 0; i < count; i++) {
+      await expect(this.cardContainer.nth(i)).toContainText(searchText, {
+        ignoreCase: true,
+      });
+    }
+  }
+
+  async updateSearchHistoryArray(array: string[], newValue: string) {
+    if (array.length > 2) {
+      array.shift();
+    }
+    array.push(newValue);
+    console.log(array);
+    return array;
+  }
+
+  async clickTopSearchInput() {
+    await this.topSearchInput.click();
+  }
+
+  async fillTopSearchInput(searchText: string) {
     await this.topSearchInput.fill(searchText);
+  }
+
+  async pressEnterTopSearchInput() {
     await this.topSearchInput.press("Enter");
+  }
+
+  async verifyUpdatedHistoryOfSearching(searchedText: string[]) {
+    for (let i = 0; i < searchedText.length; i++) {
+      expect(
+        this.page
+          .locator(`[data-testid="resultItem"]:has-text("${searchedText[i]}")`)
+          .first()
+      ).toBeVisible();
+    }
   }
 
   async search(searchText: string, location: "header" | "body" = "body") {

@@ -4,30 +4,138 @@ import { HomePage } from "../pages/homePage";
 
 export class ServicesPage extends BasePage {
   arrowButtonDropDownMenu: Locator;
-  cardWrapper: Locator;
+  cardWrapperFirst: Locator;
+  cardWrappers: Locator;
   openedDropDownMenu: Locator;
-
-  //ad
+  maindTraitsCategory: Locator;
+  advertisementDescription: Locator;
+  advertisementTitle: Locator;
+  quantityOfAdvertisementsTitle: Locator;
+  draglineCategoryOfAdvertisement: Locator;
+  constructionalEquipment: Locator;
+  communalEquipment: Locator;
+  storageEquipment: Locator;
+  buttonZoomIn: Locator;
+  buttonZoomOut: Locator;
+  сlusters: Locator;
+  largeClusters: Locator;
+  mediumClusters: Locator;
+  smallClusters: Locator;
+  marksOfAdvertisementsOnMap: Locator;
+  entireMap: Locator;
+  titleUrl: Locator;
   categoryOfAdvertisement: Locator;
 
   constructor(page: Page) {
     super(page);
-    this.openedDropDownMenu = page.locator('.ServiceCategory_svgContainer__mPCMj.ServiceCategory_clicked__Jm6x8');
-    this.cardWrapper = page.locator('[data-testid="cardWrapper"]').first();
-    this.arrowButtonDropDownMenu = page
-      .locator('[class*="ServiceCategory_svgContainer__mPCMj"]')
-      .nth(2);
+    this.openedDropDownMenu = page.locator(
+      ".ServiceCategory_svgContainer__mPCMj.ServiceCategory_clicked__Jm6x8"
+    );
+    this.cardWrapperFirst = page.locator('[data-testid="cardWrapper"]').first();
+    this.cardWrappers = page.locator('[data-testid="cardWrapper"]');
+    this.arrowButtonDropDownMenu = page.locator(
+      '[class*="ServiceCategory_svgContainer__mPCMj"]'
+    );
+    this.draglineCategoryOfAdvertisement = page.locator(
+      '[class*="ResetFilters_selectedCategory___D1E6"]:has-text("Драглайни")'
+    );
+    this.maindTraitsCategory = page.locator('[itemprop="category"]');
+    this.advertisementDescription = page.locator(
+      '[data-testid="unitDescriptionContainer"]'
+    );
+    this.advertisementTitle = page.locator('[class="UnitName_title__NqpQs"]');
+    this.quantityOfAdvertisementsTitle = page
+      .locator('[class="MapPagination_count__c_dzg"]')
+      .first();
+    this.constructionalEquipment = page.locator(
+      '[data-testid="budivelna-tekhnika"]'
+    );
+
     this.categoryOfAdvertisement = page.locator(
       '[class*="UnitCharacteristics_service__aTyk2"]'
     );
+    this.communalEquipment = page.locator('[data-testid="komunalna-tekhnika"]');
+    this.storageEquipment = page.locator('[data-testid="skladska-tekhnika"]');
+    this.buttonZoomIn = page.locator('[href="#"]').first();
+    this.buttonZoomOut = page.locator('[href="#"][title="Zoom out"]');
+    this.сlusters = page.locator(
+      '[class*="leaflet-marker-icon marker-cluster"]'
+    );
+    this.largeClusters = page.locator(
+      '[class="leaflet-marker-icon marker-cluster marker-cluster-large leaflet-zoom-animated leaflet-interactive"]'
+    );
+    this.mediumClusters = page.locator(
+      '[class="leaflet-marker-icon marker-cluster marker-cluster-medium leaflet-zoom-animated leaflet-interactive"]'
+    );
+    this.smallClusters = page.locator(
+      '[class="leaflet-marker-icon marker-cluster marker-cluster-small leaflet-zoom-animated leaflet-interactive"]'
+    );
+    this.marksOfAdvertisementsOnMap = page.locator(
+      '[src="/images/marker.svg"]'
+    );
+    this.entireMap = page.locator(".leaflet-container");
+    this.titleUrl = page.locator(".leaflet-tile");
   }
 
-  async clickCardWrapper() {
-    await this.click(this.cardWrapper);
+  async clickcardWrapperFirst() {
+    await this.click(this.cardWrapperFirst);
   }
 
-  async clickArrowButtonDropDownMenu() {
-    await this.click(this.arrowButtonDropDownMenu);
+  async clickButtonZoomIn() {
+    await this.click(this.buttonZoomIn);
+  }
+
+  async clickButtonZoomOut() {
+    await this.click(this.buttonZoomOut);
+  }
+
+  async clickConstructionalArrowButtonDropDownMenu() {
+    await this.click(this.arrowButtonDropDownMenu.nth(0));
+  }
+
+  async clickOtherArrowButtonDropDownMenu() {
+    await this.click(this.arrowButtonDropDownMenu.nth(1));
+  }
+
+  async clickAgriculturalArrowButtonDropDownMenu() {
+    await this.click(this.arrowButtonDropDownMenu.nth(2));
+  }
+
+  async getZoomScale() {
+    const tileUrl = await this.titleUrl.first().getAttribute("src");
+    if (!tileUrl) throw new Error("Tile URL is undefined.");
+    const parts = tileUrl.split("/");
+    const zoomStr = parts[6];
+    const zoom = parseInt(zoomStr);
+    if (isNaN(zoom)) throw new Error(`Zoom value invalid: ${zoomStr}`);
+    return zoom;
+  }
+
+  async verifyVisibilityOfLargeClusters() {
+    const countLargeCluster = await this.largeClusters.count();
+    let initialZoom;
+    let newZoom;
+    for (let i = 0; i < countLargeCluster; i++) {
+      initialZoom = await this.getZoomScale();
+      await this.largeClusters.nth(i).click();
+      await this.page.waitForTimeout(1450);
+      newZoom = await this.getZoomScale();
+      expect(newZoom).toBeGreaterThan(initialZoom);
+      initialZoom = newZoom;
+      await this.verifyExistenceOfClusters();
+      await this.page.reload({ waitUntil: "networkidle" });
+    }
+  }
+
+  async verifyExistenceOfClusters() {
+    const countClusters = await this.сlusters.count();
+    for (let j = 0; j < countClusters; j++) {
+      expect(this.сlusters.nth(j)).toBeEnabled();
+    }
+    const countMarks = await this.marksOfAdvertisementsOnMap.count();
+    for (let j = 0; j < countMarks; j++) {
+      expect(this.marksOfAdvertisementsOnMap.nth(j)).toBeEnabled();
+    }
   }
 
   async verifyPopularService(
@@ -40,13 +148,12 @@ export class ServicesPage extends BasePage {
     await serviceClickFn();
     await expect(page).toHaveURL(/\/products\//);
     await page.waitForTimeout(1000);
-    //need to remove
     const count = await this.openedDropDownMenu.count();
     if (count === 0) {
-      await servicesPage.clickArrowButtonDropDownMenu();
+      await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
     }
     expect(await this.isCheckboxCheckedByLabel(expectedLabel)).toBe(true);
-    await servicesPage.clickCardWrapper();
+    await servicesPage.clickcardWrapperFirst();
 
     await this.categoryOfAdvertisement.first().waitFor({ state: "visible" });
     const texts = await this.categoryOfAdvertisement.allTextContents();
@@ -66,15 +173,14 @@ export class ServicesPage extends BasePage {
   ) {
     await serviceClickFn();
     await expect(page).toHaveURL(/\/products\//);
-    //need to remove
     await page.waitForTimeout(1000);
-    await servicesPage.clickArrowButtonDropDownMenu();
+    await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
     await page
       .locator(
         `[class*="ResetFilters_selectedCategory___D1E6"]:has-text("${category}")`
       )
       .isEnabled();
-    await servicesPage.clickCardWrapper();
+    await servicesPage.clickcardWrapperFirst();
     await this.categoryOfAdvertisement.first().waitFor({ state: "visible" });
     const texts = await this.categoryOfAdvertisement.allTextContents();
     console.log("Texts:", texts);
@@ -95,5 +201,48 @@ export class ServicesPage extends BasePage {
       throw new Error(`No 'for' attribute found for label: ${labelText}`);
     const checkbox = this.page.locator(`input#${id}`);
     return checkbox.isChecked();
+  }
+
+  async verifyRelevantAdvertisement(
+    categoryText: string,
+    searchedText: string,
+    selectedByCategoryOrService: boolean
+  ) {
+    const count = await this.cardWrappers.count();
+    if (count >= 1 && count <= 4 && selectedByCategoryOrService === false)
+      await expect(this.quantityOfAdvertisementsTitle).toContainText(
+        `Знайдено ${count} оголошення на видимій території за запитом ${searchedText}`
+      );
+    else if (count >= 1 && count <= 4 && selectedByCategoryOrService === true)
+      await expect(this.quantityOfAdvertisementsTitle).toContainText(
+        `Знайдено ${count} оголошення на видимій території`
+      );
+    else if (
+      ((count >= 5 && count <= 9) || count === 0) &&
+      (selectedByCategoryOrService === true || searchedText === "")
+    )
+      await expect(this.quantityOfAdvertisementsTitle).toContainText(
+        `Знайдено ${count} оголошень на видимій території`
+      );
+    else if (
+      ((count >= 5 && count <= 9) || count === 0) &&
+      selectedByCategoryOrService === false
+    )
+      await expect(this.quantityOfAdvertisementsTitle).toContainText(
+        `Знайдено ${count} оголошень на видимій території за запитом ${searchedText}`
+      );
+
+    for (let i = 0; i < count; i++) {
+      let currentAd = this.cardWrappers.nth(i);
+      await currentAd.scrollIntoViewIfNeeded();
+      await expect(currentAd).toBeVisible();
+      if (categoryText !== "") {
+        await currentAd.click();
+        await this.page.waitForLoadState("networkidle");
+        await expect(this.maindTraitsCategory).toContainText(categoryText);
+        await expect(this.advertisementDescription).toBeVisible();
+        await this.page.goBack({ waitUntil: "load" });
+      }
+    }
   }
 }
