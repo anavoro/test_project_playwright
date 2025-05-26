@@ -9,12 +9,22 @@
     "allure:generate": "allure generate allure-results --clean -o allure-report",
     "allure:open": "allure open allure-report"
   },
-  "keywords": ["playwright", "e2e", "github", "reporting"],
+  "keywords": [
+    "playwright",
+    "e2e",
+    "github",
+    "reporting"
+  ],
   "author": "Playwright team",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.52.0",
     "@types/node": "^22.15.18",
     "allure-playwright": "^3.2.2"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.8.0",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.5.0"
   }
 }
