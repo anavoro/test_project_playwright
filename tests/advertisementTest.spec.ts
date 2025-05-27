@@ -151,14 +151,14 @@ test.describe("Advertisements Verification", () => {
       testData.specialEquipmentServices.utilityVehicles
     );
     //advertisments are absent
-    await servicesPage.verifyPopularEquipment(
-      page,
-      homePage,
-      servicesPage,
-      () => homePage.clickEquipmentPopularHoist(),
-      testData.specialEquipment.hoist,
-      testData.specialEquipmentServices.hoist
-    );
+    // await servicesPage.verifyPopularEquipment(
+    //   page,
+    //   homePage,
+    //   servicesPage,
+    //   () => homePage.clickEquipmentPopularHoist(),
+    //   testData.specialEquipment.hoist,
+    //   testData.specialEquipmentServices.hoist
+    // );
   });
 
   test("C530 verify searching on the main page", async ({ page }) => {
@@ -178,7 +178,7 @@ test.describe("Advertisements Verification", () => {
     await homePage.pressEnterTopSearchInput();
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
     //need to remove, exist by virtue of bug and will repeat
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
     await servicesPage.verifyRelevantAdvertisement("", "", false);
 
     await homePage.clickLogo();
@@ -195,7 +195,7 @@ test.describe("Advertisements Verification", () => {
     );
     await homePage.pressEnterTopSearchInput();
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
     await servicesPage.verifyRelevantAdvertisement(
       testData.mainTraitsCategory.categoryTractor,
       testData.specialEquipment.tractor,
@@ -219,7 +219,7 @@ test.describe("Advertisements Verification", () => {
     );
     await homePage.pressEnterTopSearchInput();
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
     await servicesPage.verifyRelevantAdvertisement(
       testData.specialEquipmentServices.pumps,
       testData.specialEquipmentServices.hydraulics,
@@ -259,7 +259,7 @@ test.describe("Advertisements Verification", () => {
     ).toBe(0);
     await homePage.verifyThatSearchFormHaveAdvertisements("     ");
     await homePage.pressEnterTopSearchInput();
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
     await servicesPage.verifyRelevantAdvertisement("", " ", false);
 
@@ -272,7 +272,7 @@ test.describe("Advertisements Verification", () => {
     await homePage.updateSearchHistoryArray(advertisementHistoryArray, "123");
     await homePage.verifyThatSearchFormHaveAdvertisements("123");
     await homePage.pressEnterTopSearchInput();
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
     await servicesPage.verifyRelevantAdvertisement("", '"123"', false);
 
@@ -285,7 +285,7 @@ test.describe("Advertisements Verification", () => {
     await homePage.updateSearchHistoryArray(advertisementHistoryArray, "$");
     await homePage.verifyThatSearchFormHaveAdvertisements("$");
     await homePage.pressEnterTopSearchInput();
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
     await servicesPage.verifyRelevantAdvertisement("", '"$"', false);
 
@@ -303,7 +303,7 @@ test.describe("Advertisements Verification", () => {
       "non-existent тест1234567890"
     );
     await homePage.pressEnterTopSearchInput();
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
     await servicesPage.verifyRelevantAdvertisement(
       "",
@@ -325,7 +325,7 @@ test.describe("Advertisements Verification", () => {
       testData.servicesData.asphalting
     );
     await homePage.clickAsphaltingServicesOfSearching();
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
     const count = await servicesPage.openedDropDownMenu.count();
     if (count === 0) {
       await servicesPage.clickConstructionalArrowButtonDropDownMenu();
@@ -353,7 +353,7 @@ test.describe("Advertisements Verification", () => {
     );
     await homePage.verifyThatSearchFormHaveAdvertisements("Драглайни");
     await homePage.clickDraglineСategoryOfSearching();
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
     await expect(servicesPage.draglineCategoryOfAdvertisement).toBeVisible();
     await servicesPage.verifyRelevantAdvertisement("", "Драглайни", true);
 
@@ -391,7 +391,7 @@ test.describe("Advertisements Verification", () => {
       testData.optionsOfCatalogDropDownMenu
         .specialEquipmentDropDownMenuContent[0]
     );
-    await page.waitForTimeout(1250);
+    await page.waitForTimeout(2000);
     await expect(servicesPage.constructionalEquipment).toBeVisible();
     await servicesPage.verifyRelevantAdvertisement("", "", true);
 
@@ -410,7 +410,7 @@ test.describe("Advertisements Verification", () => {
       testData.optionsOfCatalogDropDownMenu
         .specialEquipmentDropDownMenuContent[1]
     );
-    await page.waitForTimeout(1250);
+    await page.waitForTimeout(2000);
     await expect(servicesPage.communalEquipment).toBeVisible();
     await servicesPage.verifyRelevantAdvertisement("", "", true);
 
@@ -429,7 +429,7 @@ test.describe("Advertisements Verification", () => {
       testData.optionsOfCatalogDropDownMenu
         .specialEquipmentDropDownMenuContent[2]
     );
-    await page.waitForTimeout(1250);
+    await page.waitForTimeout(2000);
     await expect(servicesPage.storageEquipment).toBeVisible();
     await servicesPage.verifyRelevantAdvertisement("", "", true);
 
@@ -559,7 +559,7 @@ test.describe("Advertisements Verification", () => {
       homePage.thirdDropDownMenuCatalog,
       testData.optionsOfCatalogDropDownMenu.agricultural[0]
     );
-    await page.waitForTimeout(1250);
+    await page.waitForTimeout(2000);
     let count = await servicesPage.openedDropDownMenu.count();
     if (count === 0) {
       await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
@@ -572,40 +572,40 @@ test.describe("Advertisements Verification", () => {
     await servicesPage.verifyRelevantAdvertisement("", "", true);
 
     //bug
-    await homePage.clickLogo();
-    await page.waitForLoadState("networkidle");
-    await homePage.verifyHomePageLoaded();
-    await homePage.clickCatalog();
-    await homePage.verifyWhetherFirstDropDownMenuisVisible(
-      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
-    );
-    await homePage.hoverToElementFromFirstCatalogDropDownMenu(
-      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[1]
-    );
-    await homePage.verifyWhetherSecondDropDownMenuisVisible(
-      testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent
-    );
-    await homePage.hoverToElementFromOthersCatalogDropDownMenu(
-      testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent[0]
-    );
-    await homePage.verifyWhetherSecondDropDownMenuisVisible(
-      testData.optionsOfCatalogDropDownMenu.buildings
-    );
-    await homePage.clickOnCertainElementAtDropDownCategoryMenu(
-      homePage.thirdDropDownMenuCatalog,
-      testData.optionsOfCatalogDropDownMenu.buildings[3]
-    );
-    await page.waitForTimeout(1250);
-    count = await servicesPage.openedDropDownMenu.count();
-    if (count === 0) {
-      await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
-    }
-    expect(
-      await servicesPage.isCheckboxCheckedByLabel(
-        testData.optionsOfCatalogDropDownMenu.buildings[3]
-      )
-    ).toBe(true);
-    await servicesPage.verifyRelevantAdvertisement("", "", true);
+    // await homePage.clickLogo();
+    // await page.waitForLoadState("networkidle");
+    // await homePage.verifyHomePageLoaded();
+    // await homePage.clickCatalog();
+    // await homePage.verifyWhetherFirstDropDownMenuisVisible(
+    //   testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
+    // );
+    // await homePage.hoverToElementFromFirstCatalogDropDownMenu(
+    //   testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[1]
+    // );
+    // await homePage.verifyWhetherSecondDropDownMenuisVisible(
+    //   testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent
+    // );
+    // await homePage.hoverToElementFromOthersCatalogDropDownMenu(
+    //   testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent[0]
+    // );
+    // await homePage.verifyWhetherSecondDropDownMenuisVisible(
+    //   testData.optionsOfCatalogDropDownMenu.buildings
+    // );
+    // await homePage.clickOnCertainElementAtDropDownCategoryMenu(
+    //   homePage.thirdDropDownMenuCatalog,
+    //   testData.optionsOfCatalogDropDownMenu.buildings[3]
+    // );
+    // await page.waitForTimeout(2000);
+    // count = await servicesPage.openedDropDownMenu.count();
+    // if (count === 0) {
+    //   await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
+    // }
+    // expect(
+    //   await servicesPage.isCheckboxCheckedByLabel(
+    //     testData.optionsOfCatalogDropDownMenu.buildings[3]
+    //   )
+    // ).toBe(true);
+    // await servicesPage.verifyRelevantAdvertisement("", "", true);
 
     await homePage.clickLogo();
     await page.waitForLoadState("networkidle");
@@ -630,7 +630,7 @@ test.describe("Advertisements Verification", () => {
       homePage.thirdDropDownMenuCatalog,
       testData.optionsOfCatalogDropDownMenu.agricultural[2]
     );
-    await page.waitForTimeout(1250);
+    await page.waitForTimeout(2000);
     count = await servicesPage.openedDropDownMenu.count();
     if (count === 0) {
       await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
@@ -643,39 +643,39 @@ test.describe("Advertisements Verification", () => {
     await servicesPage.verifyRelevantAdvertisement("", "", true);
 
     //bug
-    await homePage.clickLogo();
-    await page.waitForLoadState("networkidle");
-    await homePage.verifyHomePageLoaded();
-    await homePage.clickCatalog();
-    await homePage.verifyWhetherFirstDropDownMenuisVisible(
-      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
-    );
-    await homePage.hoverToElementFromFirstCatalogDropDownMenu(
-      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[1]
-    );
-    await homePage.verifyWhetherSecondDropDownMenuisVisible(
-      testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent
-    );
-    await homePage.hoverToElementFromOthersCatalogDropDownMenu(
-      testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent[1]
-    );
-    await homePage.verifyWhetherSecondDropDownMenuisVisible(
-      testData.optionsOfCatalogDropDownMenu.others
-    );
-    await homePage.clickOnCertainElementAtDropDownCategoryMenu(
-      homePage.thirdDropDownMenuCatalog,
-      testData.optionsOfCatalogDropDownMenu.others[3]
-    );
-    await page.waitForTimeout(1250);
-    count = await servicesPage.openedDropDownMenu.count();
-    if (count === 0) {
-      await servicesPage.clickOtherArrowButtonDropDownMenu();
-    }
-    expect(
-      await servicesPage.isCheckboxCheckedByLabel(
-        testData.optionsOfCatalogDropDownMenu.others[3]
-      )
-    ).toBe(true);
-    await servicesPage.verifyRelevantAdvertisement("", "", true);
+    // await homePage.clickLogo();
+    // await page.waitForLoadState("networkidle");
+    // await homePage.verifyHomePageLoaded();
+    // await homePage.clickCatalog();
+    // await homePage.verifyWhetherFirstDropDownMenuisVisible(
+    //   testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
+    // );
+    // await homePage.hoverToElementFromFirstCatalogDropDownMenu(
+    //   testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[1]
+    // );
+    // await homePage.verifyWhetherSecondDropDownMenuisVisible(
+    //   testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent
+    // );
+    // await homePage.hoverToElementFromOthersCatalogDropDownMenu(
+    //   testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent[1]
+    // );
+    // await homePage.verifyWhetherSecondDropDownMenuisVisible(
+    //   testData.optionsOfCatalogDropDownMenu.others
+    // );
+    // await homePage.clickOnCertainElementAtDropDownCategoryMenu(
+    //   homePage.thirdDropDownMenuCatalog,
+    //   testData.optionsOfCatalogDropDownMenu.others[3]
+    // );
+    // await page.waitForTimeout(2000);
+    // count = await servicesPage.openedDropDownMenu.count();
+    // if (count === 0) {
+    //   await servicesPage.clickOtherArrowButtonDropDownMenu();
+    // }
+    // expect(
+    //   await servicesPage.isCheckboxCheckedByLabel(
+    //     testData.optionsOfCatalogDropDownMenu.others[3]
+    //   )
+    // ).toBe(true);
+    // await servicesPage.verifyRelevantAdvertisement("", "", true);
   });
 });

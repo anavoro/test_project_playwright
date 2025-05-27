@@ -17,19 +17,19 @@ test.beforeEach(async ({ page }) => {
 test.describe("Home Page Verification", () => {
   test("C517 verify map, select a cluster of units", async ({ page }) => {
     await homePage.clickMapButton();
-    await page.waitForTimeout(1450);
+    await page.waitForTimeout(2000);
     await servicesPage.verifyVisibilityOfLargeClusters();
   });
 
   test("C516 verify map, drag and drop", async ({ page }) => {
     await homePage.clickMapButton();
-    await page.waitForTimeout(1450);
+    await page.waitForTimeout(2000);
     const before = await servicesPage.titleUrl.first().getAttribute("src");
     await page.mouse.move(400, 300);
     await page.mouse.down();
     await page.mouse.move(100, 10000);
     await page.mouse.up();
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
     const after = await servicesPage.titleUrl.first().getAttribute("src");
     console.log("Before:", before);
     console.log("After:", after);

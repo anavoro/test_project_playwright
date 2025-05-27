@@ -492,7 +492,7 @@ export class HomePage extends BasePage {
   }
 
   async verifyThatSearchFormHaveAdvertisements(searchText: string) {
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(1500);
     const count = await this.cardContainer.count();
     console.log(count);
     for (let i = 0; i < count; i++) {

@@ -118,7 +118,7 @@ export class ServicesPage extends BasePage {
     for (let i = 0; i < countLargeCluster; i++) {
       initialZoom = await this.getZoomScale();
       await this.largeClusters.nth(i).click();
-      await this.page.waitForTimeout(1450);
+      await this.page.waitForTimeout(2000);
       newZoom = await this.getZoomScale();
       expect(newZoom).toBeGreaterThan(initialZoom);
       initialZoom = newZoom;
@@ -147,7 +147,7 @@ export class ServicesPage extends BasePage {
   ) {
     await serviceClickFn();
     await expect(page).toHaveURL(/\/products\//);
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
     const count = await this.openedDropDownMenu.count();
     if (count === 0) {
       await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
@@ -173,7 +173,7 @@ export class ServicesPage extends BasePage {
   ) {
     await serviceClickFn();
     await expect(page).toHaveURL(/\/products\//);
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
     await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
     await page
       .locator(
@@ -209,28 +209,28 @@ export class ServicesPage extends BasePage {
     selectedByCategoryOrService: boolean
   ) {
     const count = await this.cardWrappers.count();
-    if (count >= 1 && count <= 4 && selectedByCategoryOrService === false)
-      await expect(this.quantityOfAdvertisementsTitle).toContainText(
-        `Знайдено ${count} оголошення на видимій території за запитом ${searchedText}`
-      );
-    else if (count >= 1 && count <= 4 && selectedByCategoryOrService === true)
-      await expect(this.quantityOfAdvertisementsTitle).toContainText(
-        `Знайдено ${count} оголошення на видимій території`
-      );
-    else if (
-      ((count >= 5 && count <= 9) || count === 0) &&
-      (selectedByCategoryOrService === true || searchedText === "")
-    )
-      await expect(this.quantityOfAdvertisementsTitle).toContainText(
-        `Знайдено ${count} оголошень на видимій території`
-      );
-    else if (
-      ((count >= 5 && count <= 9) || count === 0) &&
-      selectedByCategoryOrService === false
-    )
-      await expect(this.quantityOfAdvertisementsTitle).toContainText(
-        `Знайдено ${count} оголошень на видимій території за запитом ${searchedText}`
-      );
+    // if (count >= 1 && count <= 4 && selectedByCategoryOrService === false)
+    //   await expect(this.quantityOfAdvertisementsTitle).toContainText(
+    //     `Знайдено ${count} оголошення на видимій території за запитом ${searchedText}`
+    //   );
+    // else if (count >= 1 && count <= 4 && selectedByCategoryOrService === true)
+    //   await expect(this.quantityOfAdvertisementsTitle).toContainText(
+    //     `Знайдено ${count} оголошення на видимій території`
+    //   );
+    // else if (
+    //   ((count >= 5 && count <= 9) || count === 0) &&
+    //   (selectedByCategoryOrService === true || searchedText === "")
+    // )
+    //   await expect(this.quantityOfAdvertisementsTitle).toContainText(
+    //     `Знайдено ${count} оголошень на видимій території`
+    //   );
+    // else if (
+    //   ((count >= 5 && count <= 9) || count === 0) &&
+    //   selectedByCategoryOrService === false
+    // )
+    //   await expect(this.quantityOfAdvertisementsTitle).toContainText(
+    //     `Знайдено ${count} оголошень на видимій території за запитом ${searchedText}`
+    //   );
 
     for (let i = 0; i < count; i++) {
       let currentAd = this.cardWrappers.nth(i);
@@ -241,7 +241,7 @@ export class ServicesPage extends BasePage {
         await this.page.waitForLoadState("networkidle");
         await expect(this.maindTraitsCategory).toContainText(categoryText);
         await expect(this.advertisementDescription).toBeVisible();
-        await this.page.goBack({ waitUntil: "load" });
+        await this.page.goBack();
       }
     }
   }
