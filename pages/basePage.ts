@@ -15,6 +15,15 @@ export class BasePage {
     return await this.page.title();
   }
 
+  async isVisible(locator: Locator, options?: { timeout?: number }): Promise<boolean> {
+    try {
+      await expect(locator).toBeVisible({ timeout: options?.timeout || 3000 });
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
   async waitForElement(locator: Locator): Promise<void> {
     await locator.waitFor({ state: 'visible' });
   }
@@ -26,5 +35,9 @@ export class BasePage {
 
   public getPage() {
     return this.page;
+  }
+
+  async waitForTimeout(ms: number): Promise<void> {
+    await this.page.waitForTimeout(ms);
   }
 }
