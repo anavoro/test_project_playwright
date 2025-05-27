@@ -26,7 +26,7 @@ test.describe("Test create_unit page", async () => {
     test.beforeEach(async ({ page }) =>{
         const homePage = new HomePage(page);
         const loginPage = new LoginPage(page);
-        await page.setViewportSize({ width: 1920, height: 1080 });
+        await page.setViewportSize({ width: 1536, height: 980 });
         await homePage.goto("/");
         await homePage.clickLogin();
         await loginPage.login(email, password);
@@ -421,7 +421,7 @@ test.describe("Test create_unit page", async () => {
     })
     test('C329 Verify Next button', async ({ page }) => {
         const createAnnouncementPage = new CreateAnnouncementPage(page);
-
+        
         await expect(createAnnouncementPage.nextButton).toBeVisible();
         await expect(createAnnouncementPage.nextButton).toContainText('Далі');
 
@@ -449,16 +449,20 @@ test.describe("Test create_unit page", async () => {
         await createAnnouncementPage.click(createAnnouncementPage.buroviUstanovkiLink);
         await expect(createAnnouncementPage.palebiiniUstanovkiLink).toContainText('палебійні установки');
         await createAnnouncementPage.click(createAnnouncementPage.palebiiniUstanovkiLink);
+        await expect(createAnnouncementPage.categoryErrorText).not.toBeVisible()
 
         await createAnnouncementPage.fillUnitNameInput(unitNameValid);
+        await expect(createAnnouncementPage.unitNameErrorText).not.toBeVisible()
         await createAnnouncementPage.fillVehicleManufacturyInput(vehicleManufactureATEC);
         await createAnnouncementPage.clickVehicleManufactureSearchResult();
+        await expect(createAnnouncementPage.vehicleManufactureErrorText).not.toBeVisible()
         await createAnnouncementPage.clickLocationSelectButton();
         await createAnnouncementPage.clickMap();
         await createAnnouncementPage.clickMapPopUpSubmitButton();
+        await expect(createAnnouncementPage.vehicleLocationErrorText).not.toBeVisible()
         
         await createAnnouncementPage.clickNextButton();
-        await expect(createAnnouncementPage.photoTitle).toContainText('Фотографії');
+        await expect(createAnnouncementPage.photoTitle).toContainText('Фотографії')
         await expect(createAnnouncementPage.createAnnouncementTitle).toBeVisible();
         await expect(createAnnouncementPage.createAnnouncementTitle).toContainText('Створити оголошення');
         

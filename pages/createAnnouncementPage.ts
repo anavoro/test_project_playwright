@@ -170,8 +170,7 @@ export class CreateAnnouncementPage extends BasePage{
    this.cancelButton = page.locator('.ButtonsFlow_emptyBtn__96V4x');
    this.nextButton = page.getByTestId('nextButton');
 
-   this.photoTitle = page.locator('.ImagesUnitFlow_title__QesMS');
-
+   this.photoTitle = page.locator('//div[@data-testid="ImagesUnitFlow"]/div[1]')
    }
 
    async clickNextButton() {
