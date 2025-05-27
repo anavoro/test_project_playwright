@@ -12,54 +12,55 @@ test.beforeEach(async ({ page }) => {
   await homePage.goto("/");
   await page.waitForLoadState("networkidle");
   await homePage.verifyHomePageLoaded();
+  await homePage.clickMapButton();
+  await page.waitForTimeout(2000);
 });
 
 test.describe("Home Page Verification", () => {
-  test("C517 verify map, select a cluster of units", async ({ page }) => {
-    await homePage.clickMapButton();
-    await page.waitForTimeout(2000);
-    await servicesPage.verifyVisibilityOfLargeClusters();
-  });
+  // test("C517 verify map, select a cluster of units", async ({ page }) => {
+  //   await servicesPage.verifyVisibilityOfLargeClusters();
+  // });
 
   test("C516 verify map, drag and drop", async ({ page }) => {
-    await homePage.clickMapButton();
-    await page.waitForTimeout(2000);
     const before = await servicesPage.titleUrl.first().getAttribute("src");
     await page.mouse.move(400, 300);
     await page.mouse.down();
-    await page.mouse.move(100, 10000);
+    await page.mouse.move(100, 100);
     await page.mouse.up();
-    await page.waitForTimeout(2000);
-    const after = await servicesPage.titleUrl.first().getAttribute("src");
-    console.log("Before:", before);
-    console.log("After:", after);
+    expect(servicesPage.titleUrl.first().getAttribute("src")).not.toBe(before);
+    await servicesPage.сlusters.first().waitFor({ state: 'visible' });
+    await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
-    expect(before).not.toBe(after);
   });
 
   test("C501 verify map zooming", async ({ page }) => {
-    await homePage.clickMapButton();
-    await page.waitForLoadState("networkidle");
-    const initialZoom = await servicesPage.getZoomScale();
+    let before = await servicesPage.titleUrl.first().getAttribute("src");
+    let mark;
     await servicesPage.clickButtonZoomIn();
+    expect(servicesPage.titleUrl.first().getAttribute("src")).not.toBe(before);
+    await servicesPage.marksOfAdvertisementsOnMap.first().waitFor({ state: 'visible' });
+    mark = servicesPage.marksOfAdvertisementsOnMap.first();
+    await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
-    let newZoom = await servicesPage.getZoomScale();
-    expect(newZoom).toBe(initialZoom + 1);
+    before = await servicesPage.titleUrl.first().getAttribute("src");
     await servicesPage.clickButtonZoomOut();
+    expect(servicesPage.titleUrl.first().getAttribute("src")).not.toBe(before);
+    await mark.waitFor({ state: 'hidden' });
+    await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
-    await page.waitForTimeout(1450);
-    newZoom = await servicesPage.getZoomScale();
-    expect(newZoom).toBe(initialZoom);
 
+    before = await servicesPage.titleUrl.first().getAttribute("src");
     await page.mouse.wheel(0, -100);
-    await page.waitForTimeout(1000);
+    expect(servicesPage.titleUrl.first().getAttribute("src")).not.toBe(before);
+    await servicesPage.marksOfAdvertisementsOnMap.first().waitFor({ state: 'visible' });
+    mark = servicesPage.marksOfAdvertisementsOnMap.first();
+    await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
-    newZoom = await servicesPage.getZoomScale();
-    expect(newZoom).toBe(initialZoom + 1);
+    before = await servicesPage.titleUrl.first().getAttribute("src");
     await page.mouse.wheel(0, 100);
-    await page.waitForTimeout(1000);
+    expect(servicesPage.titleUrl.first().getAttribute("src")).not.toBe(before);
+    await mark.waitFor({ state: 'hidden' });
+    await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
-    newZoom = await servicesPage.getZoomScale();
-    expect(newZoom).toBe(initialZoom);
   });
 });

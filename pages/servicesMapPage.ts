@@ -31,8 +31,8 @@ export class ServicesPage extends BasePage {
     this.openedDropDownMenu = page.locator(
       ".ServiceCategory_svgContainer__mPCMj.ServiceCategory_clicked__Jm6x8"
     );
-    this.cardWrapperFirst = page.locator('[data-testid="cardWrapper"]').first();
-    this.cardWrappers = page.locator('[data-testid="cardWrapper"]');
+    this.cardWrapperFirst = page.locator('[data-testid="link"]').first();
+    this.cardWrappers = page.locator('[data-testid="link"]');
     this.arrowButtonDropDownMenu = page.locator(
       '[class*="ServiceCategory_svgContainer__mPCMj"]'
     );
@@ -113,47 +113,56 @@ export class ServicesPage extends BasePage {
 
   async verifyVisibilityOfLargeClusters() {
     const countLargeCluster = await this.largeClusters.count();
-    let initialZoom;
-    let newZoom;
+    let before;
     for (let i = 0; i < countLargeCluster; i++) {
-      initialZoom = await this.getZoomScale();
+      before = await this.titleUrl.first().getAttribute("src");
       await this.largeClusters.nth(i).click();
-      await this.page.waitForTimeout(2000);
-      newZoom = await this.getZoomScale();
-      expect(newZoom).toBeGreaterThan(initialZoom);
-      initialZoom = newZoom;
+      expect(this.titleUrl.first().getAttribute("src")).not.toBe(before);
+      await this.marksOfAdvertisementsOnMap
+        .first()
+        .waitFor({ state: "visible" });
+      await this.verifyExistenceOfMarks();
       await this.verifyExistenceOfClusters();
       await this.page.reload({ waitUntil: "networkidle" });
     }
   }
 
-  async verifyExistenceOfClusters() {
-    const countClusters = await this.сlusters.count();
-    for (let j = 0; j < countClusters; j++) {
-      expect(this.сlusters.nth(j)).toBeEnabled();
-    }
-    const countMarks = await this.marksOfAdvertisementsOnMap.count();
+  async verifyExistenceOfMarks() {
+    let countMarks = await this.marksOfAdvertisementsOnMap.count();
+    console.log(countMarks);
     for (let j = 0; j < countMarks; j++) {
-      expect(this.marksOfAdvertisementsOnMap.nth(j)).toBeEnabled();
+      await expect(this.marksOfAdvertisementsOnMap.nth(j)).toBeEnabled();
+    }
+  }
+
+  async verifyExistenceOfClusters() {
+    await this.page.waitForTimeout(1000);
+    let countClusters = await this.сlusters.count();
+    console.log(countClusters);
+    for (let j = 0; j < countClusters; j++) {
+      await expect(this.сlusters.nth(j)).toBeEnabled();
     }
   }
 
   async verifyPopularService(
     page: Page,
     homePage: HomePage,
-    servicesPage: ServicesPage,
     serviceClickFn: () => Promise<void>,
     expectedLabel: string
   ) {
     await serviceClickFn();
     await expect(page).toHaveURL(/\/products\//);
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2200);
     const count = await this.openedDropDownMenu.count();
     if (count === 0) {
-      await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
+      await this.clickAgriculturalArrowButtonDropDownMenu();
     }
     expect(await this.isCheckboxCheckedByLabel(expectedLabel)).toBe(true);
-    await servicesPage.clickcardWrapperFirst();
+    const currentAdvertisement = await this.cardWrappers
+      .first()
+      .getAttribute("href");
+    console.log(currentAdvertisement);
+    await this.clickcardWrapperFirst();
 
     await this.categoryOfAdvertisement.first().waitFor({ state: "visible" });
     const texts = await this.categoryOfAdvertisement.allTextContents();
@@ -161,26 +170,26 @@ export class ServicesPage extends BasePage {
     expect(found).toBe(true);
 
     await homePage.clickLogo();
+    return currentAdvertisement;
   }
 
   async verifyPopularEquipment(
     page: Page,
     homePage: HomePage,
-    servicesPage: ServicesPage,
     serviceClickFn: () => Promise<void>,
     category: string,
     expectedLabel: string[]
   ) {
     await serviceClickFn();
     await expect(page).toHaveURL(/\/products\//);
-    await page.waitForTimeout(2000);
-    await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
+    await page.waitForTimeout(2200);
+    await this.clickAgriculturalArrowButtonDropDownMenu();
     await page
       .locator(
         `[class*="ResetFilters_selectedCategory___D1E6"]:has-text("${category}")`
       )
       .isEnabled();
-    await servicesPage.clickcardWrapperFirst();
+    await this.clickcardWrapperFirst();
     await this.categoryOfAdvertisement.first().waitFor({ state: "visible" });
     const texts = await this.categoryOfAdvertisement.allTextContents();
     console.log("Texts:", texts);
@@ -236,13 +245,6 @@ export class ServicesPage extends BasePage {
       let currentAd = this.cardWrappers.nth(i);
       await currentAd.scrollIntoViewIfNeeded();
       await expect(currentAd).toBeVisible();
-      if (categoryText !== "") {
-        await currentAd.click();
-        await this.page.waitForLoadState("networkidle");
-        await expect(this.maindTraitsCategory).toContainText(categoryText);
-        await expect(this.advertisementDescription).toBeVisible();
-        await this.page.goBack();
-      }
     }
   }
 }

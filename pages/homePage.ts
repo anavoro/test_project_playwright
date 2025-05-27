@@ -376,14 +376,14 @@ export class HomePage extends BasePage {
     await this.page
       .locator('[class*="Catalog_parent__k_4MP"]', { hasText: name })
       .getByText(name, { exact: true })
-      .hover();
+      .dispatchEvent('mouseover');
   }
 
   async hoverToElementFromOthersCatalogDropDownMenu(name: string) {
     await this.page
       .locator('[class*="CatalogItem_item__xvBwY"]', { hasText: name })
       .getByText(name, { exact: true })
-      .hover();
+      .dispatchEvent('mouseover');
   }
 
   async verifyWhetherFirstDropDownMenuisVisible(arrayOfNames: string[]) {
@@ -492,7 +492,7 @@ export class HomePage extends BasePage {
   }
 
   async verifyThatSearchFormHaveAdvertisements(searchText: string) {
-    await this.page.waitForTimeout(1500);
+    await this.page.waitForTimeout(2200);
     const count = await this.cardContainer.count();
     console.log(count);
     for (let i = 0; i < count; i++) {
