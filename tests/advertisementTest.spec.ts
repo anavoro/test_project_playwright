@@ -154,7 +154,7 @@ test.describe("Advertisements Verification", () => {
     await expect(homePage.topSearchInput).toHaveValue("");
     await homePage.pressEnterTopSearchInput();
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2200);
     await servicesPage.verifyRelevantAdvertisement();
 
     await homePage.clickLogo();
@@ -171,7 +171,7 @@ test.describe("Advertisements Verification", () => {
     );
     await homePage.pressEnterTopSearchInput();
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2200);
     await servicesPage.verifyRelevantAdvertisement();
 
     await homePage.clickLogo();
@@ -191,7 +191,7 @@ test.describe("Advertisements Verification", () => {
     );
     await homePage.pressEnterTopSearchInput();
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2200);
     await servicesPage.verifyRelevantAdvertisement();
 
     await homePage.clickLogo();
@@ -227,7 +227,7 @@ test.describe("Advertisements Verification", () => {
     ).toBe(0);
     await homePage.verifyThatSearchFormHaveAdvertisements("     ");
     await homePage.pressEnterTopSearchInput();
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2200);
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
     await servicesPage.verifyRelevantAdvertisement();
 
@@ -240,7 +240,7 @@ test.describe("Advertisements Verification", () => {
     await homePage.updateSearchHistoryArray(advertisementHistoryArray, "123");
     await homePage.verifyThatSearchFormHaveAdvertisements("123");
     await homePage.pressEnterTopSearchInput();
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2200);
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
     await servicesPage.verifyRelevantAdvertisement();
 
@@ -253,7 +253,7 @@ test.describe("Advertisements Verification", () => {
     await homePage.updateSearchHistoryArray(advertisementHistoryArray, "$");
     await homePage.verifyThatSearchFormHaveAdvertisements("$");
     await homePage.pressEnterTopSearchInput();
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2200);
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
     await servicesPage.verifyRelevantAdvertisement();
 
@@ -271,7 +271,7 @@ test.describe("Advertisements Verification", () => {
       "non-existent тест1234567890"
     );
     await homePage.pressEnterTopSearchInput();
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2200);
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
     await servicesPage.verifyRelevantAdvertisement();
 
@@ -289,7 +289,7 @@ test.describe("Advertisements Verification", () => {
       testData.servicesData.asphalting
     );
     await homePage.clickAsphaltingServicesOfSearching();
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2200);
     const count = await servicesPage.openedDropDownMenu.count();
     if (count === 0) {
       await servicesPage.clickConstructionalArrowButtonDropDownMenu();
@@ -313,7 +313,7 @@ test.describe("Advertisements Verification", () => {
     );
     await homePage.verifyThatSearchFormHaveAdvertisements("Драглайни");
     await homePage.clickDraglineСategoryOfSearching();
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2200);
     await expect(servicesPage.draglineCategoryOfAdvertisement).toBeVisible();
     await servicesPage.verifyRelevantAdvertisement();
 
@@ -351,7 +351,7 @@ test.describe("Advertisements Verification", () => {
       testData.optionsOfCatalogDropDownMenu
         .specialEquipmentDropDownMenuContent[0]
     );
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2200);
     await expect(servicesPage.constructionalEquipment).toBeVisible();
     await servicesPage.verifyRelevantAdvertisement();
 
@@ -370,7 +370,7 @@ test.describe("Advertisements Verification", () => {
       testData.optionsOfCatalogDropDownMenu
         .specialEquipmentDropDownMenuContent[1]
     );
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2200);
     await expect(servicesPage.communalEquipment).toBeVisible();
     await servicesPage.verifyRelevantAdvertisement();
 
@@ -389,7 +389,7 @@ test.describe("Advertisements Verification", () => {
       testData.optionsOfCatalogDropDownMenu
         .specialEquipmentDropDownMenuContent[2]
     );
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2200);
     await expect(servicesPage.storageEquipment).toBeVisible();
     await servicesPage.verifyRelevantAdvertisement();
 
@@ -519,7 +519,7 @@ test.describe("Advertisements Verification", () => {
       homePage.thirdDropDownMenuCatalog,
       testData.optionsOfCatalogDropDownMenu.agricultural[0]
     );
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2200);
     let count = await servicesPage.openedDropDownMenu.count();
     if (count === 0) {
       await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
@@ -554,7 +554,7 @@ test.describe("Advertisements Verification", () => {
       homePage.thirdDropDownMenuCatalog,
       testData.optionsOfCatalogDropDownMenu.agricultural[2]
     );
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2200);
     count = await servicesPage.openedDropDownMenu.count();
     if (count === 0) {
       await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
