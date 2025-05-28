@@ -111,6 +111,7 @@ test.describe("Footer Verification", () => {
     });
     await adminPage.navigateToUsers("/admin/");
     await adminPage.login(process.env.ADMIN_EMAIL!, process.env.ADMIN_PASSWORD!);
+    await page.waitForLoadState("networkidle");
     await adminPage.clickButtonSupport();
   });
 });
