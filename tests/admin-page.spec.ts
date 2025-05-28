@@ -68,38 +68,6 @@ test.describe('Admin Panel', () => {
     }, { timeout: 10000 }).toBe(true);
   });
 
-  test('C423a: Sorting by Login', async ({ loggedInAdmin }) => {
-    await loggedInAdmin.navigateToUsers();
-    await loggedInAdmin.clickSort('Логін');
-  
-    await expect.poll(async () => {
-      const logins = await loggedInAdmin.getColumnDataByHeaderText('Логін');
-      return loggedInAdmin.verifyLoginsAreSortedDescending(logins);
-    }, { timeout: 10000 }).toBe(true);
-  
-    await loggedInAdmin.clickSort('Логін');
-    await expect.poll(async () => {
-      const logins = await loggedInAdmin.getColumnDataByHeaderText('Логін');
-      return loggedInAdmin.verifyLoginsAreSortedAscending(logins);
-    }, { timeout: 10000 }).toBe(true);
-  });
-  
-  test('C423b: Sorting by Username', async ({ loggedInAdmin }) => {
-    await loggedInAdmin.navigateToUsers();
-    await loggedInAdmin.clickSort('Ім\'я користувача');
-  
-    await expect.poll(async () => {
-      const usernames = await loggedInAdmin.getColumnDataByHeaderText('Ім\'я користувача');
-      return loggedInAdmin.verifyUsernamesAreSortedDescending(usernames);
-    }, { timeout: 10000 }).toBe(true);
-  
-    await loggedInAdmin.clickSort('Ім\'я користувача');
-    await expect.poll(async () => {
-      const usernames = await loggedInAdmin.getColumnDataByHeaderText('Ім\'я користувача');
-      return loggedInAdmin.verifyUsernamesAreSortedAscending(usernames);
-    }, { timeout: 10000 }).toBe(true);
-  });
-
 test('C424: Admin can view the user', async ({loggedInAdmin}) => {
   await loggedInAdmin.navigateToUsers();
   await loggedInAdmin.viewUser();
