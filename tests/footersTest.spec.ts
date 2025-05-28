@@ -90,7 +90,7 @@ test.describe("Footer Verification", () => {
     await homePage.requestConsultation(testData.adviceData.name, "");
     await expect(homePage.phoneInput).toHaveValue("+380");
 
-    await homePage.requestConsultation("", process.env.CORRECT_PHONE!);
+    await homePage.requestConsultation("", process.env.USER_MOBILE!);
     await homePage.nameInput.clear();
     await expect(homePage.emptyNameFieldError).toBeVisible();
     await expect(homePage.emptyPhoneFieldError).not.toBeVisible();
@@ -104,13 +104,13 @@ test.describe("Footer Verification", () => {
 
     await homePage.requestConsultation(
       testData.adviceData.name,
-      process.env.CORRECT_PHONE!
+      process.env.USER_MOBILE!
     );
     page.once("dialog", async (dialog) => {
       await dialog.accept();
     });
-    await adminPage.navigateToUsers(process.env.BASE_URL!);
-    await adminPage.login(process.env.EMAIL!, process.env.PASSWORD!);
+    await adminPage.navigateToUsers("/admin/");
+    await adminPage.login(process.env.ADMIN_EMAIL!, process.env.ADMIN_PASSWORD!);
     await adminPage.clickButtonSupport();
   });
 });
