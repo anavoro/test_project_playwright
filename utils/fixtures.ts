@@ -1,21 +1,21 @@
-import {test as base} from '@playwright/test';
-import { HomePage } from '../pages/homePage';
-import { LoginPage } from '../pages/loginPage';
+import { test as base } from '@playwright/test';
+import { AdminPage } from '../pages/adminPage';
+import 'dotenv/config';
 
 type MyFixtures = {
-    loggedInAdmin: HomePage;
+  loggedInAdmin: AdminPage;
 };
 
 export const test = base.extend<MyFixtures>({
-    loggedInAdmin: async ({page}, use) => {
+  loggedInAdmin: async ({ page }, use) => {
 
-  await page.setViewportSize({ width: 1536, height: 864 });
-  const homePage = new HomePage(page);
-  const loginPage = new LoginPage(page);
-  
-  await page.goto('/');
-  await homePage.clickLogin() 
-  await loginPage.login("123@gmail.com", "12345Qwerty!")
-  await use(homePage);
-    }
-})
+    const adminPage = new AdminPage(page);
+    const adminEmail = process.env.ADMIN_EMAIL!;
+    const adminPassword = process.env.ADMIN_PASSWORD!;
+
+    await page.goto('https://dev.rentzila.com.ua/admin/');
+    await adminPage.login(adminEmail, adminPassword);
+
+    await use(adminPage);
+  },
+});
