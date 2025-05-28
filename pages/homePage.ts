@@ -494,7 +494,6 @@ export class HomePage extends BasePage {
   async verifyThatSearchFormHaveAdvertisements(searchText: string) {
     await this.page.waitForTimeout(2200);
     const count = await this.cardContainer.count();
-    console.log(count);
     for (let i = 0; i < count; i++) {
       await expect(this.cardContainer.nth(i)).toContainText(searchText, {
         ignoreCase: true,
@@ -507,7 +506,6 @@ export class HomePage extends BasePage {
       array.shift();
     }
     array.push(newValue);
-    console.log(array);
     return array;
   }
 

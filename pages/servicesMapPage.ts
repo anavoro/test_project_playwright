@@ -115,7 +115,6 @@ export class ServicesPage extends BasePage {
 
   async verifyExistenceOfMarks() {
     let countMarks = await this.marksOfAdvertisementsOnMap.count();
-    console.log(countMarks);
     for (let j = 0; j < countMarks; j++) {
       await expect(this.marksOfAdvertisementsOnMap.nth(j)).toBeEnabled();
     }
@@ -124,7 +123,6 @@ export class ServicesPage extends BasePage {
   async verifyExistenceOfClusters() {
     await this.page.waitForTimeout(1000);
     let countClusters = await this.сlusters.count();
-    console.log(countClusters);
     for (let j = 0; j < countClusters; j++) {
       await expect(this.сlusters.nth(j)).toBeEnabled();
     }
@@ -144,10 +142,6 @@ export class ServicesPage extends BasePage {
       await this.clickAgriculturalArrowButtonDropDownMenu();
     }
     expect(await this.isCheckboxCheckedByLabel(expectedLabel)).toBe(true);
-    const currentAdvertisement = await this.cardWrappers
-      .first()
-      .getAttribute("href");
-    console.log(currentAdvertisement);
     await this.clickcardWrapperFirst();
 
     await this.categoryOfAdvertisement.first().waitFor({ state: "visible" });
@@ -156,7 +150,6 @@ export class ServicesPage extends BasePage {
     expect(found).toBe(true);
 
     await homePage.clickLogo();
-    return currentAdvertisement;
   }
 
   async verifyPopularEquipment(
@@ -178,8 +171,6 @@ export class ServicesPage extends BasePage {
     await this.clickcardWrapperFirst();
     await this.categoryOfAdvertisement.first().waitFor({ state: "visible" });
     const texts = await this.categoryOfAdvertisement.allTextContents();
-    console.log("Texts:", texts);
-    console.log("expectedLabel:", expectedLabel);
     const containsExpected = texts.some((text) =>
       expectedLabel.some((expected) => text.includes(expected))
     );
