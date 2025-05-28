@@ -136,14 +136,6 @@ test.describe("Advertisements Verification", () => {
       testData.specialEquipment.utilityVehicles,
       testData.specialEquipmentServices.utilityVehicles
     );
-    //advertisments are absent
-    // await servicesPage.verifyPopularEquipment(
-    //   page,
-    //   homePage,
-    //   () => homePage.clickEquipmentPopularHoist(),
-    //   testData.specialEquipment.hoist,
-    //   testData.specialEquipmentServices.hoist
-    // );
   });
 
   test("C530 verify searching on the main page", async ({ page }) => {
@@ -162,9 +154,8 @@ test.describe("Advertisements Verification", () => {
     await expect(homePage.topSearchInput).toHaveValue("");
     await homePage.pressEnterTopSearchInput();
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
-    //need to remove, exist by virtue of bug and will repeat
     await page.waitForTimeout(2000);
-    await servicesPage.verifyRelevantAdvertisement("", "", false);
+    await servicesPage.verifyRelevantAdvertisement();
 
     await homePage.clickLogo();
     await page.waitForLoadState("networkidle");
@@ -181,11 +172,7 @@ test.describe("Advertisements Verification", () => {
     await homePage.pressEnterTopSearchInput();
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
     await page.waitForTimeout(2000);
-    await servicesPage.verifyRelevantAdvertisement(
-      testData.mainTraitsCategory.categoryTractor,
-      testData.specialEquipment.tractor,
-      false
-    );
+    await servicesPage.verifyRelevantAdvertisement();
 
     await homePage.clickLogo();
     await page.waitForLoadState("networkidle");
@@ -205,11 +192,7 @@ test.describe("Advertisements Verification", () => {
     await homePage.pressEnterTopSearchInput();
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
     await page.waitForTimeout(2000);
-    await servicesPage.verifyRelevantAdvertisement(
-      testData.specialEquipmentServices.pumps,
-      testData.specialEquipmentServices.hydraulics,
-      false
-    );
+    await servicesPage.verifyRelevantAdvertisement();
 
     await homePage.clickLogo();
     await page.waitForLoadState("networkidle");
@@ -246,7 +229,7 @@ test.describe("Advertisements Verification", () => {
     await homePage.pressEnterTopSearchInput();
     await page.waitForTimeout(2000);
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
-    await servicesPage.verifyRelevantAdvertisement("", " ", false);
+    await servicesPage.verifyRelevantAdvertisement();
 
     await homePage.clickLogo();
     await page.waitForLoadState("networkidle");
@@ -259,7 +242,7 @@ test.describe("Advertisements Verification", () => {
     await homePage.pressEnterTopSearchInput();
     await page.waitForTimeout(2000);
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
-    await servicesPage.verifyRelevantAdvertisement("", '"123"', false);
+    await servicesPage.verifyRelevantAdvertisement();
 
     await homePage.clickLogo();
     await page.waitForLoadState("networkidle");
@@ -272,7 +255,7 @@ test.describe("Advertisements Verification", () => {
     await homePage.pressEnterTopSearchInput();
     await page.waitForTimeout(2000);
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
-    await servicesPage.verifyRelevantAdvertisement("", '"$"', false);
+    await servicesPage.verifyRelevantAdvertisement();
 
     await homePage.clickLogo();
     await page.waitForLoadState("networkidle");
@@ -290,11 +273,7 @@ test.describe("Advertisements Verification", () => {
     await homePage.pressEnterTopSearchInput();
     await page.waitForTimeout(2000);
     await expect(page).toHaveURL(testData.excerptOfUrl.products);
-    await servicesPage.verifyRelevantAdvertisement(
-      "",
-      '"non-existent тест1234567890"',
-      false
-    );
+    await servicesPage.verifyRelevantAdvertisement();
 
     await homePage.clickLogo();
     await page.waitForLoadState("networkidle");
@@ -320,11 +299,7 @@ test.describe("Advertisements Verification", () => {
         testData.servicesData.asphalting
       )
     ).toBe(true);
-    await servicesPage.verifyRelevantAdvertisement(
-      "",
-      testData.servicesData.asphalting,
-      false
-    );
+    await servicesPage.verifyRelevantAdvertisement();
 
     await homePage.clickLogo();
     await page.waitForLoadState("networkidle");
@@ -340,7 +315,7 @@ test.describe("Advertisements Verification", () => {
     await homePage.clickDraglineСategoryOfSearching();
     await page.waitForTimeout(2000);
     await expect(servicesPage.draglineCategoryOfAdvertisement).toBeVisible();
-    await servicesPage.verifyRelevantAdvertisement("", "Драглайни", true);
+    await servicesPage.verifyRelevantAdvertisement();
 
     await homePage.clickLogo();
     await page.waitForLoadState("networkidle");
@@ -360,307 +335,235 @@ test.describe("Advertisements Verification", () => {
     await expect(homePage.topSearchInput).toBeEmpty();
   });
 
-  // test("C559 verify catalog button", async ({ page }) => {
-  //   await homePage.clickCatalog();
-  //   await homePage.verifyWhetherFirstDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
-  //   );
-  //   await homePage.hoverToElementFromFirstCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[0]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.specialEquipmentDropDownMenuContent
-  //   );
-  //   await homePage.clickOnCertainElementAtDropDownCategoryMenu(
-  //     homePage.secondDropDownMenuCatalog,
-  //     testData.optionsOfCatalogDropDownMenu
-  //       .specialEquipmentDropDownMenuContent[0]
-  //   );
-  //   await page.waitForTimeout(2000);
-  //   await expect(servicesPage.constructionalEquipment).toBeVisible();
-  //   await servicesPage.verifyRelevantAdvertisement("", "", true);
+  test("C559 verify catalog button", async ({ page }) => {
+    await homePage.clickCatalog();
+    await homePage.verifyWhetherFirstDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
+    );
+    await homePage.hoverToElementFromFirstCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[0]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.specialEquipmentDropDownMenuContent
+    );
+    await homePage.clickOnCertainElementAtDropDownCategoryMenu(
+      homePage.secondDropDownMenuCatalog,
+      testData.optionsOfCatalogDropDownMenu
+        .specialEquipmentDropDownMenuContent[0]
+    );
+    await page.waitForTimeout(2000);
+    await expect(servicesPage.constructionalEquipment).toBeVisible();
+    await servicesPage.verifyRelevantAdvertisement();
 
-  //   await homePage.clickCatalog();
-  //   await homePage.verifyWhetherFirstDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
-  //   );
-  //   await homePage.hoverToElementFromFirstCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[0]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.specialEquipmentDropDownMenuContent
-  //   );
-  //   await homePage.clickOnCertainElementAtDropDownCategoryMenu(
-  //     homePage.secondDropDownMenuCatalog,
-  //     testData.optionsOfCatalogDropDownMenu
-  //       .specialEquipmentDropDownMenuContent[1]
-  //   );
-  //   await page.waitForTimeout(2000);
-  //   await expect(servicesPage.communalEquipment).toBeVisible();
-  //   await servicesPage.verifyRelevantAdvertisement("", "", true);
+    await homePage.clickCatalog();
+    await homePage.verifyWhetherFirstDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
+    );
+    await homePage.hoverToElementFromFirstCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[0]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.specialEquipmentDropDownMenuContent
+    );
+    await homePage.clickOnCertainElementAtDropDownCategoryMenu(
+      homePage.secondDropDownMenuCatalog,
+      testData.optionsOfCatalogDropDownMenu
+        .specialEquipmentDropDownMenuContent[1]
+    );
+    await page.waitForTimeout(2000);
+    await expect(servicesPage.communalEquipment).toBeVisible();
+    await servicesPage.verifyRelevantAdvertisement();
 
-  //   await homePage.clickCatalog();
-  //   await homePage.verifyWhetherFirstDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
-  //   );
-  //   await homePage.hoverToElementFromFirstCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[0]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.specialEquipmentDropDownMenuContent
-  //   );
-  //   await homePage.clickOnCertainElementAtDropDownCategoryMenu(
-  //     homePage.secondDropDownMenuCatalog,
-  //     testData.optionsOfCatalogDropDownMenu
-  //       .specialEquipmentDropDownMenuContent[2]
-  //   );
-  //   await page.waitForTimeout(2000);
-  //   await expect(servicesPage.storageEquipment).toBeVisible();
-  //   await servicesPage.verifyRelevantAdvertisement("", "", true);
+    await homePage.clickCatalog();
+    await homePage.verifyWhetherFirstDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
+    );
+    await homePage.hoverToElementFromFirstCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[0]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.specialEquipmentDropDownMenuContent
+    );
+    await homePage.clickOnCertainElementAtDropDownCategoryMenu(
+      homePage.secondDropDownMenuCatalog,
+      testData.optionsOfCatalogDropDownMenu
+        .specialEquipmentDropDownMenuContent[2]
+    );
+    await page.waitForTimeout(2000);
+    await expect(servicesPage.storageEquipment).toBeVisible();
+    await servicesPage.verifyRelevantAdvertisement();
 
-  //   await homePage.clickLogo();
-  //   await page.waitForLoadState("networkidle");
-  //   await homePage.verifyHomePageLoaded();
-  //   await homePage.clickCatalog();
-  //   await homePage.verifyWhetherFirstDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
-  //   );
-  //   await homePage.hoverToElementFromFirstCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[0]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.specialEquipmentDropDownMenuContent
-  //   );
-  //   await homePage.hoverToElementFromOthersCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu
-  //       .specialEquipmentDropDownMenuContent[0]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.constructionalEquipment
-  //   );
+    await homePage.clickLogo();
+    await page.waitForLoadState("networkidle");
+    await homePage.verifyHomePageLoaded();
+    await homePage.clickCatalog();
+    await homePage.verifyWhetherFirstDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
+    );
+    await homePage.hoverToElementFromFirstCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[0]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.specialEquipmentDropDownMenuContent
+    );
+    await homePage.hoverToElementFromOthersCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu
+        .specialEquipmentDropDownMenuContent[0]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.constructionalEquipment
+    );
 
-  //   await homePage.clickLogo();
-  //   await page.waitForLoadState("networkidle");
-  //   await homePage.verifyHomePageLoaded();
-  //   await homePage.clickCatalog();
-  //   await homePage.verifyWhetherFirstDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
-  //   );
-  //   await homePage.hoverToElementFromFirstCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[0]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.specialEquipmentDropDownMenuContent
-  //   );
-  //   await homePage.hoverToElementFromOthersCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu
-  //       .specialEquipmentDropDownMenuContent[1]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.communalEquipment
-  //   );
+    await homePage.clickLogo();
+    await page.waitForLoadState("networkidle");
+    await homePage.verifyHomePageLoaded();
+    await homePage.clickCatalog();
+    await homePage.verifyWhetherFirstDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
+    );
+    await homePage.hoverToElementFromFirstCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[0]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.specialEquipmentDropDownMenuContent
+    );
+    await homePage.hoverToElementFromOthersCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu
+        .specialEquipmentDropDownMenuContent[1]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.communalEquipment
+    );
 
-  //   await homePage.clickLogo();
-  //   await page.waitForLoadState("networkidle");
-  //   await homePage.verifyHomePageLoaded();
-  //   await homePage.clickCatalog();
-  //   await homePage.verifyWhetherFirstDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
-  //   );
-  //   await homePage.hoverToElementFromFirstCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[0]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.specialEquipmentDropDownMenuContent
-  //   );
-  //   await homePage.hoverToElementFromOthersCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu
-  //       .specialEquipmentDropDownMenuContent[2]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.storageEquipment
-  //   );
+    await homePage.clickLogo();
+    await page.waitForLoadState("networkidle");
+    await homePage.verifyHomePageLoaded();
+    await homePage.clickCatalog();
+    await homePage.verifyWhetherFirstDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
+    );
+    await homePage.hoverToElementFromFirstCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[0]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.specialEquipmentDropDownMenuContent
+    );
+    await homePage.hoverToElementFromOthersCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu
+        .specialEquipmentDropDownMenuContent[2]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.storageEquipment
+    );
 
-  //   await homePage.clickLogo();
-  //   await page.waitForLoadState("networkidle");
-  //   await homePage.verifyHomePageLoaded();
-  //   await homePage.clickCatalog();
-  //   await homePage.verifyWhetherFirstDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
-  //   );
-  //   await homePage.hoverToElementFromFirstCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[1]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent
-  //   );
-  //   await homePage.hoverToElementFromOthersCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent[0]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.buildings
-  //   );
+    await homePage.clickLogo();
+    await page.waitForLoadState("networkidle");
+    await homePage.verifyHomePageLoaded();
+    await homePage.clickCatalog();
+    await homePage.verifyWhetherFirstDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
+    );
+    await homePage.hoverToElementFromFirstCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[1]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent
+    );
+    await homePage.hoverToElementFromOthersCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent[0]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.buildings
+    );
 
-  //   await homePage.clickLogo();
-  //   await page.waitForLoadState("networkidle");
-  //   await homePage.verifyHomePageLoaded();
-  //   await homePage.clickCatalog();
-  //   await homePage.verifyWhetherFirstDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
-  //   );
-  //   await homePage.hoverToElementFromFirstCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[1]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent
-  //   );
-  //   await homePage.hoverToElementFromOthersCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent[1]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.others
-  //   );
+    await homePage.clickLogo();
+    await page.waitForLoadState("networkidle");
+    await homePage.verifyHomePageLoaded();
+    await homePage.clickCatalog();
+    await homePage.verifyWhetherFirstDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
+    );
+    await homePage.hoverToElementFromFirstCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[1]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent
+    );
+    await homePage.hoverToElementFromOthersCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent[1]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.others
+    );
 
-  //   await homePage.clickLogo();
-  //   await page.waitForLoadState("networkidle");
-  //   await homePage.verifyHomePageLoaded();
-  //   await homePage.clickCatalog();
-  //   await homePage.verifyWhetherFirstDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
-  //   );
-  //   await homePage.hoverToElementFromFirstCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[1]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent
-  //   );
-  //   await homePage.hoverToElementFromOthersCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent[2]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.agricultural
-  //   );
-  //   await homePage.clickOnCertainElementAtDropDownCategoryMenu(
-  //     homePage.thirdDropDownMenuCatalog,
-  //     testData.optionsOfCatalogDropDownMenu.agricultural[0]
-  //   );
-  //   await page.waitForTimeout(2000);
-  //   let count = await servicesPage.openedDropDownMenu.count();
-  //   if (count === 0) {
-  //     await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
-  //   }
-  //   expect(
-  //     await servicesPage.isCheckboxCheckedByLabel(
-  //       testData.optionsOfCatalogDropDownMenu.agricultural[0]
-  //     )
-  //   ).toBe(true);
-  //   await servicesPage.verifyRelevantAdvertisement("", "", true);
+    await homePage.clickLogo();
+    await page.waitForLoadState("networkidle");
+    await homePage.verifyHomePageLoaded();
+    await homePage.clickCatalog();
+    await homePage.verifyWhetherFirstDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
+    );
+    await homePage.hoverToElementFromFirstCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[1]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent
+    );
+    await homePage.hoverToElementFromOthersCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent[2]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.agricultural
+    );
+    await homePage.clickOnCertainElementAtDropDownCategoryMenu(
+      homePage.thirdDropDownMenuCatalog,
+      testData.optionsOfCatalogDropDownMenu.agricultural[0]
+    );
+    await page.waitForTimeout(2000);
+    let count = await servicesPage.openedDropDownMenu.count();
+    if (count === 0) {
+      await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
+    }
+    expect(
+      await servicesPage.isCheckboxCheckedByLabel(
+        testData.optionsOfCatalogDropDownMenu.agricultural[0]
+      )
+    ).toBe(true);
+    await servicesPage.verifyRelevantAdvertisement();
 
-  //   //bug
-  //   // await homePage.clickLogo();
-  //   // await page.waitForLoadState("networkidle");
-  //   // await homePage.verifyHomePageLoaded();
-  //   // await homePage.clickCatalog();
-  //   // await homePage.verifyWhetherFirstDropDownMenuisVisible(
-  //   //   testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
-  //   // );
-  //   // await homePage.hoverToElementFromFirstCatalogDropDownMenu(
-  //   //   testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[1]
-  //   // );
-  //   // await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //   //   testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent
-  //   // );
-  //   // await homePage.hoverToElementFromOthersCatalogDropDownMenu(
-  //   //   testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent[0]
-  //   // );
-  //   // await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //   //   testData.optionsOfCatalogDropDownMenu.buildings
-  //   // );
-  //   // await homePage.clickOnCertainElementAtDropDownCategoryMenu(
-  //   //   homePage.thirdDropDownMenuCatalog,
-  //   //   testData.optionsOfCatalogDropDownMenu.buildings[3]
-  //   // );
-  //   // await page.waitForTimeout(2000);
-  //   // count = await servicesPage.openedDropDownMenu.count();
-  //   // if (count === 0) {
-  //   //   await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
-  //   // }
-  //   // expect(
-  //   //   await servicesPage.isCheckboxCheckedByLabel(
-  //   //     testData.optionsOfCatalogDropDownMenu.buildings[3]
-  //   //   )
-  //   // ).toBe(true);
-  //   // await servicesPage.verifyRelevantAdvertisement("", "", true);
-
-  //   await homePage.clickLogo();
-  //   await page.waitForLoadState("networkidle");
-  //   await homePage.verifyHomePageLoaded();
-  //   await homePage.clickCatalog();
-  //   await homePage.verifyWhetherFirstDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
-  //   );
-  //   await homePage.hoverToElementFromFirstCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[1]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent
-  //   );
-  //   await homePage.hoverToElementFromOthersCatalogDropDownMenu(
-  //     testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent[2]
-  //   );
-  //   await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //     testData.optionsOfCatalogDropDownMenu.agricultural
-  //   );
-  //   await homePage.clickOnCertainElementAtDropDownCategoryMenu(
-  //     homePage.thirdDropDownMenuCatalog,
-  //     testData.optionsOfCatalogDropDownMenu.agricultural[2]
-  //   );
-  //   await page.waitForTimeout(2000);
-  //   count = await servicesPage.openedDropDownMenu.count();
-  //   if (count === 0) {
-  //     await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
-  //   }
-  //   expect(
-  //     await servicesPage.isCheckboxCheckedByLabel(
-  //       testData.optionsOfCatalogDropDownMenu.agricultural[2]
-  //     )
-  //   ).toBe(true);
-  //   await servicesPage.verifyRelevantAdvertisement("", "", true);
-
-  //   //bug
-  //   // await homePage.clickLogo();
-  //   // await page.waitForLoadState("networkidle");
-  //   // await homePage.verifyHomePageLoaded();
-  //   // await homePage.clickCatalog();
-  //   // await homePage.verifyWhetherFirstDropDownMenuisVisible(
-  //   //   testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
-  //   // );
-  //   // await homePage.hoverToElementFromFirstCatalogDropDownMenu(
-  //   //   testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[1]
-  //   // );
-  //   // await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //   //   testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent
-  //   // );
-  //   // await homePage.hoverToElementFromOthersCatalogDropDownMenu(
-  //   //   testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent[1]
-  //   // );
-  //   // await homePage.verifyWhetherSecondDropDownMenuisVisible(
-  //   //   testData.optionsOfCatalogDropDownMenu.others
-  //   // );
-  //   // await homePage.clickOnCertainElementAtDropDownCategoryMenu(
-  //   //   homePage.thirdDropDownMenuCatalog,
-  //   //   testData.optionsOfCatalogDropDownMenu.others[3]
-  //   // );
-  //   // await page.waitForTimeout(2000);
-  //   // count = await servicesPage.openedDropDownMenu.count();
-  //   // if (count === 0) {
-  //   //   await servicesPage.clickOtherArrowButtonDropDownMenu();
-  //   // }
-  //   // expect(
-  //   //   await servicesPage.isCheckboxCheckedByLabel(
-  //   //     testData.optionsOfCatalogDropDownMenu.others[3]
-  //   //   )
-  //   // ).toBe(true);
-  //   // await servicesPage.verifyRelevantAdvertisement("", "", true);
-  // });
+    await homePage.clickLogo();
+    await page.waitForLoadState("networkidle");
+    await homePage.verifyHomePageLoaded();
+    await homePage.clickCatalog();
+    await homePage.verifyWhetherFirstDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
+    );
+    await homePage.hoverToElementFromFirstCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent[1]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent
+    );
+    await homePage.hoverToElementFromOthersCatalogDropDownMenu(
+      testData.optionsOfCatalogDropDownMenu.servicesDropDownMenuContent[2]
+    );
+    await homePage.verifyWhetherSecondDropDownMenuisVisible(
+      testData.optionsOfCatalogDropDownMenu.agricultural
+    );
+    await homePage.clickOnCertainElementAtDropDownCategoryMenu(
+      homePage.thirdDropDownMenuCatalog,
+      testData.optionsOfCatalogDropDownMenu.agricultural[2]
+    );
+    await page.waitForTimeout(2000);
+    count = await servicesPage.openedDropDownMenu.count();
+    if (count === 0) {
+      await servicesPage.clickAgriculturalArrowButtonDropDownMenu();
+    }
+    expect(
+      await servicesPage.isCheckboxCheckedByLabel(
+        testData.optionsOfCatalogDropDownMenu.agricultural[2]
+      )
+    ).toBe(true);
+    await servicesPage.verifyRelevantAdvertisement();
+  });
 });

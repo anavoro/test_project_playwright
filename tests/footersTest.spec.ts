@@ -112,13 +112,5 @@ test.describe("Footer Verification", () => {
     await adminPage.navigateToUsers(process.env.BASE_URL!);
     await adminPage.login(process.env.EMAIL!, process.env.PASSWORD!);
     await adminPage.clickButtonSupport();
-    const now = new Date();
-    const today = `${String(now.getDate()).padStart(2, "0")}.${String(
-      now.getMonth() + 1
-    ).padStart(2, "0")}.${now.getFullYear()}`;
-    //commented due to the bug
-    // await expect(
-    //   await adminPage.getCertainMessage(page, "Test", today)
-    // ).toBeEnabled();
   });
 });

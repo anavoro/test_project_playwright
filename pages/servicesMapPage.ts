@@ -93,22 +93,8 @@ export class ServicesPage extends BasePage {
     await this.click(this.arrowButtonDropDownMenu.nth(0));
   }
 
-  async clickOtherArrowButtonDropDownMenu() {
-    await this.click(this.arrowButtonDropDownMenu.nth(1));
-  }
-
   async clickAgriculturalArrowButtonDropDownMenu() {
     await this.click(this.arrowButtonDropDownMenu.nth(2));
-  }
-
-  async getZoomScale() {
-    const tileUrl = await this.titleUrl.first().getAttribute("src");
-    if (!tileUrl) throw new Error("Tile URL is undefined.");
-    const parts = tileUrl.split("/");
-    const zoomStr = parts[6];
-    const zoom = parseInt(zoomStr);
-    if (isNaN(zoom)) throw new Error(`Zoom value invalid: ${zoomStr}`);
-    return zoom;
   }
 
   async verifyVisibilityOfLargeClusters() {
@@ -212,35 +198,8 @@ export class ServicesPage extends BasePage {
     return checkbox.isChecked();
   }
 
-  async verifyRelevantAdvertisement(
-    categoryText: string,
-    searchedText: string,
-    selectedByCategoryOrService: boolean
-  ) {
+  async verifyRelevantAdvertisement() {
     const count = await this.cardWrappers.count();
-    // if (count >= 1 && count <= 4 && selectedByCategoryOrService === false)
-    //   await expect(this.quantityOfAdvertisementsTitle).toContainText(
-    //     `Знайдено ${count} оголошення на видимій території за запитом ${searchedText}`
-    //   );
-    // else if (count >= 1 && count <= 4 && selectedByCategoryOrService === true)
-    //   await expect(this.quantityOfAdvertisementsTitle).toContainText(
-    //     `Знайдено ${count} оголошення на видимій території`
-    //   );
-    // else if (
-    //   ((count >= 5 && count <= 9) || count === 0) &&
-    //   (selectedByCategoryOrService === true || searchedText === "")
-    // )
-    //   await expect(this.quantityOfAdvertisementsTitle).toContainText(
-    //     `Знайдено ${count} оголошень на видимій території`
-    //   );
-    // else if (
-    //   ((count >= 5 && count <= 9) || count === 0) &&
-    //   selectedByCategoryOrService === false
-    // )
-    //   await expect(this.quantityOfAdvertisementsTitle).toContainText(
-    //     `Знайдено ${count} оголошень на видимій території за запитом ${searchedText}`
-    //   );
-
     for (let i = 0; i < count; i++) {
       let currentAd = this.cardWrappers.nth(i);
       await currentAd.scrollIntoViewIfNeeded();

@@ -16,10 +16,10 @@ test.beforeEach(async ({ page }) => {
   await page.waitForTimeout(2000);
 });
 
-test.describe("Home Page Verification", () => {
-  // test("C517 verify map, select a cluster of units", async ({ page }) => {
-  //   await servicesPage.verifyVisibilityOfLargeClusters();
-  // });
+test.describe("Product Page Verification Of Map", () => {
+  test("C517 verify map, select a cluster of units", async ({}) => {
+    await servicesPage.verifyVisibilityOfLargeClusters();
+  });
 
   test("C516 verify map, drag and drop", async ({ page }) => {
     const before = await servicesPage.titleUrl.first().getAttribute("src");
@@ -28,7 +28,7 @@ test.describe("Home Page Verification", () => {
     await page.mouse.move(100, 100);
     await page.mouse.up();
     expect(servicesPage.titleUrl.first().getAttribute("src")).not.toBe(before);
-    await servicesPage.сlusters.first().waitFor({ state: 'visible' });
+    await servicesPage.сlusters.first().waitFor({ state: "visible" });
     await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
   });
@@ -38,28 +38,32 @@ test.describe("Home Page Verification", () => {
     let mark;
     await servicesPage.clickButtonZoomIn();
     expect(servicesPage.titleUrl.first().getAttribute("src")).not.toBe(before);
-    await servicesPage.marksOfAdvertisementsOnMap.first().waitFor({ state: 'visible' });
+    await servicesPage.marksOfAdvertisementsOnMap
+      .first()
+      .waitFor({ state: "visible" });
     mark = servicesPage.marksOfAdvertisementsOnMap.first();
     await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
     before = await servicesPage.titleUrl.first().getAttribute("src");
     await servicesPage.clickButtonZoomOut();
     expect(servicesPage.titleUrl.first().getAttribute("src")).not.toBe(before);
-    await mark.waitFor({ state: 'hidden' });
+    await mark.waitFor({ state: "hidden" });
     await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
 
     before = await servicesPage.titleUrl.first().getAttribute("src");
     await page.mouse.wheel(0, -100);
     expect(servicesPage.titleUrl.first().getAttribute("src")).not.toBe(before);
-    await servicesPage.marksOfAdvertisementsOnMap.first().waitFor({ state: 'visible' });
+    await servicesPage.marksOfAdvertisementsOnMap
+      .first()
+      .waitFor({ state: "visible" });
     mark = servicesPage.marksOfAdvertisementsOnMap.first();
     await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
     before = await servicesPage.titleUrl.first().getAttribute("src");
     await page.mouse.wheel(0, 100);
     expect(servicesPage.titleUrl.first().getAttribute("src")).not.toBe(before);
-    await mark.waitFor({ state: 'hidden' });
+    await mark.waitFor({ state: "hidden" });
     await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
   });
