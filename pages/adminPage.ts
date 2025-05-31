@@ -2,19 +2,31 @@ import { Page, Locator, expect } from "@playwright/test";
 import { BasePage } from "./basePage";
 
 export class AdminPage extends BasePage {
+  generalPanel: Locator;
+  sideMenu: Locator;
   adminPanel: Locator;
   userPanel: Locator;
   technicPanel: Locator;
   servicePanel: Locator;
   buttonSupport: Locator;
+  buttonMainPage: Locator;
+  buttonTenders: Locator;
+  tenderTitle: Locator;
 
   constructor(page: Page) {
     super(page);
+    this.sideMenu = page.locator('[data-testid="navigationContainer"]');
+    this.generalPanel = page.locator(
+      '[class="AdminLayout_content_wrapper___EUUc"]'
+    );
     this.adminPanel = page.locator('a[href="/admin/"]');
     this.userPanel = page.locator('a[href="/admin/users"]');
     this.technicPanel = page.getByText("Техніка");
     this.servicePanel = page.getByText("Сервіси");
     this.buttonSupport = page.locator('a[href="/admin/chat/"]');
+    this.buttonMainPage = page.locator('[data-testid="homeButton"]');
+    this.buttonTenders = page.locator('[href="/admin/tenders/"]');
+    this.tenderTitle = page.locator('//div[@class="AdminLayout_title__lqIgo"]');
   }
 
   async navigateToUsers(baseUrl: string) {
@@ -59,9 +71,17 @@ export class AdminPage extends BasePage {
     await this.click(this.buttonSupport);
   }
 
-  async getCertainMessage(page: Page, name: string, date: string) {
-    return page.locator(
-      `div.AdminChatsChannel_channel_user__BHzd5:has-text("${name}"):has-text("${date}")`
-    );
+  async clickButtonTenders() {
+    await this.click(this.buttonTenders);
+  }
+
+  async clickButtonMainPage() {
+    await this.click(this.buttonMainPage);
+  }
+
+  async verifyWhetherAdminPageIsLoaded() {
+    await this.page.waitForLoadState("networkidle");
+    await expect(this.sideMenu).toBeVisible();
+    await expect(this.generalPanel).toBeVisible();
   }
 }

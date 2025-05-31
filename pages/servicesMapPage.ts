@@ -4,6 +4,7 @@ import { HomePage } from "../pages/homePage";
 
 export class ServicesPage extends BasePage {
   arrowButtonDropDownMenu: Locator;
+  checkBoxLabel: Locator;
   cardWrapperFirst: Locator;
   cardWrappers: Locator;
   openedDropDownMenu: Locator;
@@ -12,6 +13,7 @@ export class ServicesPage extends BasePage {
   advertisementTitle: Locator;
   quantityOfAdvertisementsTitle: Locator;
   draglineCategoryOfAdvertisement: Locator;
+  generalCategoryOfAdvertisement: Locator;
   constructionalEquipment: Locator;
   communalEquipment: Locator;
   storageEquipment: Locator;
@@ -36,8 +38,12 @@ export class ServicesPage extends BasePage {
     this.arrowButtonDropDownMenu = page.locator(
       '[class*="ServiceCategory_svgContainer__mPCMj"]'
     );
+    this.checkBoxLabel = page.locator('label[data-testid="serviceLabel"]');
     this.draglineCategoryOfAdvertisement = page.locator(
       '[class*="ResetFilters_selectedCategory___D1E6"]:has-text("Драглайни")'
+    );
+    this.generalCategoryOfAdvertisement = page.locator(
+      '[class*="ResetFilters_selectedCategory___D1E6"]'
     );
     this.maindTraitsCategory = page.locator('[itemprop="category"]');
     this.advertisementDescription = page.locator(
@@ -102,8 +108,12 @@ export class ServicesPage extends BasePage {
     let before;
     for (let i = 0; i < countLargeCluster; i++) {
       before = await this.titleUrl.first().getAttribute("src");
-      await this.largeClusters.nth(i).click();
-      expect(this.titleUrl.first().getAttribute("src")).not.toBe(before);
+      await this.click(this.largeClusters.nth(i));
+      await expect
+        .poll(async () => {
+          return await this.titleUrl.first().getAttribute("src");
+        })
+        .not.toBe(before);
       await this.marksOfAdvertisementsOnMap
         .first()
         .waitFor({ state: "visible" });
@@ -163,11 +173,10 @@ export class ServicesPage extends BasePage {
     await expect(page).toHaveURL(/\/products\//);
     await page.waitForTimeout(2200);
     await this.clickAgriculturalArrowButtonDropDownMenu();
-    await page
-      .locator(
-        `[class*="ResetFilters_selectedCategory___D1E6"]:has-text("${category}")`
-      )
-      .isEnabled();
+    const currentEquipmentCategory = this.generalCategoryOfAdvertisement.filter(
+      { hasText: category }
+    );
+    await expect(currentEquipmentCategory).toBeVisible();
     await this.clickcardWrapperFirst();
     await this.categoryOfAdvertisement.first().waitFor({ state: "visible" });
     const texts = await this.categoryOfAdvertisement.allTextContents();
@@ -179,9 +188,7 @@ export class ServicesPage extends BasePage {
   }
 
   async isCheckboxCheckedByLabel(labelText: string): Promise<boolean> {
-    const label = this.page
-      .locator(`label[data-testid="serviceLabel"]:has-text("${labelText}")`)
-      .first();
+    const label = this.checkBoxLabel.filter({ hasText: labelText }).first();
     const id = await label.getAttribute("for");
     if (!id)
       throw new Error(`No 'for' attribute found for label: ${labelText}`);

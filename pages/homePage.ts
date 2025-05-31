@@ -20,6 +20,8 @@ export class HomePage extends BasePage {
   // Catalog
   catalogButton: Locator;
   firstDropDownMenuCatalog: Locator;
+  elementsOfFirstDropDownMenuCatalog: Locator;
+  elementsOfOthersDropDownMenuCatalog: Locator;
   secondDropDownMenuCatalog: Locator;
   thirdDropDownMenuCatalog: Locator;
 
@@ -40,6 +42,7 @@ export class HomePage extends BasePage {
   towerСraneСategoryOfSearching: Locator;
   draglineСategoryOfSearching: Locator;
   asphaltingServicesOfSearching: Locator;
+  generalServicesOfSearching: Locator;
   cardContainer: Locator;
 
   // Telegram popup
@@ -104,6 +107,9 @@ export class HomePage extends BasePage {
   contacts: Locator;
   emailOfCompany: Locator;
 
+  //Header
+  iconSuperUser: Locator;
+
   constructor(page: Page) {
     super(page);
 
@@ -123,8 +129,14 @@ export class HomePage extends BasePage {
     this.firstDropDownMenuCatalog = page.locator(
       '[class="Catalog_parents__ThIGP"]'
     );
+    this.elementsOfFirstDropDownMenuCatalog = page.locator(
+      '[class*="Catalog_parent__k_4MP"]'
+    );
     this.secondDropDownMenuCatalog = page.locator(
       '[class="Catalog_list__sVdCj"]'
+    );
+    this.elementsOfOthersDropDownMenuCatalog = page.locator(
+      '[class*="CatalogItem_item__xvBwY"]'
     );
     this.thirdDropDownMenuCatalog = page.locator(
       '[class="Catalog_list__sVdCj Catalog_listSecond__awZH7"]'
@@ -169,6 +181,9 @@ export class HomePage extends BasePage {
     );
     this.asphaltingServicesOfSearching = page.locator(
       '[data-testid="resultItem"]:has-text("Асфальтування")'
+    );
+    this.generalServicesOfSearching = page.locator(
+      '[data-testid="resultItem"]'
     );
     this.cardContainer = page.locator('[data-testid="cardContainer"]');
 
@@ -298,6 +313,8 @@ export class HomePage extends BasePage {
     this.emailOfCompany = this.footer.locator(
       'a[href="mailto:info@rentzila.com.ua"]'
     );
+
+    this.iconSuperUser = page.locator('[data-testid="superuserIcon_Navbar"]');
   }
 
   async navigateToHomePage(baseUrl: string) {
@@ -306,6 +323,10 @@ export class HomePage extends BasePage {
 
   async clickLogo() {
     await this.click(this.logoHeader);
+  }
+
+  async clickIconSuperUser() {
+    await this.click(this.iconSuperUser);
   }
 
   async clickMapButton() {
@@ -373,42 +394,39 @@ export class HomePage extends BasePage {
   }
 
   async hoverToElementFromFirstCatalogDropDownMenu(name: string) {
-    await this.page
-      .locator('[class*="Catalog_parent__k_4MP"]', { hasText: name })
-      .getByText(name, { exact: true })
-      .dispatchEvent('mouseover');
+    const currentCatalogElement =
+      this.elementsOfFirstDropDownMenuCatalog.filter({
+        hasText: name,
+      });
+    await currentCatalogElement.hover();
   }
 
   async hoverToElementFromOthersCatalogDropDownMenu(name: string) {
-    await this.page
-      .locator('[class*="CatalogItem_item__xvBwY"]', { hasText: name })
-      .getByText(name, { exact: true })
-      .dispatchEvent('mouseover');
+    const currentCatalogElement =
+      this.elementsOfOthersDropDownMenuCatalog.filter({ hasText: name });
+    await currentCatalogElement.hover();
   }
 
   async verifyWhetherFirstDropDownMenuisVisible(arrayOfNames: string[]) {
     await expect(this.firstDropDownMenuCatalog).toBeVisible();
     for (let i = 0; i < arrayOfNames.length; i++) {
-      await expect(
-        this.page
-          .locator('[class*="Catalog_parent__k_4MP"]', {
-            hasText: arrayOfNames[i],
-          })
-          .getByText(arrayOfNames[i], { exact: true })
-      ).toBeVisible();
+      const currentCatalogElement =
+        this.elementsOfFirstDropDownMenuCatalog.filter({
+          hasText: arrayOfNames[i],
+        });
+      await expect(currentCatalogElement).toBeVisible();
     }
   }
 
   async verifyWhetherSecondDropDownMenuisVisible(arrayOfNames: string[]) {
     await expect(this.secondDropDownMenuCatalog).toBeVisible();
     for (let i = 0; i < arrayOfNames.length; i++) {
-      await expect(
-        this.page
-          .locator('[class*="CatalogItem_item__xvBwY"]', {
-            hasText: arrayOfNames[i],
-          })
-          .getByText(arrayOfNames[i], { exact: true })
-      ).toBeVisible();
+      const currentCatalogElement = this.elementsOfOthersDropDownMenuCatalog
+        .filter({
+          hasText: arrayOfNames[i],
+        })
+        .first();
+      await expect(currentCatalogElement).toBeVisible();
     }
   }
 
@@ -416,10 +434,12 @@ export class HomePage extends BasePage {
     numberOfMenu: Locator,
     textOfElement: string
   ) {
-    await numberOfMenu
-      .locator('[class*="CatalogItem_item__xvBwY"]', { hasText: textOfElement })
-      .getByText(textOfElement, { exact: true })
-      .click();
+    const currentCatalogElement = numberOfMenu.locator(
+      this.elementsOfOthersDropDownMenuCatalog.filter({
+        hasText: textOfElement,
+      })
+    );
+    await this.click(currentCatalogElement);
   }
 
   async clickServicePopularComplexOfWork() {
@@ -483,7 +503,7 @@ export class HomePage extends BasePage {
   }
 
   async clickFirstCardContainer() {
-    await this.cardContainer.first().click();
+    await this.click(this.cardContainer.first());
   }
 
   async searchInBody(searchText: string) {
@@ -510,7 +530,7 @@ export class HomePage extends BasePage {
   }
 
   async clickTopSearchInput() {
-    await this.topSearchInput.click();
+    await this.click(this.topSearchInput);
   }
 
   async fillTopSearchInput(searchText: string) {
@@ -523,11 +543,13 @@ export class HomePage extends BasePage {
 
   async verifyUpdatedHistoryOfSearching(searchedText: string[]) {
     for (let i = 0; i < searchedText.length; i++) {
-      expect(
-        this.page
-          .locator(`[data-testid="resultItem"]:has-text("${searchedText[i]}")`)
-          .first()
-      ).toBeVisible();
+      const currentSearchedElementAtHistoryMenu =
+        this.generalServicesOfSearching
+          .filter({
+            hasText: searchedText[i],
+          })
+          .first();
+      await expect(currentSearchedElementAtHistoryMenu).toBeEnabled();
     }
   }
 

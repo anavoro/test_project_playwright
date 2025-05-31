@@ -25,9 +25,13 @@ test.describe("Product Page Verification Of Map", () => {
     const before = await servicesPage.titleUrl.first().getAttribute("src");
     await page.mouse.move(400, 300);
     await page.mouse.down();
-    await page.mouse.move(100, 100);
+    await page.mouse.move(-800, -800);
     await page.mouse.up();
-    expect(servicesPage.titleUrl.first().getAttribute("src")).not.toBe(before);
+    await expect
+      .poll(async () => {
+        return await servicesPage.titleUrl.first().getAttribute("src");
+      })
+      .not.toBe(before);
     await servicesPage.сlusters.first().waitFor({ state: "visible" });
     await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
@@ -37,7 +41,11 @@ test.describe("Product Page Verification Of Map", () => {
     let before = await servicesPage.titleUrl.first().getAttribute("src");
     let mark;
     await servicesPage.clickButtonZoomIn();
-    expect(servicesPage.titleUrl.first().getAttribute("src")).not.toBe(before);
+    await expect
+      .poll(async () => {
+        return await servicesPage.titleUrl.first().getAttribute("src");
+      })
+      .not.toBe(before);
     await servicesPage.marksOfAdvertisementsOnMap
       .first()
       .waitFor({ state: "visible" });
@@ -46,14 +54,22 @@ test.describe("Product Page Verification Of Map", () => {
     await servicesPage.verifyExistenceOfClusters();
     before = await servicesPage.titleUrl.first().getAttribute("src");
     await servicesPage.clickButtonZoomOut();
-    expect(servicesPage.titleUrl.first().getAttribute("src")).not.toBe(before);
+    await expect
+      .poll(async () => {
+        return await servicesPage.titleUrl.first().getAttribute("src");
+      })
+      .not.toBe(before);
     await mark.waitFor({ state: "hidden" });
     await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
 
     before = await servicesPage.titleUrl.first().getAttribute("src");
     await page.mouse.wheel(0, -100);
-    expect(servicesPage.titleUrl.first().getAttribute("src")).not.toBe(before);
+    await expect
+      .poll(async () => {
+        return await servicesPage.titleUrl.first().getAttribute("src");
+      })
+      .not.toBe(before);
     await servicesPage.marksOfAdvertisementsOnMap
       .first()
       .waitFor({ state: "visible" });
@@ -62,7 +78,11 @@ test.describe("Product Page Verification Of Map", () => {
     await servicesPage.verifyExistenceOfClusters();
     before = await servicesPage.titleUrl.first().getAttribute("src");
     await page.mouse.wheel(0, 100);
-    expect(servicesPage.titleUrl.first().getAttribute("src")).not.toBe(before);
+    await expect
+      .poll(async () => {
+        return await servicesPage.titleUrl.first().getAttribute("src");
+      })
+      .not.toBe(before);
     await mark.waitFor({ state: "hidden" });
     await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
