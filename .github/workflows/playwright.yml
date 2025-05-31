@@ -21,9 +21,9 @@ jobs:
       run: npx playwright test
       continue-on-error: true
       env:
-        ADMIN_EMAIL: ${{ secrets.USER_EMAIL }}
+        ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
         USER_MOBILE: ${{ secrets.USER_MOBILE }}
-        ADMIN_PASSWORD: ${{ secrets.USER_PASSWORD }}
+        ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
