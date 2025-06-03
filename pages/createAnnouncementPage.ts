@@ -43,19 +43,20 @@ export class CreateAnnouncementPage extends BasePage{
    unitNameInput: Locator;
    unitNameErrorText: Locator;
 
-   // Veacle manufactore section elements
-   vehicleManufactureTitle: Locator;
-   vehicleManufactureAsterix: Locator;
+   // Vehicle manufacturer section elements
+   vehicleManufacturerTitle: Locator;
+   vehicleManufacturerAsterix: Locator;
    loupeSymbol: Locator;
-   vehicleManufactureInput: Locator;
-   vehicleManufactureErrorText: Locator;
-   vehicleManufactureDropdown: Locator;
-   vehicleManufactureSearchResult: Locator;
-   vehicleManufactureDropdownError: Locator;
+   vehicleManufacturerInput: Locator;
+   vehicleManufacturerErrorText: Locator;
+   vehicleManufacturerDropdown: Locator;
+   vehicleManufacturerSearchResult: Locator;
+   vehicleManufacturerDropdownError: Locator;
    crossIcon: Locator;
-   vehicleManufactureInputError: Locator;
-   vehicleManufactureChoosenResult: Locator;
+   vehicleManufacturerInputError: Locator;
+   vehicleManufacturerChoosenResult: Locator;
    symbolsCounter: Locator;
+   manufacturers: Locator;
 
    // Model nane section elements
    modelNameTitle: Locator;
@@ -131,18 +132,19 @@ export class CreateAnnouncementPage extends BasePage{
    this.unitNameInput = page.getByRole('textbox', { name: 'Введіть назву оголошення' });
    this.unitNameErrorText = page.locator('[data-testid="descriptionError"]');
 
-   this.vehicleManufactureTitle = page.locator('.SelectManufacturer_title__X9AEw');
-   this.vehicleManufactureAsterix = page.locator('div[class="SelectManufacturer_title__X9AEw"]>span');
+   this.vehicleManufacturerTitle = page.locator('.SelectManufacturer_title__X9AEw');
+   this.vehicleManufacturerAsterix = page.locator('div[class="SelectManufacturer_title__X9AEw"]>span');
    this.loupeSymbol = page.getByTestId('div-wrapper-customSelectWithSearch').locator('path');
-   this.vehicleManufactureInput = page.locator('[data-testid="input-customSelectWithSearch"]');
-   this.vehicleManufactureInputError = page.locator('.CustomSelectWithSearch_searchResultError__Q9xtO');
-   this.vehicleManufactureErrorText = page.locator('.CustomSelectWithSearch_errorTextVisible__B5lZH');
-   this.vehicleManufactureDropdown = page.locator('.CustomSelectWithSearch_searchedServicesCat_wrapper__aOGc3');
-   this.vehicleManufactureSearchResult = page.getByTestId('item-customSelectWithSearch');
-   this.vehicleManufactureChoosenResult = page.locator('.CustomSelectWithSearch_serviceText__seBcv');
-   this.vehicleManufactureDropdownError = page.locator('[data-testid="p2-notFound-addNewItem"]');
+   this.vehicleManufacturerInput = page.locator('[data-testid="input-customSelectWithSearch"]');
+   this.vehicleManufacturerInputError = page.locator('.CustomSelectWithSearch_searchResultError__Q9xtO');
+   this.vehicleManufacturerErrorText = page.locator('.CustomSelectWithSearch_errorTextVisible__B5lZH');
+   this.vehicleManufacturerDropdown = page.locator('.CustomSelectWithSearch_searchedServicesCat_wrapper__aOGc3');
+   this.vehicleManufacturerSearchResult = page.locator('.CustomSelectWithSearch_flexForServices__EW4k9:nth-child(1)');
+   this.vehicleManufacturerChoosenResult = page.locator('.CustomSelectWithSearch_serviceText__seBcv');
+   this.vehicleManufacturerDropdownError = page.locator('[data-testid="p2-notFound-addNewItem"]');
    this.crossIcon = page.locator('[data-testid="closeButton"]');
    this.symbolsCounter = page.getByTestId('maxLength');
+   this.manufacturers = page.locator('[data-testid="item-customSelectWithSearch"]')
 
    this.modelNameTitle = page.getByText('Назва моделі');
    this.modelNameInput = page.getByPlaceholder('Введіть назву моделі');
@@ -205,20 +207,20 @@ export class CreateAnnouncementPage extends BasePage{
       await this.unitNameInput.fill(name);
    }
 
-   async fillVehicleManufacturyInput(name: string) {
-      await this.vehicleManufactureInput.fill(name);
+   async fillVehicleManufacturerInput(name: string | any) {
+      await this.vehicleManufacturerInput.fill(name);
    }
 
-   async clickVehicleManufactureSearchResult() {
-      await this.vehicleManufactureSearchResult.click();
+   async clickVehicleManufacturerSearchResult() {
+      await this.vehicleManufacturerSearchResult.click();
    }
    
    async clickCrossIcon() {
       await this.crossIcon.click();
    }
 
-   async clearVehicleManufactureInput() {
-      await this.vehicleManufactureInput.clear()
+   async clearVehicleManufacturerInput() {
+      await this.vehicleManufacturerInput.clear()
    };
 
    async fillModelNameInput(name: string) {
@@ -273,12 +275,12 @@ export class CreateAnnouncementPage extends BasePage{
       await locator.clear();
       await this.page.keyboard.press("Control+V");
   }
-  async verifyManufaktureNameNotFoundText101(name: string) {
-     await expect(this.vehicleManufactureDropdownError)
+  async verifyManufakturerNameNotFoundText101(name: string) {
+     await expect(this.vehicleManufacturerDropdownError)
          .toContainText(`На жаль, виробника ${'“'}${name[0].toUpperCase()}${name.slice(1, -1)}${'“'} не знайдено в нашій базі. Щоб додати виробника - зв\`яжіться із службою підтримки`);
   }
-  async verifyManufaktureNameNotFound(name: string) {
-     await expect(this.vehicleManufactureDropdownError)
+  async verifyManufakturerNameNotFound(name: string) {
+     await expect(this.vehicleManufacturerDropdownError)
          .toContainText(`На жаль, виробника ${'“'}${name}${'“'} не знайдено в нашій базі. Щоб додати виробника - зв\`яжіться із службою підтримки`);
   }
 }

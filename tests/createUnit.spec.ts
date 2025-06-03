@@ -1,25 +1,8 @@
-import { test, expect, Locator } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { HomePage } from "../pages/homePage";
 import { LoginPage } from "../pages/loginPage";
 import { CreateAnnouncementPage } from "../pages/createAnnouncementPage";
-import { faker } from '@faker-js/faker';
-
-const digits = faker.string.numeric(9);
-const text101 = faker.string.fromCharacters('abcw', 101);
-const symbols = faker.internet.password({length: 7, pattern: /[?$#&%@]/});
-const unitNameValid = faker.string.alpha(10);
-const upperLetter = faker.string.alpha({casing: 'upper'});
-const vehicleManufactureATEC = "АТЭК";
-const vehicleManufactureAtec = "Атэк";
-const space = ' ';
-const validName = 'Abc';
-const digits16 = faker.string.numeric(16);
-const digitsSpaceInside = faker.string.octal({ length: 12, prefix: '123 ' });
-const digitsSpaceEnd = `${faker.string.numeric(15)} + " "`;
-const digits15 = faker.string.numeric(15);
-const text9001 = faker.string.fromCharacters('abcde ', 9001);
-const email = "my.lanauno@gmail.com";
-const password = "345Qwerty"
+import { text, validData, invalidData, color, manufacturerRandom} from "../unitData";
 
 test.describe("Test create_unit page", async () => {
     
@@ -29,7 +12,7 @@ test.describe("Test create_unit page", async () => {
         await page.setViewportSize({ width: 1536, height: 980 });
         await homePage.goto("/");
         await homePage.clickLogin();
-        await loginPage.login(email, password);
+        await loginPage.login(validData.email, validData.password);
         await homePage.navigateToCreateAnnouncement();
     })
     test("C294 Verify body title and tab titles", async ({ page }) => {
@@ -41,31 +24,31 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.mainInfoButton).toBeVisible();
         await expect(createAnnouncementPage.mainInfoButtonNumber).toContainText(/[1]/);
         await expect(createAnnouncementPage.mainInfoButtonNumber)
-              .toHaveCSS('background-color','rgb(64, 75, 105)');
+              .toHaveCSS('background-color', color.activeElem);
         await expect(createAnnouncementPage.mainInfoButton).toContainText("Основна інформація");
 
         await expect(createAnnouncementPage.photoButton).toBeVisible();
         await expect(createAnnouncementPage.photoButtonNumber).toContainText(/[2]/);
         await expect(createAnnouncementPage.photoButtonNumber)
-              .toHaveCSS('background-color','rgb(196, 196, 196)');
+              .toHaveCSS('background-color', color.inactiveElem);
         await expect(createAnnouncementPage.photoButton).toContainText("Фотографії");
 
         await expect(createAnnouncementPage.servicesButton).toBeVisible();
         await expect(createAnnouncementPage.servicesButtonNumber).toContainText(/[3]/);
         await expect(createAnnouncementPage.servicesButtonNumber)
-              .toHaveCSS('background-color','rgb(196, 196, 196)');
+              .toHaveCSS('background-color', color.inactiveElem);
         await expect(createAnnouncementPage.servicesButton).toContainText("Послуги");
 
         await expect(createAnnouncementPage.costButton).toBeVisible();
         await expect(createAnnouncementPage.costButtonNumber).toContainText(/[4]/);
         await expect(createAnnouncementPage.costButtonNumber)
-              .toHaveCSS('background-color','rgb(196, 196, 196)');
+              .toHaveCSS('background-color', color.inactiveElem);
         await expect(createAnnouncementPage.costButton).toContainText("Вартість");
 
         await expect(createAnnouncementPage.contactsButton).toBeVisible();
         await expect(createAnnouncementPage.contactsButtonNumber).toContainText(/[5]/);
         await expect(createAnnouncementPage.contactsButtonNumber)
-              .toHaveCSS('background-color','rgb(196, 196, 196)');
+              .toHaveCSS('background-color', color.inactiveElem);
         await expect(createAnnouncementPage.contactsButton).toContainText("Контакти");
     });
     test("C296 Verify Category section", async ({ page }) => {
@@ -79,9 +62,9 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.arrowDown).toBeVisible();
 
         await createAnnouncementPage.clickNextButton();
-        await expect(createAnnouncementPage.categoryErrorText).toContainText('Це поле обов’язкове');
-        await expect(createAnnouncementPage.categoryErrorText).toHaveCSS('color', 'rgb(247, 56, 89)');
-        await expect(createAnnouncementPage.categoryInput).toHaveCSS('border', '1px solid rgb(247, 56, 89)');
+        await expect(createAnnouncementPage.categoryErrorText).toContainText(text.requiredField);
+        await expect(createAnnouncementPage.categoryErrorText).toHaveCSS('color', color.error);
+        await expect(createAnnouncementPage.categoryInput).toHaveCSS('border', color.errorBorder);
 
         await createAnnouncementPage.clickCategoryInput();
         await expect(createAnnouncementPage.categoryPopUp).toBeVisible();
@@ -93,7 +76,7 @@ test.describe("Test create_unit page", async () => {
 
         await createAnnouncementPage.clickCategoryInput();
         await page.mouse.click(0, 0);
-        await expect(page.locator('.CategoryPopup_wrapper__JpUB1')).not.toBeVisible();
+        await expect(createAnnouncementPage.categoryPopUp).not.toBeVisible();
 
         await createAnnouncementPage.clickCategoryInput();
         await expect(createAnnouncementPage.budivelnaTekhnikaLink).toContainText('Будівельна техніка');
@@ -133,139 +116,145 @@ test.describe("Test create_unit page", async () => {
               .toHaveAttribute('placeholder', 'Введіть назву оголошення');
         
         await createAnnouncementPage.clickNextButton();
-        await expect(createAnnouncementPage.unitNameErrorText).toContainText('Це поле обов’язкове');
-        await expect(createAnnouncementPage.unitNameErrorText).toHaveCSS('color', 'rgb(247, 56, 89)');
-        await expect(createAnnouncementPage.unitNameInput).toHaveCSS('border', '1px solid rgb(247, 56, 89)');
+        await expect(createAnnouncementPage.unitNameErrorText).toContainText(text.requiredField);
+        await expect(createAnnouncementPage.unitNameErrorText).toHaveCSS('color', color.error);
+        await expect(createAnnouncementPage.unitNameInput).toHaveCSS('border', color.errorBorder);
         
         await createAnnouncementPage.clearUnitNameInput();
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.unitNameInput, digits);
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.unitNameInput, invalidData.digits);
         await createAnnouncementPage.clickNextButton();
-        await expect(createAnnouncementPage.unitNameErrorText).toContainText(/не менше 10 символів/);
-        await expect(createAnnouncementPage.unitNameErrorText).toHaveCSS('color', 'rgb(247, 56, 89)');
-        await expect(createAnnouncementPage.unitNameInput).toHaveCSS('border', '1px solid rgb(247, 56, 89)');
+        await expect(createAnnouncementPage.unitNameErrorText).toContainText(text.notLess10Symbols);
+        await expect(createAnnouncementPage.unitNameErrorText).toHaveCSS('color', color.error);
+        await expect(createAnnouncementPage.unitNameInput).toHaveCSS('border', color.errorBorder);
         
         await createAnnouncementPage.clearUnitNameInput();
-        await createAnnouncementPage.fillUnitNameInput(digits);
+        await createAnnouncementPage.fillUnitNameInput(invalidData.digits);
         await createAnnouncementPage.clickNextButton();
-        await expect(createAnnouncementPage.unitNameErrorText).toContainText(/не менше 10 символів/);
-        await expect(createAnnouncementPage.unitNameErrorText).toHaveCSS('color', 'rgb(247, 56, 89)');
-        await expect(createAnnouncementPage.unitNameInput).toHaveCSS('border', '1px solid rgb(247, 56, 89)');
+        await expect(createAnnouncementPage.unitNameErrorText).toContainText(text.notLess10Symbols);
+        await expect(createAnnouncementPage.unitNameErrorText).toHaveCSS('color', color.error);
+        await expect(createAnnouncementPage.unitNameInput).toHaveCSS('border', color.errorBorder);
 
         await createAnnouncementPage.clearUnitNameInput();
-        await createAnnouncementPage.fillUnitNameInput(text101);
-        await expect(createAnnouncementPage.unitNameErrorText).toContainText(/не більше 100 символів/);
-        await expect(createAnnouncementPage.unitNameErrorText).toHaveCSS('color', 'rgb(247, 56, 89)');
-        await expect(createAnnouncementPage.unitNameInput).toHaveCSS('border', '1px solid rgb(247, 56, 89)');
+        await createAnnouncementPage.fillUnitNameInput(invalidData.text101);
+        await expect(createAnnouncementPage.unitNameErrorText).toContainText(text.notMore100Symbols);
+        await expect(createAnnouncementPage.unitNameErrorText).toHaveCSS('color', color.error);
+        await expect(createAnnouncementPage.unitNameInput).toHaveCSS('border', color.errorBorder);
     
         await createAnnouncementPage.clearUnitNameInput();
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.unitNameInput, unitNameValid);
-        await expect(createAnnouncementPage.unitNameInput).toHaveValue(unitNameValid);
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.unitNameInput, validData.unitName);
+        await expect(createAnnouncementPage.unitNameInput).toHaveValue(validData.unitName);
 
         await createAnnouncementPage.clearUnitNameInput();
-        await createAnnouncementPage.fillUnitNameInput(unitNameValid);
-        await expect(createAnnouncementPage.unitNameInput).toHaveValue(unitNameValid);
+        await createAnnouncementPage.fillUnitNameInput(validData.unitName);
+        await expect(createAnnouncementPage.unitNameInput).toHaveValue(validData.unitName);
     })
     test('C298 Verify vehicle manufacturer section', async ({ page }) => {
         const createAnnouncementPage = new CreateAnnouncementPage(page);
 
-        await expect(createAnnouncementPage.vehicleManufactureTitle).toBeVisible()
-        await expect(createAnnouncementPage.vehicleManufactureTitle)
+        await expect(createAnnouncementPage.vehicleManufacturerTitle).toBeVisible()
+        await expect(createAnnouncementPage.vehicleManufacturerTitle)
               .toContainText('Виробник транспортного засобу *');
-        await expect(createAnnouncementPage.vehicleManufactureAsterix).toBeVisible();
-        await expect(createAnnouncementPage.vehicleManufactureAsterix).toContainText('*');
+        await expect(createAnnouncementPage.vehicleManufacturerAsterix).toBeVisible();
+        await expect(createAnnouncementPage.vehicleManufacturerAsterix).toContainText('*');
         await expect(createAnnouncementPage.loupeSymbol).toBeVisible();
-        await expect(createAnnouncementPage.vehicleManufactureInput).toBeVisible();
-        await expect(createAnnouncementPage.vehicleManufactureInput)
+        await expect(createAnnouncementPage.vehicleManufacturerInput).toBeVisible();
+        await expect(createAnnouncementPage.vehicleManufacturerInput)
               .toHaveAttribute('placeholder', /^Введіть виробника/);
         
         await createAnnouncementPage.clickNextButton();
-        await expect(createAnnouncementPage.vehicleManufactureErrorText)
-              .toContainText('Це поле обов’язкове');
-        await expect(createAnnouncementPage.vehicleManufactureErrorText)
-              .toHaveCSS('color', 'rgb(247, 56, 89)');
-        await expect(createAnnouncementPage.vehicleManufactureInputError)
-              .toHaveCSS('border-color', 'rgb(247, 56, 89)');
+        await expect(createAnnouncementPage.vehicleManufacturerErrorText)
+              .toContainText(text.requiredField);
+        await expect(createAnnouncementPage.vehicleManufacturerErrorText)
+              .toHaveCSS('color', color.error);
+        await expect(createAnnouncementPage.vehicleManufacturerInputError)
+              .toHaveCSS('border-color', color.error);
         
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufactureInput, upperLetter);
-        await expect(createAnnouncementPage.vehicleManufactureDropdown).toBeVisible();
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufacturerInput, validData.letter);
+        await expect(createAnnouncementPage.vehicleManufacturerDropdown).toBeVisible();
 
-        await createAnnouncementPage.clearVehicleManufactureInput();
-        await createAnnouncementPage.fillVehicleManufacturyInput(upperLetter);
-        await expect(createAnnouncementPage.vehicleManufactureDropdown).toBeVisible();
-        
-        await createAnnouncementPage.clearVehicleManufactureInput();
-        await createAnnouncementPage.fillVehicleManufacturyInput(vehicleManufactureATEC);
-        await expect(createAnnouncementPage.vehicleManufactureSearchResult).toBeVisible({timeout: 10000});
-        await expect(createAnnouncementPage.vehicleManufactureSearchResult)
-              .toContainText(vehicleManufactureATEC);
+        await createAnnouncementPage.clearVehicleManufacturerInput();
+        await createAnnouncementPage.fillVehicleManufacturerInput(validData.letter);
+        await expect(createAnnouncementPage.vehicleManufacturerDropdown).toBeVisible();
 
-        await createAnnouncementPage.clearVehicleManufactureInput();
-        await createAnnouncementPage.fillVehicleManufacturyInput(vehicleManufactureAtec);
-        await expect(createAnnouncementPage.vehicleManufactureSearchResult).toBeVisible();
-        await expect(createAnnouncementPage.vehicleManufactureSearchResult)
-              .toContainText(vehicleManufactureATEC);
+        const manufacturerName: string = await manufacturerRandom(createAnnouncementPage)
+        await createAnnouncementPage.clearVehicleManufacturerInput();
+        await createAnnouncementPage.fillVehicleManufacturerInput(manufacturerName);
+        await expect(createAnnouncementPage.vehicleManufacturerSearchResult).toBeVisible({timeout: 10000});
+        await expect(createAnnouncementPage.vehicleManufacturerSearchResult)
+              .toContainText(manufacturerName);
 
-        await createAnnouncementPage.clearVehicleManufactureInput();
-        await createAnnouncementPage.fillVehicleManufacturyInput(space);
-        await expect(createAnnouncementPage.vehicleManufactureSearchResult).not.toBeVisible();
+        await createAnnouncementPage.clearVehicleManufacturerInput();
+        await createAnnouncementPage.fillVehicleManufacturerInput(manufacturerName.toLowerCase());
+        await expect(createAnnouncementPage.vehicleManufacturerSearchResult).toBeVisible();
+        await expect(createAnnouncementPage.vehicleManufacturerSearchResult)
+              .toContainText(manufacturerName);
 
-        await createAnnouncementPage.clearVehicleManufactureInput();
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufactureInput, space);
-        await expect(createAnnouncementPage.vehicleManufactureInput).toContainText('');
+        await createAnnouncementPage.clearVehicleManufacturerInput();
+        await createAnnouncementPage.fillVehicleManufacturerInput(invalidData.space);
+        await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
 
-        await createAnnouncementPage.clearVehicleManufactureInput();
-        await createAnnouncementPage.fillVehicleManufacturyInput(symbols);
-        await expect(createAnnouncementPage.symbolsCounter).toContainText(`${symbols.length} / 100`);
-        await createAnnouncementPage.verifyManufaktureNameNotFound(symbols);
-        await expect(createAnnouncementPage.vehicleManufactureSearchResult).not.toBeVisible();
+        await createAnnouncementPage.clearVehicleManufacturerInput();
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufacturerInput, invalidData.space);
+        await expect(createAnnouncementPage.vehicleManufacturerInput).toContainText('');
 
-        await createAnnouncementPage.clearVehicleManufactureInput();
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufactureInput, symbols);
-        await expect(createAnnouncementPage.symbolsCounter).toContainText(`${symbols.length} / 100`);
-        await createAnnouncementPage.verifyManufaktureNameNotFound(symbols);
-        await expect(createAnnouncementPage.vehicleManufactureSearchResult).not.toBeVisible();
+        await createAnnouncementPage.clearVehicleManufacturerInput();
+        await createAnnouncementPage.fillVehicleManufacturerInput(invalidData.symbols);
+        await expect(createAnnouncementPage.symbolsCounter).toContainText(`${invalidData.symbols.length} / 100`);
+        await createAnnouncementPage.verifyManufakturerNameNotFound(invalidData.symbols);
+        await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
 
-        await createAnnouncementPage.clearVehicleManufactureInput();
-        await createAnnouncementPage.fillVehicleManufacturyInput(digits);
-        await expect(createAnnouncementPage.symbolsCounter).toContainText(`${digits.length} / 100`);
-        await createAnnouncementPage.verifyManufaktureNameNotFound(digits);
-        await expect(createAnnouncementPage.vehicleManufactureSearchResult).not.toBeVisible();
+        await createAnnouncementPage.clearVehicleManufacturerInput();
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufacturerInput, invalidData.symbols);
+        await expect(createAnnouncementPage.symbolsCounter).toContainText(`${invalidData.symbols.length} / 100`);
+        await createAnnouncementPage.verifyManufakturerNameNotFound(invalidData.symbols);
+        await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
 
-        await createAnnouncementPage.clearVehicleManufactureInput();
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufactureInput, digits)
-        await expect(createAnnouncementPage.symbolsCounter).toContainText(`${digits.length} / 100`);
-        await createAnnouncementPage.verifyManufaktureNameNotFound(digits);
-        await expect(createAnnouncementPage.vehicleManufactureSearchResult).not.toBeVisible();
+        await createAnnouncementPage.clearVehicleManufacturerInput();
+        await createAnnouncementPage.fillVehicleManufacturerInput(invalidData.digits);
+        await expect(createAnnouncementPage.symbolsCounter).toContainText(`${invalidData.digits.length} / 100`);
+        await createAnnouncementPage.verifyManufakturerNameNotFound(invalidData.digits);
+        await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
 
-        await createAnnouncementPage.clearVehicleManufactureInput();
-        await createAnnouncementPage.fillVehicleManufacturyInput(text101);
-        await expect(createAnnouncementPage.symbolsCounter).toContainText(`${text101.slice(0,-1).length} / 100`);
-        await createAnnouncementPage.verifyManufaktureNameNotFoundText101(text101);
-        await expect(createAnnouncementPage.vehicleManufactureSearchResult).not.toBeVisible();
+        await createAnnouncementPage.clearVehicleManufacturerInput();
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufacturerInput, invalidData.digits)
+        await expect(createAnnouncementPage.symbolsCounter).toContainText(`${invalidData.digits.length} / 100`);
+        await createAnnouncementPage.verifyManufakturerNameNotFound(invalidData.digits);
+        await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
 
-        await createAnnouncementPage.clearVehicleManufactureInput();
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufactureInput, text101);
-        await expect(createAnnouncementPage.vehicleManufactureDropdownError).toBeVisible();
-        await expect(createAnnouncementPage.symbolsCounter).toContainText(`${text101.slice(0,-1).length} / 100`);
-        await createAnnouncementPage.verifyManufaktureNameNotFoundText101(text101);
-        await expect(createAnnouncementPage.vehicleManufactureSearchResult).not.toBeVisible();
+        await createAnnouncementPage.clearVehicleManufacturerInput();
+        await createAnnouncementPage.fillVehicleManufacturerInput(invalidData.text101);
+        await expect(createAnnouncementPage.symbolsCounter).toContainText(`${invalidData.text101.slice(0,-1).length} / 100`);
+        await createAnnouncementPage.verifyManufakturerNameNotFoundText101(invalidData.text101);
+        await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
 
-        await createAnnouncementPage.clearVehicleManufactureInput();
-        await createAnnouncementPage.fillVehicleManufacturyInput(validName);
-        await createAnnouncementPage.clickVehicleManufactureSearchResult();
-        await expect(createAnnouncementPage.vehicleManufactureChoosenResult)
-              .toContainText(validName.toUpperCase()); 
+        await createAnnouncementPage.clearVehicleManufacturerInput();
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufacturerInput, invalidData.text101);
+        await expect(createAnnouncementPage.vehicleManufacturerDropdownError).toBeVisible();
+        await expect(createAnnouncementPage.symbolsCounter).toContainText(`${invalidData.text101.slice(0,-1).length} / 100`);
+        await createAnnouncementPage.verifyManufakturerNameNotFoundText101(invalidData.text101);
+        await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
+
+        let manufacturerNameUpper:string = "" 
+        if (manufacturerName[1] == manufacturerName[1].toUpperCase()){
+            manufacturerNameUpper = manufacturerName
+        }
+        await createAnnouncementPage.clearVehicleManufacturerInput();
+        await createAnnouncementPage.fillVehicleManufacturerInput(manufacturerName.toLowerCase());
+        await createAnnouncementPage.clickVehicleManufacturerSearchResult();
+        await expect(createAnnouncementPage.vehicleManufacturerChoosenResult)
+              .toContainText(manufacturerNameUpper); 
         await expect(createAnnouncementPage.crossIcon).toBeVisible();
         await createAnnouncementPage.clickCrossIcon();
-        await expect(createAnnouncementPage.vehicleManufactureInput).toBeEmpty();
+        await expect(createAnnouncementPage.vehicleManufacturerInput).toBeEmpty();
 
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufactureInput, validName);
-        await createAnnouncementPage.clickVehicleManufactureSearchResult();
-        await expect(createAnnouncementPage.vehicleManufactureChoosenResult)
-              .toContainText(validName.toUpperCase());
+        await createAnnouncementPage
+              .copyPaste(createAnnouncementPage.vehicleManufacturerInput, manufacturerName.toLowerCase());
+        await createAnnouncementPage.clickVehicleManufacturerSearchResult();
+        await expect(createAnnouncementPage.vehicleManufacturerChoosenResult)
+              .toContainText(manufacturerNameUpper);
         await expect(createAnnouncementPage.crossIcon).toBeVisible();
         await createAnnouncementPage.clickCrossIcon();
-        await expect(createAnnouncementPage.vehicleManufactureInput).toBeEmpty();
+        await expect(createAnnouncementPage.vehicleManufacturerInput).toBeEmpty();
     })
     test('C299 Verify model name input field', async ({ page }) => {
         const createAnnouncementPage = new CreateAnnouncementPage(page);
@@ -275,52 +264,52 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.modelNameInput)
               .toHaveAttribute('placeholder', 'Введіть назву моделі');
 
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.modelNameInput, digits16);
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.modelNameInput, validData.digits16);
         await expect(createAnnouncementPage.modelNameErrorText).toBeVisible();
-        await expect(createAnnouncementPage.modelNameErrorText).toHaveText(/не більше 15 символів/);
-        await expect(createAnnouncementPage.modelNameErrorText).toHaveCSS('color', 'rgb(247, 56, 89)');
-        await expect(createAnnouncementPage.modelNameInput).toHaveCSS('border-color', 'rgb(247, 56, 89)');
+        await expect(createAnnouncementPage.modelNameErrorText).toHaveText(text.notMore15Symbols);
+        await expect(createAnnouncementPage.modelNameErrorText).toHaveCSS('color', color.error);
+        await expect(createAnnouncementPage.modelNameInput).toHaveCSS('border-color', color.error);
 
         await createAnnouncementPage.clearModelNameInput();
-        await createAnnouncementPage.fillModelNameInput(digits16);
-        await expect(createAnnouncementPage.modelNameErrorText).toHaveText(/не більше 15 символів/);
-        await expect(createAnnouncementPage.modelNameErrorText).toHaveCSS('color', 'rgb(247, 56, 89)');
-        await expect(createAnnouncementPage.modelNameInput).toHaveCSS('border-color', 'rgb(247, 56, 89)');
+        await createAnnouncementPage.fillModelNameInput(validData.digits16);
+        await expect(createAnnouncementPage.modelNameErrorText).toHaveText(text.notMore15Symbols);
+        await expect(createAnnouncementPage.modelNameErrorText).toHaveCSS('color', color.error);
+        await expect(createAnnouncementPage.modelNameInput).toHaveCSS('border-color', color.error);
 
         await createAnnouncementPage.clearModelNameInput();
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.modelNameInput, digitsSpaceInside);
-        await expect(createAnnouncementPage.modelNameErrorText).toHaveText(/не більше 15 символів/);
-        await expect(createAnnouncementPage.modelNameErrorText).toHaveCSS('color', 'rgb(247, 56, 89)');
-        await expect(createAnnouncementPage.modelNameInput).toHaveCSS('border-color', 'rgb(247, 56, 89)');
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.modelNameInput, invalidData.spaceInside);
+        await expect(createAnnouncementPage.modelNameErrorText).toHaveText(text.notMore15Symbols);
+        await expect(createAnnouncementPage.modelNameErrorText).toHaveCSS('color', color.error);
+        await expect(createAnnouncementPage.modelNameInput).toHaveCSS('border-color', color.error);
 
         await createAnnouncementPage.clearModelNameInput();
-        await createAnnouncementPage.fillModelNameInput(digitsSpaceInside);
-        await expect(createAnnouncementPage.modelNameErrorText).toHaveText(/не більше 15 символів/);
-        await expect(createAnnouncementPage.modelNameErrorText).toHaveCSS('color', 'rgb(247, 56, 89)');
-        await expect(createAnnouncementPage.modelNameInput).toHaveCSS('border-color', 'rgb(247, 56, 89)');
+        await createAnnouncementPage.fillModelNameInput(invalidData.spaceInside);
+        await expect(createAnnouncementPage.modelNameErrorText).toHaveText(text.notMore15Symbols);
+        await expect(createAnnouncementPage.modelNameErrorText).toHaveCSS('color', color.error);
+        await expect(createAnnouncementPage.modelNameInput).toHaveCSS('border-color', color.error);
 
         await createAnnouncementPage.clearModelNameInput();
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.modelNameInput, digitsSpaceEnd);
-        await expect(createAnnouncementPage.modelNameErrorText).toHaveText(/не більше 15 символів/);
-        await expect(createAnnouncementPage.modelNameErrorText).toHaveCSS('color', 'rgb(247, 56, 89)');
-        await expect(createAnnouncementPage.modelNameInput).toHaveCSS('border-color', 'rgb(247, 56, 89)');
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.modelNameInput, invalidData.spaceEnd);
+        await expect(createAnnouncementPage.modelNameErrorText).toHaveText(text.notMore15Symbols);
+        await expect(createAnnouncementPage.modelNameErrorText).toHaveCSS('color', color.error);
+        await expect(createAnnouncementPage.modelNameInput).toHaveCSS('border-color', color.error);
 
         await createAnnouncementPage.clearModelNameInput();
-        await createAnnouncementPage.fillModelNameInput(digitsSpaceEnd);
-        await expect(createAnnouncementPage.modelNameErrorText).toHaveText(/не більше 15 символів/);
-        await expect(createAnnouncementPage.modelNameErrorText).toHaveCSS('color', 'rgb(247, 56, 89)');
-        await expect(createAnnouncementPage.modelNameInput).toHaveCSS('border-color', 'rgb(247, 56, 89)');
+        await createAnnouncementPage.fillModelNameInput(invalidData.spaceEnd);
+        await expect(createAnnouncementPage.modelNameErrorText).toHaveText(text.notMore15Symbols);
+        await expect(createAnnouncementPage.modelNameErrorText).toHaveCSS('color', color.error);
+        await expect(createAnnouncementPage.modelNameInput).toHaveCSS('border-color', color.error);
 
         await createAnnouncementPage.clearModelNameInput();
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.modelNameInput, space);
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.modelNameInput, invalidData.space);
         await expect(createAnnouncementPage.modelNameInput).toContainText("");
 
         await createAnnouncementPage.clearModelNameInput();
-        await createAnnouncementPage.fillModelNameInput(space);
+        await createAnnouncementPage.fillModelNameInput(invalidData.space);
         await expect(createAnnouncementPage.modelNameInput).toBeEmpty();
 
         await createAnnouncementPage.clearModelNameInput();
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.modelNameInput, digits15);
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.modelNameInput, invalidData.digits15);
         await expect(createAnnouncementPage.modelNameErrorText).not.toBeVisible();
     })
     test('C317 Verify Technical characteristics section', async ({ page }) => {
@@ -334,16 +323,14 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.techCharacteristicsTextArea).toBeEmpty();
 
         await createAnnouncementPage.clearTechCharacteristicsTextArea();
-        await createAnnouncementPage.fillTechCharacteristicsTextArea(text9001);
+        await createAnnouncementPage.fillTechCharacteristicsTextArea(invalidData.text9001);
         const textarea = createAnnouncementPage.techCharacteristicsTextArea;
         const content: any = await textarea.textContent();
-        console.log(content.length);
         await expect(content.length == 9000).toBeTruthy();
 
         await createAnnouncementPage.clearTechCharacteristicsTextArea();
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.techCharacteristicsTextArea, text9001);
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.techCharacteristicsTextArea, invalidData.text9001);
         const content1: any = await textarea.textContent();
-        console.log(content1.length);
         await expect(content1.length).toBeLessThanOrEqual(9000);
     })
     test('C318 Verify description section', async ({ page }) => {
@@ -357,16 +344,14 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.descriptionTextArea).toBeEmpty();
 
         await createAnnouncementPage.clearDescriptionTextArea();
-        await createAnnouncementPage.fillDescriptionTextArea(text9001);
+        await createAnnouncementPage.fillDescriptionTextArea(invalidData.text9001);
         const textarea = createAnnouncementPage.descriptionTextArea;
         const content: any = await textarea.textContent();
-        console.log(content.length);
         await expect(content.length === 9000).toBeTruthy();
     
         await createAnnouncementPage.clearDescriptionTextArea();
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.descriptionTextArea, text9001);
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.descriptionTextArea, invalidData.text9001);
         const content1: any = await textarea.textContent();
-        console.log(content1.length);
         await expect(content1.length).toBeLessThanOrEqual(9000);
         
     })
@@ -380,32 +365,30 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.vehicleLocationInput).toContainText('Виберіть на мапі');
 
         await createAnnouncementPage.clickNextButton();
-        await expect(createAnnouncementPage.vehicleLocationErrorText).toContainText(/[^Виберіть/ && /^місце]/);
+        await expect(createAnnouncementPage.vehicleLocationErrorText).toContainText(text.choosePlaceOnMap);
         await expect(createAnnouncementPage.vehicleLocationErrorText)
-              .toHaveCSS('color', 'rgb(247, 56, 89)');
+              .toHaveCSS('color', color.error);
         await expect(createAnnouncementPage.vehicleLocationInput)
-              .toHaveCSS('border-color', 'rgb(247, 56, 89)');
+              .toHaveCSS('border-color', color.error);
 
         await createAnnouncementPage.clickVehicleLocationInput();
         await expect(createAnnouncementPage.mapPopUp).toBeVisible();
         await expect(createAnnouncementPage.mapPopUpTitle).toContainText('Техніка на мапі');
         await expect(createAnnouncementPage.mapPopUpCloseIcon).toBeVisible();
         await expect(createAnnouncementPage.mapPopUpAddress)
-              .toContainText(/[^Київ/ && /Володимирська 21\/20]/);
+              .toContainText(text.defaultAddress);
         await createAnnouncementPage.clickMapPopUpSubmitButton();
         await expect(createAnnouncementPage.mapPopUp).not.toBeVisible();
         await expect(createAnnouncementPage.vehicleLocationInput)
-              .toContainText(/[^Київ/ && /Володимирська 21\/20]/);
+              .toContainText(text.defaultAddress);
         
         await createAnnouncementPage.clickLocationSelectButton();
         await createAnnouncementPage.map.waitFor({state: "visible"});
         await createAnnouncementPage.clickMap();
         await createAnnouncementPage.map.waitFor({timeout: 5000});
         const address1 = await createAnnouncementPage.mapPopUpAddress.textContent();
-        console.log(address1);
         await createAnnouncementPage.clickMapPopUpSubmitButton();
         const address2 = await createAnnouncementPage.vehicleLocationInput.textContent();
-        console.log(address2);
         await expect(address1 == address2).toBeTruthy();
     })
     test('C326 Verify Cancel button', async ({ page}) => {
@@ -426,21 +409,21 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.nextButton).toContainText('Далі');
 
         await createAnnouncementPage.clickNextButton();
-        await expect(createAnnouncementPage.categoryErrorText).toContainText('Це поле обов’язкове');
-        await expect(createAnnouncementPage.categoryErrorText).toHaveCSS('color', 'rgb(247, 56, 89)');
-        await expect(createAnnouncementPage.categoryInput).toHaveCSS('border', '1px solid rgb(247, 56, 89)');
+        await expect(createAnnouncementPage.categoryErrorText).toContainText(text.requiredField);
+        await expect(createAnnouncementPage.categoryErrorText).toHaveCSS('color', color.error);
+        await expect(createAnnouncementPage.categoryInput).toHaveCSS('border', color.errorBorder);
 
-        await expect(createAnnouncementPage.unitNameErrorText).toContainText('Це поле обов’язкове');
-        await expect(createAnnouncementPage.unitNameErrorText).toHaveCSS('color', 'rgb(247, 56, 89)');
-        await expect(createAnnouncementPage.unitNameInput).toHaveCSS('border', '1px solid rgb(247, 56, 89)');
+        await expect(createAnnouncementPage.unitNameErrorText).toContainText(text.requiredField);
+        await expect(createAnnouncementPage.unitNameErrorText).toHaveCSS('color', color.error);
+        await expect(createAnnouncementPage.unitNameInput).toHaveCSS('border', color.errorBorder);
 
-        await expect(createAnnouncementPage.vehicleManufactureErrorText).toContainText('Це поле обов’язкове');
-        await expect(createAnnouncementPage.vehicleManufactureErrorText).toHaveCSS('color', 'rgb(247, 56, 89)');
-        await expect(createAnnouncementPage.vehicleManufactureInputError).toHaveCSS('border-color', 'rgb(247, 56, 89)');
+        await expect(createAnnouncementPage.vehicleManufacturerErrorText).toContainText(text.requiredField);
+        await expect(createAnnouncementPage.vehicleManufacturerErrorText).toHaveCSS('color', color.error);
+        await expect(createAnnouncementPage.vehicleManufacturerInputError).toHaveCSS('border-color', color.error);
 
-        await expect(createAnnouncementPage.vehicleLocationErrorText).toContainText(/^Виберіть коректне місце/);
-        await expect(createAnnouncementPage.vehicleLocationErrorText).toHaveCSS('color', 'rgb(247, 56, 89)');
-        await expect(createAnnouncementPage.vehicleLocationInput).toHaveCSS('border-color', 'rgb(247, 56, 89)');
+        await expect(createAnnouncementPage.vehicleLocationErrorText).toContainText(text.choosePlaceOnMap);
+        await expect(createAnnouncementPage.vehicleLocationErrorText).toHaveCSS('color', color.error);
+        await expect(createAnnouncementPage.vehicleLocationInput).toHaveCSS('border-color', color.error);
 
         await createAnnouncementPage.clickCategoryInput();
         await expect(createAnnouncementPage.budivelnaTekhnikaLink).toContainText('Будівельна техніка');
@@ -451,11 +434,12 @@ test.describe("Test create_unit page", async () => {
         await createAnnouncementPage.click(createAnnouncementPage.palebiiniUstanovkiLink);
         await expect(createAnnouncementPage.categoryErrorText).not.toBeVisible()
 
-        await createAnnouncementPage.fillUnitNameInput(unitNameValid);
+        await createAnnouncementPage.fillUnitNameInput(validData.unitName);
         await expect(createAnnouncementPage.unitNameErrorText).not.toBeVisible()
-        await createAnnouncementPage.fillVehicleManufacturyInput(vehicleManufactureATEC);
-        await createAnnouncementPage.clickVehicleManufactureSearchResult();
-        await expect(createAnnouncementPage.vehicleManufactureErrorText).not.toBeVisible()
+        const manufacturerName = await manufacturerRandom(createAnnouncementPage)
+        await createAnnouncementPage.fillVehicleManufacturerInput(manufacturerName);
+        await createAnnouncementPage.clickVehicleManufacturerSearchResult();
+        await expect(createAnnouncementPage.vehicleManufacturerErrorText).not.toBeVisible()
         await createAnnouncementPage.clickLocationSelectButton();
         await createAnnouncementPage.clickMap();
         await createAnnouncementPage.clickMapPopUpSubmitButton();
@@ -469,31 +453,31 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.mainInfoButton).toBeVisible();
         await expect(createAnnouncementPage.mainInfoButtonNumber).toContainText(/[1]/);
         await expect(createAnnouncementPage.mainInfoButtonNumber)
-              .toHaveCSS('background-color','rgb(196, 196, 196)');
+              .toHaveCSS('background-color', color.inactiveElem);
         await expect(createAnnouncementPage.mainInfoButton).toContainText("Основна інформація");
         
         await expect(createAnnouncementPage.photoButton).toBeVisible();
         await expect(createAnnouncementPage.photoButtonNumber).toContainText(/[2]/);
         await expect(createAnnouncementPage.photoButtonNumber)
-              .toHaveCSS('background-color','rgb(64, 75, 105)');
+              .toHaveCSS('background-color', color.activeElem);
         await expect(createAnnouncementPage.photoButton).toContainText("Фотографії");
         
         await expect(createAnnouncementPage.servicesButton).toBeVisible();
         await expect(createAnnouncementPage.servicesButtonNumber).toContainText(/[3]/);
         await expect(createAnnouncementPage.servicesButtonNumber)
-              .toHaveCSS('background-color','rgb(196, 196, 196)');
+              .toHaveCSS('background-color', color.inactiveElem);
         await expect(createAnnouncementPage.servicesButton).toContainText("Послуги");
         
         await expect(createAnnouncementPage.costButton).toBeVisible();
         await expect(createAnnouncementPage.costButtonNumber).toContainText(/[4]/);
         await expect(createAnnouncementPage.costButtonNumber)
-              .toHaveCSS('background-color','rgb(196, 196, 196)');
+              .toHaveCSS('background-color', color.inactiveElem);
         await expect(createAnnouncementPage.costButton).toContainText("Вартість");
         
         await expect(createAnnouncementPage.contactsButton).toBeVisible();
         await expect(createAnnouncementPage.contactsButtonNumber).toContainText(/[5]/);
         await expect(createAnnouncementPage.contactsButtonNumber)
-              .toHaveCSS('background-color','rgb(196, 196, 196)');
+              .toHaveCSS('background-color', color.inactiveElem);
         await expect(createAnnouncementPage.contactsButton).toContainText("Контакти");   
     })
 });
