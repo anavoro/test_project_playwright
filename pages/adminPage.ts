@@ -4,10 +4,13 @@ import { BasePage } from "./basePage";
 export class AdminPage extends BasePage {
   generalPanel: Locator;
   sideMenu: Locator;
+  inputEmail: Locator;
+  inputPassword: Locator;
   adminPanel: Locator;
   userPanel: Locator;
   technicPanel: Locator;
   servicePanel: Locator;
+  buttonLogin: Locator;
   buttonSupport: Locator;
   buttonMainPage: Locator;
   buttonTenders: Locator;
@@ -15,6 +18,8 @@ export class AdminPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
+    this.inputEmail = page.locator("#email");
+    this.inputPassword = page.locator("#password");
     this.sideMenu = page.locator('[data-testid="navigationContainer"]');
     this.generalPanel = page.locator(
       '[class="AdminLayout_content_wrapper___EUUc"]'
@@ -23,6 +28,7 @@ export class AdminPage extends BasePage {
     this.userPanel = page.locator('a[href="/admin/users"]');
     this.technicPanel = page.getByText("Техніка");
     this.servicePanel = page.getByText("Сервіси");
+    this.buttonLogin = page.getByRole("button", { name: "Увійти" });
     this.buttonSupport = page.locator('a[href="/admin/chat/"]');
     this.buttonMainPage = page.locator('[data-testid="homeButton"]');
     this.buttonTenders = page.locator('[href="/admin/tenders/"]');
@@ -34,28 +40,24 @@ export class AdminPage extends BasePage {
   }
 
   async login(email: string, password: string) {
-    const emailInputs = this.page.locator("#email");
-    const emailCount = await emailInputs.count();
+    const emailCount = await this.inputEmail.count();
     for (let i = 0; i < emailCount; i++) {
-      const input = emailInputs.nth(i);
+      const input = this.inputEmail.nth(i);
       if (await input.isVisible()) {
         await input.fill(email);
       }
     }
 
-    const passwordInputs = this.page.locator("#password");
-    const passwordCount = await passwordInputs.count();
+    const passwordCount = await this.inputPassword.count();
     for (let i = 0; i < passwordCount; i++) {
-      const input = passwordInputs.nth(i);
+      const input = this.inputPassword.nth(i);
       if (await input.isVisible()) {
         await input.fill(password);
       }
     }
 
-    const submitButtons = this.page.getByRole("button", { name: "Увійти" });
-
-    for (let i = 0; i < (await submitButtons.count()); i++) {
-      const btn = submitButtons.nth(i);
+    for (let i = 0; i < (await this.buttonLogin.count()); i++) {
+      const btn = this.buttonLogin.nth(i);
       if (await btn.isVisible()) {
         try {
           await btn.click({ force: true });

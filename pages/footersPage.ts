@@ -26,38 +26,4 @@ export class FootersPage extends BasePage {
       'input[data-testid="search"][placeholder="Пошук тендера за ключовими словами"]'
     );
   }
-
-  async verifyFooterLink({
-    clickFn,
-    expectedUrl,
-    expectedVisibleLocator,
-    footer,
-  }: {
-    clickFn: () => Promise<void>;
-    expectedUrl: string;
-    expectedVisibleLocator: Locator;
-    footer: Locator;
-  }) {
-    await footer.scrollIntoViewIfNeeded();
-    await clickFn();
-    await expect(this.page).toHaveURL(expectedUrl);
-    await expect(expectedVisibleLocator).toBeVisible();
-  }
-
-  async verifyFooterLinkMaps({
-    clickFn,
-    expectedUrl,
-    expectedVisibleLocator,
-    logo,
-  }: {
-    clickFn: () => Promise<void>;
-    expectedUrl: string;
-    expectedVisibleLocator: Locator;
-    logo: () => Promise<void>;
-  }) {
-    await clickFn();
-    await expect(this.page).toHaveURL(expectedUrl);
-    await expect(expectedVisibleLocator).toBeVisible();
-    await logo();
-  }
 }

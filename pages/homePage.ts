@@ -112,10 +112,8 @@ export class HomePage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-
     this.logoHeader = page.locator('[data-testid="logo"]').first();
     this.logoFooter = page.locator('[data-testid="logo"]').nth(1);
-
     this.announcementsLink = page.locator(
       'a.Navbar_link__UhyJF[href="/products/"]'
     );
@@ -123,7 +121,6 @@ export class HomePage extends BasePage {
     this.tendersLink = page.locator('a[href="/tenders-map/"]');
     this.createAnnouncementLink = page.locator('a[href="/create-unit/"]');
     this.mapButton = page.locator('[data-testid="mapButton"]');
-
     this.loginButton = page.getByText("Вхід");
     this.catalogButton = page.getByText("Каталог");
     this.firstDropDownMenuCatalog = page.locator(
@@ -141,7 +138,6 @@ export class HomePage extends BasePage {
     this.thirdDropDownMenuCatalog = page.locator(
       '[class="Catalog_list__sVdCj Catalog_listSecond__awZH7"]'
     );
-
     this.topSearchInput = page.locator('header [data-testid="searchInput"]');
     this.buttonCrossTop = page.locator('[data-testid="searchClear"]');
     this.dropDownSearchForm = page.locator('[data-testid="searchDropdown"]');
@@ -186,7 +182,6 @@ export class HomePage extends BasePage {
       '[data-testid="resultItem"]'
     );
     this.cardContainer = page.locator('[data-testid="cardContainer"]');
-
     this.telegramBotContainer = page.locator(
       '[data-testid="completeTenderRectangle"]'
     );
@@ -194,7 +189,6 @@ export class HomePage extends BasePage {
       name: "Перейти до Telegram-боту",
     });
     this.closeTelegramPopupButton = page.locator('[data-testid="crossButton"]');
-
     this.servicesTitle = page.getByRole("heading", { name: "Послуги" });
     this.servicesPopularButton = page.locator(
       '[data-testid="services__populyarni"]'
@@ -206,7 +200,6 @@ export class HomePage extends BasePage {
       '[data-testid="services__budivelni"]'
     );
     this.servicesOtherButton = page.locator('[data-testid="services__inshi"]');
-
     this.servicePopularComplexOfWork = page.locator(
       '[data-testid="service__kompleks-robit"]'
     );
@@ -228,7 +221,6 @@ export class HomePage extends BasePage {
     this.servicePopularAsphalting = page.locator(
       '[data-testid="service__asfaltuvannya"]'
     );
-
     this.equipmentTitle = page.getByRole("heading", { name: "Спецтехніка" });
     this.equipmentPopularButton = page.locator(
       '[data-testid="specialEquipment__populyarna"]'
@@ -242,7 +234,6 @@ export class HomePage extends BasePage {
     this.equipmentOtherButton = page.locator(
       '[data-testid="specialEquipment__insha"]'
     );
-
     this.equipmentPopularSeeder = page.locator(
       '[data-testid="category__sivalki"]'
     );
@@ -264,7 +255,6 @@ export class HomePage extends BasePage {
     this.equipmentPopularUtilityVehicles = page.locator(
       '[data-testid="category__komunalni-mashini"]'
     );
-
     this.contactSection = page.locator(
       '[class*="Layouts_consultation__JUU1R"]'
     );
@@ -291,7 +281,6 @@ export class HomePage extends BasePage {
     this.emptyFieldPhoneErrorIncorrectData = page.locator(
       '[class*="ConsultationForm_error_message__jleeD"]:has-text("Телефон не пройшов валідацію")'
     );
-
     this.footer = page.locator('[class*="Footer_footer__Dhw_9"]');
     this.aboutUs = this.footer.locator('[data-testid="content"]');
     this.privacyPolicy = this.footer.locator('a[href="/privacy-policy/"]');
@@ -313,7 +302,6 @@ export class HomePage extends BasePage {
     this.emailOfCompany = this.footer.locator(
       'a[href="mailto:info@rentzila.com.ua"]'
     );
-
     this.iconSuperUser = page.locator('[data-testid="superuserIcon_Navbar"]');
   }
 

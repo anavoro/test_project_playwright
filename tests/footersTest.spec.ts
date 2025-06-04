@@ -36,41 +36,32 @@ test.describe("Footer Verification", () => {
     await expect(homePage.contacts).toBeVisible();
     await expect(homePage.emailOfCompany).toBeVisible();
     await expect(homePage.logoFooter).toBeVisible();
+    
+    await homePage.footer.scrollIntoViewIfNeeded();
+    await homePage.clickPrivacyPolicy();
+    await expect(page).toHaveURL(testData.excerptOfUrl.privacyPolicy);
+    await expect(footersPage.privacyPolicyTitle).toBeVisible();
 
-    await footersPage.verifyFooterLink({
-      clickFn: () => homePage.clickPrivacyPolicy(),
-      expectedUrl: testData.excerptOfUrl.privacyPolicy,
-      expectedVisibleLocator: footersPage.privacyPolicyTitle,
-      footer: homePage.footer,
-    });
+    await homePage.footer.scrollIntoViewIfNeeded();
+    await homePage.clickRulesOfUsingFilesOfCookies();
+    await expect(page).toHaveURL(testData.excerptOfUrl.cookie);
+    await expect(footersPage.rulesOfUsingFilesOfCookiesTitle).toBeVisible();
 
-    await footersPage.verifyFooterLink({
-      clickFn: () => homePage.clickRulesOfUsingFilesOfCookies(),
-      expectedUrl: testData.excerptOfUrl.cookie,
-      expectedVisibleLocator: footersPage.rulesOfUsingFilesOfCookiesTitle,
-      footer: homePage.footer,
-    });
+    await homePage.footer.scrollIntoViewIfNeeded();
+    await homePage.clickTermsOfAccessAndUsing();
+    await expect(page).toHaveURL(testData.excerptOfUrl.termsConditions);
+    await expect(footersPage.termsOfAccessAndUsingTitle).toBeVisible();
 
-    await footersPage.verifyFooterLink({
-      clickFn: () => homePage.clickTermsOfAccessAndUsing(),
-      expectedUrl: testData.excerptOfUrl.termsConditions,
-      expectedVisibleLocator: footersPage.termsOfAccessAndUsingTitle,
-      footer: homePage.footer,
-    });
+    await homePage.footer.scrollIntoViewIfNeeded();
+    await homePage.clickAdvertisement();
+    await expect(page).toHaveURL(testData.excerptOfUrl.products);
+    await expect(footersPage.searchInputAdvertisement).toBeVisible();
 
-    await footersPage.verifyFooterLinkMaps({
-      clickFn: () => homePage.clickAdvertisement(),
-      expectedUrl: testData.excerptOfUrl.products,
-      expectedVisibleLocator: footersPage.searchInputAdvertisement,
-      logo: () => homePage.clickLogo(),
-    });
-
-    await footersPage.verifyFooterLinkMaps({
-      clickFn: () => homePage.clickTenders(),
-      expectedUrl: testData.excerptOfUrl.tendersMap,
-      expectedVisibleLocator: footersPage.searchInputTenders,
-      logo: () => homePage.clickLogo(),
-    });
+    await homePage.clickLogo();
+    await homePage.footer.scrollIntoViewIfNeeded();
+    await homePage.clickTenders();
+    await expect(page).toHaveURL(testData.excerptOfUrl.tendersMap);
+    await expect(footersPage.searchInputTenders).toBeVisible(); 
   });
 
   test("C226 verify the footer 'do you have questions'", async ({ page }) => {
