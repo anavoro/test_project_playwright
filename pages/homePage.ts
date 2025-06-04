@@ -8,6 +8,7 @@ export class HomePage extends BasePage {
   logoFooter: Locator;
 
   // Navigation
+  mainContainer: Locator;
   announcementsLink: Locator;
   requestsLink: Locator;
   tendersLink: Locator;
@@ -16,6 +17,12 @@ export class HomePage extends BasePage {
 
   // Authentication
   loginButton: Locator;
+  avatarBlock: Locator;
+  dropdownMenuContainer: Locator;
+  dropdownProfileEmail: Locator;
+  tendersBtn: Locator;
+  profileBtn: Locator;
+  logoutBtn: Locator;
 
   // Catalog
   catalogButton: Locator;
@@ -600,4 +607,23 @@ export class HomePage extends BasePage {
     await expect(this.equipmentTitle).toBeVisible();
     await expect(this.contactTitle).toBeVisible();
   }
+
+  async clickAvatar() {
+    await this.waitForElement(this.avatarBlock);
+    await this.click(this.avatarBlock);
+  }
+
+  async goToTenders() {
+    await this.click(this.avatarBlock);
+    await this.click(this.tendersBtn);
+  }
+
+  async clickProfile() {
+    await this.click(this.profileBtn);
+  }
+
+  async clickLogout() {
+    await this.click(this.logoutBtn);
+  }
+
 }
