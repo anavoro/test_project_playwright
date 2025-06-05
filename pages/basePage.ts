@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, Locator, expect } from '@playwright/test';
 
 export class BasePage {
   protected page: Page;
@@ -16,7 +16,7 @@ export class BasePage {
   }
 
   async waitForElement(locator: Locator): Promise<void> {
-    await locator.waitFor({ state: "visible" });
+    await locator.waitFor({ state: 'visible' });
   }
 
   async click(locator: Locator, options?: { timeout?: number }) {
