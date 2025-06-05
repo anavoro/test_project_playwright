@@ -2,13 +2,14 @@ import { test, expect } from "@playwright/test";
 import { HomePage } from "../pages/homePage";
 import { LoginPage } from "../pages/loginPage";
 import { CreateAnnouncementPage } from "../pages/createAnnouncementPage";
-import { text, validData, invalidData, color, manufacturerRandom} from "../unitData";
+import { text, validData, invalidData, color, manufacturerRandom} from "../testData/unitData";
 
 test.describe("Test create_unit page", async () => {
     
     test.beforeEach(async ({ page }) =>{
         const homePage = new HomePage(page);
         const loginPage = new LoginPage(page);
+        
         await page.setViewportSize({ width: 1536, height: 980 });
         await homePage.goto("/");
         await homePage.clickLogin();

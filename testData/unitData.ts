@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { CreateAnnouncementPage } from './pages/createAnnouncementPage';
+import { CreateAnnouncementPage } from '../pages/createAnnouncementPage';
 
 export const text = {
     requiredField: "Це поле обов’язкове",
