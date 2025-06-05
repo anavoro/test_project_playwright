@@ -3,12 +3,14 @@ import { HomePage } from "../pages/homePage";
 import { LoginPage } from "../pages/loginPage";
 import { CreateAnnouncementPage } from "../pages/createAnnouncementPage";
 import { text, validData, invalidData, color, manufacturerRandom} from "../testData/unitData";
+let createAnnouncementPage: any;
 
 test.describe("Test create_unit page", async () => {
     
     test.beforeEach(async ({ page }) =>{
         const homePage = new HomePage(page);
         const loginPage = new LoginPage(page);
+        createAnnouncementPage = new CreateAnnouncementPage(page);
         
         await page.setViewportSize({ width: 1536, height: 980 });
         await homePage.goto("/");
@@ -17,8 +19,6 @@ test.describe("Test create_unit page", async () => {
         await homePage.navigateToCreateAnnouncement();
     })
     test("C294 Verify body title and tab titles", async ({ page }) => {
-        const createAnnouncementPage = new CreateAnnouncementPage(page);
-    
         await expect(createAnnouncementPage.createAnnouncementTitle).toBeVisible();
         await expect(createAnnouncementPage.createAnnouncementTitle).toContainText('Створити оголошення');
 
@@ -53,7 +53,6 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.contactsButton).toContainText("Контакти");
     });
     test("C296 Verify Category section", async ({ page }) => {
-        const createAnnouncementPage = new CreateAnnouncementPage(page);
 
         await expect(createAnnouncementPage.categoryTitle).toBeVisible();
         await expect(createAnnouncementPage.categoryTitle).toContainText('Категорія *');
@@ -107,8 +106,6 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.categoryPopUp).not.toBeVisible();   
     })
     test("C297 Verify unit name section", async ({ page }) => {
-        const createAnnouncementPage = new CreateAnnouncementPage(page);
-
         await expect(createAnnouncementPage.unitNameTitle).toBeVisible();
         await expect(createAnnouncementPage.unitNameTitle).toContainText('Назва оголошення *');
         await expect(createAnnouncementPage.unitNameAsterix).toBeVisible();
@@ -150,8 +147,6 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.unitNameInput).toHaveValue(validData.unitName);
     })
     test('C298 Verify vehicle manufacturer section', async ({ page }) => {
-        const createAnnouncementPage = new CreateAnnouncementPage(page);
-
         await expect(createAnnouncementPage.vehicleManufacturerTitle).toBeVisible()
         await expect(createAnnouncementPage.vehicleManufacturerTitle)
               .toContainText('Виробник транспортного засобу *');
@@ -258,8 +253,6 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.vehicleManufacturerInput).toBeEmpty();
     })
     test('C299 Verify model name input field', async ({ page }) => {
-        const createAnnouncementPage = new CreateAnnouncementPage(page);
-
         await expect(createAnnouncementPage.modelNameTitle).toBeVisible();
         await expect(createAnnouncementPage.modelNameTitle).toContainText('Назва моделі');
         await expect(createAnnouncementPage.modelNameInput)
@@ -314,8 +307,6 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.modelNameErrorText).not.toBeVisible();
     })
     test('C317 Verify Technical characteristics section', async ({ page }) => {
-        const createAnnouncementPage = new CreateAnnouncementPage(page);
-
         await expect(createAnnouncementPage.techCharacteristicsTitle).toBeVisible();
         await expect(createAnnouncementPage.techCharacteristicsTitle).toContainText('Технічні характеристики');
         await expect(createAnnouncementPage.techCharacteristicsTextArea).toBeEnabled();
@@ -335,8 +326,6 @@ test.describe("Test create_unit page", async () => {
         await expect(content1.length).toBeLessThanOrEqual(9000);
     })
     test('C318 Verify description section', async ({ page }) => {
-        const createAnnouncementPage = new CreateAnnouncementPage(page);
-        
         await expect(createAnnouncementPage.descriptionTitle).toBeVisible();
         await expect(createAnnouncementPage.descriptionTitle).toContainText('Детальний опис');
         await expect(createAnnouncementPage.descriptionTextArea).toBeEnabled();
@@ -357,8 +346,6 @@ test.describe("Test create_unit page", async () => {
         
     })
     test('C319 Verify vehicle location division', async ({ page }) => {
-        const createAnnouncementPage = new CreateAnnouncementPage(page);
-
         await expect(createAnnouncementPage.vehicleLocationTitle).toBeVisible();
         await expect(createAnnouncementPage.vehicleLocationTitle).toContainText(/^Місце розташування/);
         await expect(createAnnouncementPage.vehicleLocationAsterix).toBeVisible();
@@ -393,8 +380,6 @@ test.describe("Test create_unit page", async () => {
         await expect(address1 == address2).toBeTruthy();
     })
     test('C326 Verify Cancel button', async ({ page}) => {
-        const createAnnouncementPage = new CreateAnnouncementPage(page);
-
         await expect(createAnnouncementPage.cancelButton).toBeVisible();
         await expect(createAnnouncementPage.cancelButton).toContainText('Скасувати');
 
@@ -404,8 +389,6 @@ test.describe("Test create_unit page", async () => {
         await expect(page).not.toHaveURL('/create-unit/');
     })
     test('C329 Verify Next button', async ({ page }) => {
-        const createAnnouncementPage = new CreateAnnouncementPage(page);
-        
         await expect(createAnnouncementPage.nextButton).toBeVisible();
         await expect(createAnnouncementPage.nextButton).toContainText('Далі');
 
