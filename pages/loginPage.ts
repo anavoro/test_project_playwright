@@ -56,7 +56,6 @@ export class LoginPage extends BasePage {
     await this.click(this.hiddenPasswordIcon);
   }
 
-
   async register(email: string, password: string): Promise<void> {
     await this.click(this.signUpLink);
     await this.emailInput.fill(email);
