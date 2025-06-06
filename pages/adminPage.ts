@@ -11,7 +11,7 @@ export class AdminPage extends BasePage {
   readonly servicePanel: Locator;
 
   // ==================== USER TABLE ELEMENTS ====================
-  readonly userPageTitle: Locator;
+  readonly pageTitle: Locator;
   readonly userRows: Locator;
   readonly tableContainer: Locator;
   readonly userContainer: Locator;
@@ -58,65 +58,66 @@ export class AdminPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    
-    // Initialize navigation elements
-    this.adminPanel = page.locator('a[href="/admin/"]');
-    this.userPanel = page.locator('a[href="/admin/users/"]');
-    this.technicPanel = page.getByText("Техніка");
+
+    // ==================== NAVIGATION ELEMENTS ====================
+    this.adminPanel        = page.locator('a[href="/admin/"]');
+    this.userPanel         = page.locator('a[href="/admin/users/"]');
+    this.technicPanel      = page.getByText("Техніка");
     this.technicCategories = page.getByText('Категорії техніки');
-    this.technicBrands = page.getByText('Виробники техніки');
-    this.servicePanel = page.getByText("Сервіси");
+    this.technicBrands     = page.getByText('Виробники техніки');
+    this.servicePanel      = page.getByText("Сервіси");
 
-    // Initialize user table elements
-    this.userPageTitle = page.locator('div.AdminLayout_title__lqIgo');
-    this.userRows = page.locator('[data-testid="userRow"]');
-    this.tableContainer = page.locator('[data-testid="adminRowContainer"]');
-    this.userContainer = page.getByTestId("userContainer");
-    this.userRoleCells = page.locator('[data-testid="userRow"] td:nth-child(4)');
-    this.searchField = page.getByTestId("input");
+    // ==================== USER TABLE ELEMENTS ====================
+    this.pageTitle         = page.locator('div.AdminLayout_title__lqIgo');
+    this.userRows          = page.locator('[data-testid="userRow"]');
+    this.tableContainer    = page.locator('[data-testid="adminRowContainer"]');
+    this.userContainer     = page.getByTestId("userContainer");
+    this.userRoleCells     = page.locator('[data-testid="userRow"] td:nth-child(4)');
+    this.searchField       = page.getByTestId("input");
 
-    // Initialize user form elements
-    this.addUserBtn = page.getByTestId("customButtonContainer");
-    this.addUserPanel = page.getByTestId("content");
+    // ==================== USER FORM ELEMENTS ====================
+    this.addUserBtn        = page.getByTestId("customButtonContainer");
+    this.addUserPanel      = page.getByTestId("content");
     this.userGroupDropdown = page.getByTestId("div_CustomSelect").first();
     this.userGroupManagement = page.getByText('Відділ менеджменту');
-    this.userGroupClient = page.getByTestId('span-customSelect').filter({ hasText: 'Клієнт' });
-    this.lastName = page.locator('input[name="last_name"]');
-    this.firstName = page.locator('input[name="first_name"]');
-    this.phone = page.locator('#mobile');
-    this.email = page.getByTestId('custom-input');
-    this.password = page.locator('#password');
-    this.saveButton = page.getByRole('button', { name: 'Зберегти' });
-    this.deleteButton = page.locator('[data-testid="bucketBtn"]');
+    this.userGroupClient     = page.getByTestId('span-customSelect').filter({ hasText: 'Клієнт' });
+    this.lastName          = page.locator('input[name="last_name"]');
+    this.firstName         = page.locator('input[name="first_name"]');
+    this.phone             = page.locator('#mobile');
+    this.email             = page.getByTestId('custom-input');
+    this.password          = page.locator('#password');
+    this.saveButton        = page.getByRole('button', { name: 'Зберегти' });
+    this.deleteButton      = page.locator('[data-testid="bucketBtn"]');
     this.confirmDeleteButton = page.getByRole('button', { name: 'Так' });
 
-    // Initialize edit user elements
-    this.reviewBtn = page.getByTestId('adminOkoButton');
-    this.userPage = page.getByText('Перегляд користувача');
-    this.editBtn = page.getByTestId('adminPenBtn');
-    this.editFirstName = page.locator('div[data-testid="customInputWrapper"]', { hasText: "Прізвище" })
-      .locator('input[data-testid="custom-input"]');
-    this.editLastName = page.locator('div[data-testid="customInputWrapper"]', { hasText: "Ім'я" })
-      .locator('input[data-testid="custom-input"]');
-    this.editPhone = page.getByTestId('OwnerProfileNumber');
+    // ==================== EDIT USER ELEMENTS ====================
+    this.reviewBtn      = page.getByTestId('adminOkoButton');
+    this.userPage       = page.getByText('Перегляд користувача');
+    this.editBtn        = page.getByTestId('adminPenBtn');
+    this.editFirstName  = page.locator('div[data-testid="customInputWrapper"]', { hasText: "Прізвище" })
+                              .locator('input[data-testid="custom-input"]');
+    this.editLastName   = page.locator('div[data-testid="customInputWrapper"]', { hasText: "Ім\'я" })
+                              .locator('input[data-testid="custom-input"]');
+    this.editPhone      = page.getByTestId('OwnerProfileNumber');
 
-    // Initialize sorting elements
+    // ==================== SORTING ELEMENTS ====================
     this.getSortButtonByName = (name: string) =>
       page.locator(`span[role="button"][data-testid="sortLabelContainer"]:has-text("${name}")`);
-    this.sortedAscendingIndicator = page.locator('span.MuiBox-root:text("sorted ascending")');
+    this.sortedAscendingIndicator  = page.locator('span.MuiBox-root:text("sorted ascending")');
     this.sortedDescendingIndicator = page.locator('span.MuiBox-root:text("sorted descending")');
 
-    // Initialize pagination elements
-    this.paginationSelect = page.locator('.MuiTablePagination-select');
+    // ==================== PAGINATION ELEMENTS ====================
     this.paginationDropdown = page.locator('.MuiTablePagination-select');
-    this.paginationInfo = page.locator('.MuiTablePagination-displayedRows');
+    this.paginationSelect   = page.locator('.MuiTablePagination-select');
+    this.paginationInfo     = page.locator('.MuiTablePagination-displayedRows');
 
-    this.emailInput = page.locator('#email');
+    // ==================== LOGIN ELEMENTS ====================
+    this.emailInput    = page.locator('#email');
     this.passwordInput = page.locator('#password');
-    this.loginButton = page.getByRole('button', { name: 'Увійти' });
+    this.loginButton   = page.getByRole('button', { name: 'Увійти' });
   }
 
-  // ==================== NAVIGATION METHODS & VERIFICATION ====================
+  // ==================== NAVIGATION METHODS ====================
   async navigateToUsers(): Promise<void> {
     await this.userPanel.click();
     await this.page.waitForURL('**/admin/users/', { timeout: 5000 });
@@ -126,9 +127,9 @@ export class AdminPage extends BasePage {
     await this.technicPanel.click();
   }
 
-  async verifyPageTitle(expectedTitle: string): Promise<void> {
-    await this.userPageTitle.waitFor({ state: 'visible', timeout: 5000 });
-    await expect(this.userPageTitle).toHaveText(expectedTitle);
+  async getPageTitle(): Promise<string> {
+    await this.pageTitle.waitFor({ state: 'visible', timeout: 5000 });
+    return await this.pageTitle.textContent() || '';
   }
 
   // ==================== AUTHENTICATION METHODS ====================
@@ -140,6 +141,7 @@ export class AdminPage extends BasePage {
         await input.fill(email);
       }
     }
+
     const passwordCount = await this.passwordInput.count();
     for (let i = 0; i < passwordCount; i++) {
       const input = this.passwordInput.nth(i);
@@ -147,20 +149,21 @@ export class AdminPage extends BasePage {
         await input.fill(password);
       }
     }
+
     for (let i = 0; i < await this.loginButton.count(); i++) {
       const btn = this.loginButton.nth(i);
       if (await btn.isVisible()) {
         try {
           await btn.click({ force: true }); 
         } catch (e) {
-            await btn.evaluate((b) => (b as HTMLElement).click());
+          await btn.evaluate((b) => (b as HTMLElement).click());
         }
         break;
       }
     }
   }
 
-  // ==================== USER MANAGEMENT METHODS & VERIFICATION ====================
+  // ==================== USER MANAGEMENT METHODS ====================
   async addNewUser(): Promise<void> {
     await this.addUserBtn.click();
   }
@@ -179,7 +182,7 @@ export class AdminPage extends BasePage {
 
   async fillUserForm(userData: UserFormData): Promise<void> {
     const { lastName, firstName, phone, email, password } = userData;
-    
+
     await this.lastName.fill(lastName);
     await this.firstName.fill(firstName);
     await this.phone.fill(phone);
@@ -191,7 +194,7 @@ export class AdminPage extends BasePage {
 
   async editUserForm(userData: EditUserFormData): Promise<void> {
     const { lastName, firstName, phone } = userData;
-    
+
     await expect(this.editLastName).toHaveValue(/.+/, { timeout: 5000 });
     await this.editLastName.fill(lastName);
     await this.editFirstName.fill(firstName);
@@ -233,7 +236,7 @@ export class AdminPage extends BasePage {
     await expect(this.userPage).toBeVisible();
   }
 
-  // ==================== FILTERING METHODS & VERIFICATION ====================
+  // ==================== FILTERING METHODS ====================
   async verifyAllFilteredUsersAreClients(): Promise<void> {
     await expect(this.userRows.first()).toBeVisible({ timeout: 10000 }); 
     await expect.poll(async () => {
@@ -255,7 +258,7 @@ export class AdminPage extends BasePage {
     }).toBe(true);
   }
 
-  // ==================== SORTING METHODS & VERIFICATION ====================
+  // ==================== SORTING METHODS ====================
   async clickSort(columnName: string): Promise<void> {
     await this.getSortButtonByName(columnName).click();
     await this.page.locator('span.MuiBox-root', {
@@ -289,7 +292,6 @@ export class AdminPage extends BasePage {
     return this.getColumnDataByIndex(index);
   }
 
-  // Date sorting verification methods
   verifyDatesAreSortedDescending(dateStrings: string[]): boolean {
     for (let i = 0; i < dateStrings.length - 1; i++) {
       if (new Date(dateStrings[i]) < new Date(dateStrings[i + 1])) {
@@ -308,15 +310,33 @@ export class AdminPage extends BasePage {
     return true;
   }
 
-  // ==================== PAGINATION METHODS & VERIFICATION ====================
+  // ==================== PAGINATION METHODS ====================
   async selectPaginationOption(option: number): Promise<void> {
     await this.paginationDropdown.click();
     await this.page.locator(`[data-value="${option}"]`).click();
+    await this.page.waitForTimeout(500); 
   }
 
   async getUserRowsCount(): Promise<number> {
     await this.userRows.first().waitFor({ state: 'visible' });
+    await this.page.waitForTimeout(200);
     return await this.userRows.count();
+  }
+
+  async waitForPaginationUpdate(): Promise<void> {
+    await this.userRows.first().waitFor({ state: 'visible' });
+    await expect(this.paginationInfo).not.toHaveText(/з 0 по 0 з 0/);
+  }
+
+  async waitForUserRowsToLoad(expectedMaxRows: number) {
+    await this.page.waitForFunction(
+      (maxRows) => {
+        const rows = document.querySelectorAll('tbody tr');
+        return rows.length > 0 && rows.length <= maxRows;
+      },
+      expectedMaxRows,
+      { timeout: 10000 }
+    );
   }
 
   async getSelectedPaginationValue(): Promise<string> {
@@ -330,50 +350,14 @@ export class AdminPage extends BasePage {
   async getPaginationDetails(): Promise<PaginationDetails> {
     const paginationText = await this.getPaginationInfoText();
     const match = paginationText.match(/Показано з (\d+) по (\d+) з (\d+)/);
-
     if (!match) {
       throw new Error(`Unable to parse pagination text: ${paginationText}`);
     }
-
     return {
       from: parseInt(match[1]),
       to: parseInt(match[2]),
       total: parseInt(match[3])
     };
-  }
-
-  async verifyPaginationSelection(expectedValue: number): Promise<void> {
-    const selectedValue = await this.getSelectedPaginationValue();
-    expect(selectedValue).toBe(expectedValue.toString());
-  }
-
-  async verifyUserRowsCount(maxExpected: number): Promise<void> {
-    const actualCount = await this.getUserRowsCount();
-    expect(actualCount).toBeLessThanOrEqual(maxExpected);
-    expect(actualCount).toBeGreaterThan(0);
-  }
-
-  async verifyPaginationInfo(expectedPerPage: number): Promise<void> {
-    const paginationInfoLocator = this.paginationInfo;
-
-    await expect(paginationInfoLocator).not.toHaveText(/з 0 по 0 з 0/);
-
-    const paginationText = await paginationInfoLocator.textContent();
-    const match = paginationText?.match(/з (\d+)$/);
-    const userCount = match ? parseInt(match[1], 10) : 0;
-
-    expect(paginationText).toContain('Показано з 1 по');
-    expect(paginationText).toContain(`по ${Math.min(expectedPerPage, userCount)}`);
-    expect(paginationText).toMatch(/з \d+$/);
-  }
-
-  async verifyPaginationDetails(expectedPerPage: number): Promise<void> {
-    const details = await this.getPaginationDetails();
-    const actualUserRows = await this.getUserRowsCount();
-
-    expect(details.from).toBe(1);
-    expect(details.to).toBe(Math.min(expectedPerPage, details.total));
-    expect(actualUserRows).toBe(details.to - details.from + 1);
   }
 
   // ==================== HELPER METHODS ====================
