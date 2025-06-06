@@ -18,6 +18,7 @@
   "author": "Playwright team",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^9.8.0",
     "@playwright/test": "^1.52.0",
     "@types/node": "^22.15.18",
     "allure-playwright": "^3.2.2"
