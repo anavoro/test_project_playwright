@@ -192,13 +192,6 @@ export abstract class AbstractAdminTablePage extends BasePage {
   }
 
   // ---------------- Item Existence Verifiers ----------------
-  async verifyItemExists(name: string): Promise<void> {
-    await expect(this.getRowByName(name)).toBeVisible();
-  }
-
-  async verifyItemNotExists(name: string): Promise<void> {
-    await expect(this.getRowByName(name)).toHaveCount(0, { timeout: 7000 });
-  }
 
   async getItemCount(name: string): Promise<number> {
     return await this.getRowByName(name).count();
