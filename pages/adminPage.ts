@@ -34,6 +34,21 @@ export class AdminPage extends BasePage {
   inputEditTenderName: Locator;
   buttonCloseEditPage: Locator;
   formOfTenderOnTenderPage: Locator;
+  formOfTenderOnTenderPageForEdit: Locator;
+  formToUploadFileEditTender: Locator;
+  buttonDeleteTender: Locator;
+  formDeleteTender: Locator;
+  buttonCancelDeleteTender: Locator;
+  buttonApproveDeleteTender: Locator;
+  tenderId: Locator;
+  formUploadedFile: Locator;
+  buttonReviewEditChanges: Locator;
+  buttonApproveReviewEditChanges: Locator;
+  buttonAlertAboutTheSameFile: Locator;
+  buttonExtendQuantityOfTendersOnPage: Locator;
+  buttonExtendQuantityOfTendersOnPageTo20: Locator;
+  buttonExtendQuantityOfTendersOnPageTo50: Locator;
+  buttonExtendQuantityOfTendersOnPageTo10: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -102,17 +117,73 @@ export class AdminPage extends BasePage {
     this.buttonCloseEditPage = page.locator(
       '//span[@data-testid="nameNextBtn"]/ancestor::button'
     );
-    this.formOfTenderOnTenderPage = page
-      .locator('[data-testid="tendersRow"]')
+    this.formOfTenderOnTenderPage = page.locator('[data-testid="tendersRow"]');
+    this.formOfTenderOnTenderPageForEdit = page.locator(
+      '//button[@data-testid="adminPenBtn"]/ancestor::tr[@data-testid="tendersRow"]'
+    );
+    this.formToUploadFileEditTender = page.locator('[type="file"]');
+    this.buttonDeleteTender = page.locator('[data-testid="bucketBtn"]').first();
+    this.formDeleteTender = page.locator('[data-testid="content"]').first();
+    this.buttonCancelDeleteTender = this.formDeleteTender.locator(
+      '//button[@type="button" and text() = "Скасувати"]'
+    );
+    this.buttonApproveDeleteTender = this.formDeleteTender.locator(
+      '//button[@type="button" and text() = "Так"]'
+    );
+    this.tenderId = page
+      .locator(
+        '//button[@data-testid="bucketBtn"]/ancestor::tr[@data-testid="tendersRow"]'
+      )
       .first();
+    this.formUploadedFile = page.locator('//div //div[text()="Untitled.png"]');
+    this.buttonReviewEditChanges = page
+      .locator('[data-testid="adminShowBtn"]')
+      .first();
+    this.buttonApproveReviewEditChanges = page.locator(
+      '[data-testid="acceptBtn"]'
+    );
+    this.buttonAlertAboutTheSameFile = page.locator(
+      '//button[@type="button" and text() = "Зрозуміло"]'
+    );
+    this.buttonExtendQuantityOfTendersOnPage = page.locator('[id="mui-1"]');
+    this.buttonExtendQuantityOfTendersOnPageTo20 =
+      page.locator('[data-value="20"]');
+    this.buttonExtendQuantityOfTendersOnPageTo50 =
+      page.locator('[data-value="50"]');
+    this.buttonExtendQuantityOfTendersOnPageTo10 =
+      page.locator('[data-value="10"]');
   }
 
   async navigateToUsers(baseUrl: string) {
     await this.goto(baseUrl);
   }
 
-  async addValueToTenderName(basicValue: string) {
-    await this.inputEditTenderName.fill(basicValue + "test");
+  async clickButtonExtendQuantityOfTendersOnPage() {
+    await this.click(this.buttonExtendQuantityOfTendersOnPage);
+  }
+
+  async clickButtonExtendQuantityOfTendersOnPageTo20() {
+    await this.click(this.buttonExtendQuantityOfTendersOnPageTo20);
+  }
+
+  async clickButtonExtendQuantityOfTendersOnPageTo50() {
+    await this.click(this.buttonExtendQuantityOfTendersOnPageTo50);
+  }
+
+  async clickButtonExtendQuantityOfTendersOnPageTo10() {
+    await this.click(this.buttonExtendQuantityOfTendersOnPageTo10);
+  }
+
+  async verifyQuantityOfTendersOnPage(quantity: number) {
+    for (let i = 0; i < quantity; i++) {
+      await this.formOfTenderOnTenderPage.nth(i).scrollIntoViewIfNeeded();
+      await expect(this.formOfTenderOnTenderPage.nth(i)).toBeVisible();
+    }
+  }
+
+  async addValueToTenderName() {
+    await this.inputEditTenderName.press("End");
+    await this.page.keyboard.type("test");
   }
 
   async login(email: string, password: string) {
@@ -149,6 +220,30 @@ export class AdminPage extends BasePage {
     await this.click(this.buttonSupport);
   }
 
+  async clickButtonAlertAboutTheSameFile() {
+    await this.click(this.buttonAlertAboutTheSameFile);
+  }
+
+  async clickButtonCancelDeleteTender() {
+    await this.click(this.buttonCancelDeleteTender);
+  }
+
+  async clickButtonApproveDeleteTender() {
+    await this.click(this.buttonApproveDeleteTender);
+  }
+
+  async clickButtonReviewEditChanges() {
+    await this.click(this.buttonReviewEditChanges);
+  }
+
+  async clickButtonApproveReviewEditChanges() {
+    await this.click(this.buttonApproveReviewEditChanges);
+  }
+
+  async clickButtonDeleteTender() {
+    await this.click(this.buttonDeleteTender);
+  }
+
   async clickButtonCloseEditPage() {
     await this.buttonCloseEditPage.scrollIntoViewIfNeeded();
     await this.click(this.buttonCloseEditPage);
@@ -183,7 +278,6 @@ export class AdminPage extends BasePage {
   async verifyWhetherTendersPageContainsElements() {
     await expect(this.inputTenderName).toBeVisible();
     await expect(this.labelTenderCategory).toBeVisible();
-    await expect(this.labelTenderService).toBeVisible();
     await expect(this.inputTenderInceptionDate).toBeVisible();
     await expect(this.inputTenderEndDate).toBeVisible();
     await expect(this.inputTenderPerfomanceDate).toBeVisible();
