@@ -77,25 +77,9 @@ export class AdminCategoryPage extends AbstractAdminTablePage {
     return this.getRowByName(categoryName);
   }
 
-  getCategoryRowByIndex(index: number): Locator {
-    return this.getRowByIndex(index);
-  }
-
-  getCategoryNameFromRow(categoryRow: Locator): Promise<string> {
-    return this.getNameFromRow(categoryRow);
-  }
-
   // ---------------- View Category ---------------------------
-  async openCategoryViewByIndex(index: number): Promise<void> {
-    await this.viewCategoryButton.nth(index).click();
-  }
-
   async openFirstCategoryView(): Promise<void> {
     await this.viewCategoryButton.first().click();
-  }
-
-  async getNameByIndex(index: number): Promise<string> {
-    return (await this.nameCells.nth(index).textContent())?.trim() || '';
   }
 
   async getFirstCategoryName(): Promise<string> {
@@ -117,9 +101,5 @@ export class AdminCategoryPage extends AbstractAdminTablePage {
 
   async clickEdit(): Promise<void> {
     await this.editBtn.click();
-  }
-
-  async getTotalRowCount(): Promise<number> {
-    return await this.viewCategoryButton.count();
   }
 }

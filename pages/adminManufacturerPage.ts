@@ -48,14 +48,10 @@ export class AdminManufacturerPage extends AbstractAdminTablePage {
   // ---------------- Search ----------------
 
   async searchManufacturer(searchTerm: string): Promise<void> {
-    await this.searchByTerm(searchTerm);
-  }
+   await this.searchByTerm(searchTerm);
+ }
 
   // ---------------- Deletion ----------------
-
-  async deleteManufacturer(): Promise<void> {
-    await this.deleteBtn.click();
-  }
 
   async deleteManufacturerByName(manufacturerName: string): Promise<void> {
     await this.deleteByName(manufacturerName);
@@ -68,14 +64,7 @@ export class AdminManufacturerPage extends AbstractAdminTablePage {
   }
 
   getManufacturerRow(name: string): Locator {
-    return this.getItemRow(name);
-  }
+   return this.getItemRow(name);
+ }
 
-  async getManufacturerCount(name: string): Promise<number> {
-    return await this.getItemCount(name);
-  }
-
-  async manufacturerExists(name: string): Promise<boolean> {
-    return await this.itemExists(name);
-  }
 }

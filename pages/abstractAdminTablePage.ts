@@ -1,11 +1,6 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from './basePage';
-
-type PaginationDetails = {
-  from: number;
-  to: number;
-  total: number;
-};
+import type { PaginationDetails } from '../utils/types';
 
 export abstract class AbstractAdminTablePage extends BasePage {
   // ---------------- Locators ----------------
@@ -52,40 +47,12 @@ export abstract class AbstractAdminTablePage extends BasePage {
   async deleteByName(name: string): Promise<void> {
     await this.getRowByName(name).locator(this.deleteBtn).click();
     await this.confirmBtn.click();
+    await this.page.waitForLoadState('networkidle');
   }
 
   // ---------------- Row Helpers ----------------
   getRowByName(name: string): Locator {
     return this.dataRow.filter({ hasText: name });
-  }
-
-  getRowByIndex(index: number): Locator {
-    return this.dataRow.nth(index);
-  }
-
-  async getNameFromRow(row: Locator): Promise<string> {
-    const nameText = await row.locator(this.nameCells.first()).textContent();
-    return nameText?.trim() || '';
-  }
-
-  async getIdNamePairs(): Promise<{ id: number; name: string }[]> {
-    const pairs: { id: number; name: string }[] = [];
-    const count = await this.dataRow.count();
-
-    for (let i = 0; i < count; i++) {
-      const row = this.dataRow.nth(i);
-      const idText = await row.locator('th[scope="row"]').textContent();
-      const nameText = await row.locator('td.MuiTableCell-alignLeft').textContent();
-
-      if (idText && nameText) {
-        const id = parseInt(idText.trim(), 10);
-        if (!isNaN(id)) {
-          pairs.push({ id, name: nameText.trim() });
-        }
-      }
-    }
-
-    return pairs;
   }
 
   // ---------------- Sorting: UI Actions ----------------
@@ -105,10 +72,6 @@ export abstract class AbstractAdminTablePage extends BasePage {
   async getNameValues(): Promise<string[]> {
     const nameCells = await this.nameCells.allTextContents();
     return nameCells.map(name => name.trim()).filter(name => name.length > 0);
-  }
-
-  async getSortingIndicator(): Promise<string> {
-    return (await this.sortDirectionIndicator.textContent()) || '';
   }
 
   // ---------------- Sorting: Helpers & Verifiers ----------------
@@ -187,15 +150,11 @@ export abstract class AbstractAdminTablePage extends BasePage {
   }
 
   async waitForPaginationUpdate(): Promise<void> {
-    await expect(this.paginationInfo).not.toHaveText(/з 0 по 0 з 0/);
+    await expect(this.paginationInfo).not.toHaveText(/з 0 по 0 з 0/, { timeout: 10000 });
     await this.dataRow.first().waitFor({ state: 'visible' });
   }
 
   // ---------------- Item Existence Verifiers ----------------
-
-  async getItemCount(name: string): Promise<number> {
-    return await this.getRowByName(name).count();
-  }
 
   async itemExists(name: string): Promise<boolean> {
     return (await this.getRowByName(name).count()) > 0;
