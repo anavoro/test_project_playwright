@@ -66,5 +66,4 @@ export class AdminManufacturerPage extends AbstractAdminTablePage {
   getManufacturerRow(name: string): Locator {
    return this.getItemRow(name);
  }
-
 }
