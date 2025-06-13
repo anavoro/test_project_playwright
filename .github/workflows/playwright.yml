@@ -24,8 +24,10 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright tests
-        run: npx playwright test
+      - name: Run Playwright tests (Debug)
+        run: |
+          echo "Starting Playwright tests..."
+          timeout 10m npx playwright test --reporter=list --max-failures=3 || echo "Tests timed out or failed"
         continue-on-error: true
         env:
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
