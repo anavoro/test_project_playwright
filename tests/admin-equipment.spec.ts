@@ -105,7 +105,7 @@ test.describe('Admin Category Panel', () => {
     await expect(categoryRow).toBeVisible();
   });
 
-  test('C439: should sort ID and Name columns', {
+  test('C433: should sort ID and Name columns', {
     annotation: { type: 'skipCleanup', description: 'No category created' },
   }, async ({ adminManufacturerPage }) => {
     const id = await adminManufacturerPage.getSortedIdValues();
