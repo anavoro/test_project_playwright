@@ -1,5 +1,6 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from './basePage';
+import type { UserFormData, EditUserFormData, PaginationDetails } from '../utils/types';
 
 export class AdminPage extends BasePage {
   // ==================== NAVIGATION ELEMENTS ====================
@@ -9,6 +10,10 @@ export class AdminPage extends BasePage {
   readonly technicCategories: Locator;
   readonly technicBrands: Locator;
   readonly servicePanel: Locator;
+  readonly sideMenu: Locator;
+  readonly generalPanel: Locator;
+  readonly buttonSupport: Locator;
+  readonly buttonMainPage: Locator;
 
   // ==================== USER TABLE ELEMENTS ====================
   readonly pageTitle: Locator;
@@ -43,8 +48,6 @@ export class AdminPage extends BasePage {
 
   // ==================== SORTING ELEMENTS ====================
   readonly getSortButtonByName: (name: string) => Locator;
-  readonly sortedAscendingIndicator: Locator;
-  readonly sortedDescendingIndicator: Locator;
 
   // ==================== PAGINATION ELEMENTS ====================
   readonly paginationDropdown: Locator;
@@ -55,85 +58,148 @@ export class AdminPage extends BasePage {
   readonly emailInput: Locator;
   readonly passwordInput: Locator;
   readonly loginButton: Locator;
+  readonly inputEmail: Locator;
+  readonly inputPassword: Locator;
+  readonly buttonLogin: Locator;
+
+  // ==================== TENDER ELEMENTS ====================
+  readonly buttonTenders: Locator;
+  readonly tenderTitle: Locator;
+  readonly adminEyeButton: Locator;
+  readonly inputTenderName: Locator;
+  readonly labelTenderCategory: Locator;
+  readonly labelTenderService: Locator;
+  readonly inputTenderInceptionDate: Locator;
+  readonly inputTenderEndDate: Locator;
+  readonly inputTenderPerfomanceDate: Locator;
+  readonly inputTenderPrice: Locator;
+  readonly inputTenderExtraInfo: Locator;
+  readonly inputTenderCompanyInfo: Locator;
+  readonly inputTenderLastNameInfo: Locator;
+  readonly inputTenderFirstNameInfo: Locator;
+  readonly inputTenderNumberInfo: Locator;
+  readonly buttonClose: Locator;
+  readonly buttonEditTender: Locator;
+  readonly titleOfEditTenderPage: Locator;
+  readonly inputEditTenderName: Locator;
+  readonly buttonCloseEditPage: Locator;
+  readonly formOfTenderOnTenderPage: Locator;
 
   constructor(page: Page) {
     super(page);
 
     // ==================== NAVIGATION ELEMENTS ====================
-    this.adminPanel        = page.locator('a[href="/admin/"]');
-    this.userPanel         = page.locator('a[href="/admin/users/"]');
-    this.technicPanel      = page.getByText("Техніка");
+    this.adminPanel = page.locator('a[href="/admin/"]');
+    this.userPanel = page.locator('a[href="/admin/users/"]');
+    this.technicPanel = page.getByText("Техніка");
     this.technicCategories = page.getByText('Категорії техніки');
-    this.technicBrands     = page.getByText('Виробники техніки');
-    this.servicePanel      = page.getByText("Сервіси");
+    this.technicBrands = page.getByText('Виробники техніки');
+    this.servicePanel = page.getByText("Сервіси");
+    this.sideMenu = page.locator('[data-testid="navigationContainer"]');
+    this.generalPanel = page.locator('[class="AdminLayout_content_wrapper___EUUc"]');
+    this.buttonSupport = page.locator('a[href="/admin/chat/"]');
+    this.buttonMainPage = page.locator('[data-testid="homeButton"]');
 
     // ==================== USER TABLE ELEMENTS ====================
-    this.pageTitle         = page.locator('div.AdminLayout_title__lqIgo');
-    this.userRows          = page.locator('[data-testid="userRow"]');
-    this.tableContainer    = page.locator('[data-testid="adminRowContainer"]');
-    this.userContainer     = page.getByTestId("userContainer");
-    this.userRoleCells     = page.locator('[data-testid="userRow"] td:nth-child(4)');
-    this.searchField       = page.getByTestId("input");
+    this.pageTitle = page.locator('div.AdminLayout_title__lqIgo');
+    this.userRows = page.locator('[data-testid="userRow"]');
+    this.tableContainer = page.locator('[data-testid="adminRowContainer"]');
+    this.userContainer = page.getByTestId("userContainer");
+    this.userRoleCells = page.locator('[data-testid="userRow"] td:nth-child(4)');
+    this.searchField = page.getByTestId("input");
 
     // ==================== USER FORM ELEMENTS ====================
-    this.addUserBtn        = page.getByTestId("customButtonContainer");
-    this.addUserPanel      = page.getByTestId("content");
+    this.addUserBtn = page.getByTestId("customButtonContainer");
+    this.addUserPanel = page.getByTestId("content");
     this.userGroupDropdown = page.getByTestId("div_CustomSelect").first();
     this.userGroupManagement = page.getByText('Відділ менеджменту');
-    this.userGroupClient     = page.getByTestId('span-customSelect').filter({ hasText: 'Клієнт' });
-    this.lastName          = page.locator('input[name="last_name"]');
-    this.firstName         = page.locator('input[name="first_name"]');
-    this.phone             = page.locator('#mobile');
-    this.email             = page.getByTestId('custom-input');
-    this.password          = page.locator('#password');
-    this.saveButton        = page.getByRole('button', { name: 'Зберегти' });
-    this.deleteButton      = page.locator('[data-testid="bucketBtn"]');
+    this.userGroupClient = page.getByTestId('span-customSelect').filter({ hasText: 'Клієнт' });
+    this.lastName = page.locator('input[name="last_name"]');
+    this.firstName = page.locator('input[name="first_name"]');
+    this.phone = page.locator('#mobile');
+    this.email = page.getByTestId('custom-input');
+    this.password = page.locator('#password');
+    this.saveButton = page.getByRole('button', { name: 'Зберегти' });
+    this.deleteButton = page.locator('[data-testid="bucketBtn"]');
     this.confirmDeleteButton = page.getByRole('button', { name: 'Так' });
 
     // ==================== EDIT USER ELEMENTS ====================
-    this.reviewBtn      = page.getByTestId('adminOkoButton');
-    this.userPage       = page.getByText('Перегляд користувача');
-    this.editBtn        = page.getByTestId('adminPenBtn');
-    this.editFirstName  = page.locator('div[data-testid="customInputWrapper"]', { hasText: "Прізвище" })
-                              .locator('input[data-testid="custom-input"]');
-    this.editLastName   = page.locator('div[data-testid="customInputWrapper"]', { hasText: "Ім\'я" })
-                              .locator('input[data-testid="custom-input"]');
-    this.editPhone      = page.getByTestId('OwnerProfileNumber');
+    this.reviewBtn = page.getByTestId('adminOkoButton');
+    this.userPage = page.getByText('Перегляд користувача');
+    this.editBtn = page.getByTestId('adminPenBtn');
+    this.editFirstName = page.locator('div[data-testid="customInputWrapper"]', { hasText: "Прізвище" }).locator('input[data-testid="custom-input"]');
+    this.editLastName = page.locator('div[data-testid="customInputWrapper"]', { hasText: "Ім\'я" }).locator('input[data-testid="custom-input"]');
+    this.editPhone = page.getByTestId('OwnerProfileNumber');
 
     // ==================== SORTING ELEMENTS ====================
     this.getSortButtonByName = (name: string) =>
       page.locator(`span[role="button"][data-testid="sortLabelContainer"]:has-text("${name}")`);
-    this.sortedAscendingIndicator  = page.locator('span.MuiBox-root:text("sorted ascending")');
-    this.sortedDescendingIndicator = page.locator('span.MuiBox-root:text("sorted descending")');
 
     // ==================== PAGINATION ELEMENTS ====================
     this.paginationDropdown = page.locator('.MuiTablePagination-select');
-    this.paginationSelect   = page.locator('.MuiTablePagination-select');
-    this.paginationInfo     = page.locator('.MuiTablePagination-displayedRows');
+    this.paginationSelect = page.locator('.MuiTablePagination-select');
+    this.paginationInfo = page.locator('.MuiTablePagination-displayedRows');
 
-    // ==================== LOGIN ELEMENTS ====================
-    this.emailInput    = page.locator('#email');
+    // ==================== LOGIN ELEMENTS (Both versions) ====================
+    this.emailInput = page.locator('#email');
     this.passwordInput = page.locator('#password');
-    this.loginButton   = page.getByRole('button', { name: 'Увійти' });
+    this.loginButton = page.getByRole('button', { name: 'Увійти' });
+    this.inputEmail = page.locator("#email");
+    this.inputPassword = page.locator("#password");
+    this.buttonLogin = page.getByRole("button", { name: "Увійти" });
+
+    // ==================== TENDER ELEMENTS ====================
+    this.buttonTenders = page.locator('[href="/admin/tenders/"]');
+    this.tenderTitle = page.locator('//div[@class="AdminLayout_title__lqIgo" and text() = "Teндери"]');
+    this.adminEyeButton = page.locator('[data-testid="adminOkoButton"]');
+    this.inputTenderName = page.locator('//div[contains(text(), "Назва тендера")]/following-sibling::div');
+    this.labelTenderCategory = page.locator('//div[contains(text(), "Категорія")]/following-sibling::div');
+    this.labelTenderService = page.locator('//div[contains(text(), "Послуга яку потрібно виконати")]/following-sibling::div');
+    this.inputTenderInceptionDate = page.locator('//div[contains(text(), "Початок")]/following-sibling::div');
+    this.inputTenderEndDate = page.locator('//div[contains(text(), "Кінець")]/following-sibling::div');
+    this.inputTenderPerfomanceDate = page.locator('//div[contains(text(), "Період виконання робіт")]/following-sibling::div');
+    this.inputTenderPrice = page.locator('//div[contains(text(), "Оголошений бюджет*")]/following-sibling::div');
+    this.inputTenderExtraInfo = page.locator('//div[contains(text(), "Додаткова інформація")]/following-sibling::div');
+    this.inputTenderCompanyInfo = page.locator('//div[contains(text(), "Інформація про компанію")]/following-sibling::div');
+    this.inputTenderLastNameInfo = page.locator('//div[contains(text(), "Прізвище")]/following-sibling::div');
+    this.inputTenderFirstNameInfo = page.locator(`//div[contains(text(), "Ім'я")]/following-sibling::div`);
+    this.inputTenderNumberInfo = page.locator('//div[contains(text(), "Номер телефону")]/following-sibling::div');
+    this.buttonClose = page.locator('[data-testid="closeBtn"]');
+    this.buttonEditTender = page.locator('[data-testid="adminPenBtn"]').first();
+    this.titleOfEditTenderPage = page.locator('//div[@class="AdminLayout_title__lqIgo" and text()="Редагування тендера"]');
+    this.inputEditTenderName = page.locator('[data-testid="custom-input"]').first();
+    this.buttonCloseEditPage = page.locator('//span[@data-testid="nameNextBtn"]/ancestor::button');
+    this.formOfTenderOnTenderPage = page.locator('[data-testid="tendersRow"]').first();
   }
 
   // ==================== NAVIGATION METHODS ====================
-  async navigateToUsers(): Promise<void> {
-    await this.userPanel.click();
-    await this.page.waitForURL('**/admin/users/', { timeout: 5000 });
+  async navigateToUsers(baseUrl?: string): Promise<void> {
+    if (baseUrl) {
+      await this.goto(baseUrl);
+    } else {
+      await this.userPanel.click();
+      await this.page.waitForURL('**/admin/users/', { timeout: 5000 });
+    }
   }
 
   async openTechnicMenu(): Promise<void> {
     await this.technicPanel.click();
   }
 
-  async getPageTitle(): Promise<string> {
-    await this.pageTitle.waitFor({ state: 'visible', timeout: 5000 });
-    return await this.pageTitle.textContent() || '';
+  async clickButtonSupport(): Promise<void> {
+    await this.click(this.buttonSupport);
+  }
+
+  async clickButtonMainPage(): Promise<void> {
+    await this.click(this.buttonMainPage);
+  }
+
+  async clickButtonTenders(): Promise<void> {
+    await this.click(this.buttonTenders);
   }
 
   // ==================== AUTHENTICATION METHODS ====================
-  async login(email: string, password: string) {
+  async login(email: string, password: string): Promise<void> {
     const emailCount = await this.emailInput.count();
     for (let i = 0; i < emailCount; i++) {
       const input = this.emailInput.nth(i);
@@ -328,7 +394,7 @@ export class AdminPage extends BasePage {
     await expect(this.paginationInfo).not.toHaveText(/з 0 по 0 з 0/);
   }
 
-  async waitForUserRowsToLoad(expectedMaxRows: number) {
+  async waitForUserRowsToLoad(expectedMaxRows: number): Promise<void> {
     await this.page.waitForFunction(
       (maxRows) => {
         const rows = document.querySelectorAll('tbody tr');
@@ -360,220 +426,36 @@ export class AdminPage extends BasePage {
     };
   }
 
-  // ==================== HELPER METHODS ====================
-  userRowByEmail(email: string): Locator {
-    return this.userRows.filter({ hasText: email });
-  }
-
-  deleteButtonInRow(row: Locator): Locator {
-    return row.locator('[data-testid="bucketBtn"]');
-  }
-}
-
-// ==================== TYPE DEFINITIONS ====================
-interface UserFormData {
-  lastName: string;
-  firstName: string;
-  phone: string;
-  email: string;
-  password: string;
-}
-
-interface EditUserFormData {
-  lastName: string;
-  firstName: string;
-  phone: string;
-}
-
-interface PaginationDetails {
-  from: number;
-  to: number;
-  total: number;
-}
-=======
-import { Page, Locator, expect } from "@playwright/test";
-import { BasePage } from "./basePage";
-
-export class AdminPage extends BasePage {
-  generalPanel: Locator;
-  sideMenu: Locator;
-  adminPanel: Locator;
-  inputEmail: Locator;
-  inputPassword: Locator;
-  buttonLogin: Locator;
-  userPanel: Locator;
-  technicPanel: Locator;
-  servicePanel: Locator;
-  buttonSupport: Locator;
-  buttonMainPage: Locator;
-  buttonTenders: Locator;
-  tenderTitle: Locator;
-  adminEyeButton: Locator;
-  inputTenderName: Locator;
-  labelTenderCategory: Locator;
-  labelTenderService: Locator;
-  inputTenderInceptionDate: Locator;
-  inputTenderEndDate: Locator;
-  inputTenderPerfomanceDate: Locator;
-  inputTenderPrice: Locator;
-  inputTenderExtraInfo: Locator;
-  inputTenderCompanyInfo: Locator;
-  inputTenderLastNameInfo: Locator;
-  inputTenderFirstNameInfo: Locator;
-  inputTenderNumberInfo: Locator;
-  buttonClose: Locator;
-  buttonEditTender: Locator;
-  titleOfEditTenderPage: Locator;
-  inputEditTenderName: Locator;
-  buttonCloseEditPage: Locator;
-  formOfTenderOnTenderPage: Locator;
-
-  constructor(page: Page) {
-    super(page);
-    this.sideMenu = page.locator('[data-testid="navigationContainer"]');
-    this.inputEmail = page.locator("#email");
-    this.inputPassword = page.locator("#password");
-    this.buttonLogin = page.getByRole("button", { name: "Увійти" });
-    this.generalPanel = page.locator(
-      '[class="AdminLayout_content_wrapper___EUUc"]'
-    );
-    this.adminPanel = page.locator('a[href="/admin/"]');
-    this.userPanel = page.locator('a[href="/admin/users"]');
-    this.technicPanel = page.getByText("Техніка");
-    this.servicePanel = page.getByText("Сервіси");
-    this.buttonSupport = page.locator('a[href="/admin/chat/"]');
-    this.buttonMainPage = page.locator('[data-testid="homeButton"]');
-    this.buttonTenders = page.locator('[href="/admin/tenders/"]');
-    this.tenderTitle = page.locator(
-      '//div[@class="AdminLayout_title__lqIgo" and text() = "Teндери"]'
-    );
-    this.adminEyeButton = page.locator('[data-testid="adminOkoButton"]');
-    this.inputTenderName = page.locator(
-      '//div[contains(text(), "Назва тендера")]/following-sibling::div'
-    );
-    this.labelTenderCategory = page.locator(
-      '//div[contains(text(), "Категорія")]/following-sibling::div'
-    );
-    this.labelTenderService = page.locator(
-      '//div[contains(text(), "Послуга яку потрібно виконати")]/following-sibling::div'
-    );
-    this.inputTenderInceptionDate = page.locator(
-      '//div[contains(text(), "Початок")]/following-sibling::div'
-    );
-    this.inputTenderEndDate = page.locator(
-      '//div[contains(text(), "Кінець")]/following-sibling::div'
-    );
-    this.inputTenderPerfomanceDate = page.locator(
-      '//div[contains(text(), "Період виконання робіт")]/following-sibling::div'
-    );
-    this.inputTenderPrice = page.locator(
-      '//div[contains(text(), "Оголошений бюджет*")]/following-sibling::div'
-    );
-    this.inputTenderExtraInfo = page.locator(
-      '//div[contains(text(), "Додаткова інформація")]/following-sibling::div'
-    );
-    this.inputTenderCompanyInfo = page.locator(
-      '//div[contains(text(), "Інформація про компанію")]/following-sibling::div'
-    );
-    this.inputTenderLastNameInfo = page.locator(
-      '//div[contains(text(), "Прізвище")]/following-sibling::div'
-    );
-    this.inputTenderFirstNameInfo = page.locator(
-      `//div[contains(text(), "Ім'я")]/following-sibling::div`
-    );
-    this.inputTenderNumberInfo = page.locator(
-      '//div[contains(text(), "Номер телефону")]/following-sibling::div'
-    );
-    this.buttonClose = page.locator('[data-testid="closeBtn"]');
-    this.buttonEditTender = page.locator('[data-testid="adminPenBtn"]').first();
-    this.titleOfEditTenderPage = page.locator(
-      '//div[@class="AdminLayout_title__lqIgo" and text()="Редагування тендера"]'
-    );
-    this.inputEditTenderName = page
-      .locator('[data-testid="custom-input"]')
-      .first();
-    this.buttonCloseEditPage = page.locator(
-      '//span[@data-testid="nameNextBtn"]/ancestor::button'
-    );
-    this.formOfTenderOnTenderPage = page
-      .locator('[data-testid="tendersRow"]')
-      .first();
-  }
-
-  async navigateToUsers(baseUrl: string) {
-    await this.goto(baseUrl);
-  }
-
-  async addValueToTenderName(basicValue: string) {
+  // ==================== TENDER METHODS ====================
+  async addValueToTenderName(basicValue: string): Promise<void> {
     await this.inputEditTenderName.fill(basicValue + "test");
   }
 
-  async login(email: string, password: string) {
-    const emailCount = await this.inputEmail.count();
-    for (let i = 0; i < emailCount; i++) {
-      const input = this.inputEmail.nth(i);
-      if (await input.isVisible()) {
-        await input.fill(email);
-      }
-    }
-
-    const passwordCount = await this.inputPassword.count();
-    for (let i = 0; i < passwordCount; i++) {
-      const input = this.inputPassword.nth(i);
-      if (await input.isVisible()) {
-        await input.fill(password);
-      }
-    }
-
-    for (let i = 0; i < (await this.buttonLogin.count()); i++) {
-      const btn = this.buttonLogin.nth(i);
-      if (await btn.isVisible()) {
-        try {
-          await btn.click({ force: true });
-        } catch (e) {
-          await btn.evaluate((b) => (b as HTMLElement).click());
-        }
-        break;
-      }
-    }
+  async clickAdminEyeButton(): Promise<void> {
+    await this.click(this.adminEyeButton.first());
   }
 
-  async clickButtonSupport() {
-    await this.click(this.buttonSupport);
+  async clickButtonClose(): Promise<void> {
+    await this.click(this.buttonClose);
   }
 
-  async clickButtonCloseEditPage() {
+  async clickButtonEditTender(): Promise<void> {
+    await this.click(this.buttonEditTender);
+  }
+
+  async clickButtonCloseEditPage(): Promise<void> {
     await this.buttonCloseEditPage.scrollIntoViewIfNeeded();
     await this.click(this.buttonCloseEditPage);
   }
 
-  async clickButtonEditTender() {
-    await this.click(this.buttonEditTender);
-  }
-
-  async clickButtonClose() {
-    await this.click(this.buttonClose);
-  }
-
-  async clickAdminEyeButton() {
-    await this.click(this.adminEyeButton.first());
-  }
-
-  async clickButtonTenders() {
-    await this.click(this.buttonTenders);
-  }
-
-  async clickButtonMainPage() {
-    await this.click(this.buttonMainPage);
-  }
-
-  async verifyWhetherAdminPageIsLoaded() {
+  // ==================== VERIFICATION METHODS ====================
+  async verifyWhetherAdminPageIsLoaded(): Promise<void> {
     await this.page.waitForLoadState("networkidle");
     await expect(this.sideMenu).toBeVisible();
     await expect(this.generalPanel).toBeVisible();
   }
 
-  async verifyWhetherTendersPageContainsElements() {
+  async verifyWhetherTendersPageContainsElements(): Promise<void> {
     await expect(this.inputTenderName).toBeVisible();
     await expect(this.labelTenderCategory).toBeVisible();
     await expect(this.labelTenderService).toBeVisible();
@@ -586,5 +468,13 @@ export class AdminPage extends BasePage {
     await expect(this.inputTenderLastNameInfo).toBeVisible();
     await expect(this.inputTenderFirstNameInfo).toBeVisible();
     await expect(this.inputTenderNumberInfo).toBeVisible();
+  }
+
+  // ==================== HELPER METHODS ====================
+  userRowByEmail(email: string): Locator {
+    return this.userRows.filter({ hasText: email });
+  }
+  deleteButtonInRow(row: Locator): Locator {
+    return row.locator('[data-testid="bucketBtn"]');
   }
 }

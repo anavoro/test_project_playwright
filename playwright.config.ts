@@ -8,11 +8,9 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: [
+    ['list'],
     ['html', { outputFolder: 'playwright-report', open: 'never' }],
-    ['allure-playwright', {
-      detail: true,
-      outputFolder: 'allure-results',
-    }],
+    // ['allure-playwright', { detail: true, outputFolder: 'allure-results' }],
   ],
   use: {
     baseURL: 'https://dev.rentzila.com.ua',
