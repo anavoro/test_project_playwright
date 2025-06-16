@@ -7,6 +7,7 @@ export class CreateAnnouncementPage extends BasePage{
    createAnnouncementTitle: Locator;
 
    // Announcement form menu elements
+   mainInfoHeader: Locator;
    mainInfoButton: Locator;
    mainInfoButtonNumber: Locator;
    photoButton: Locator;
@@ -48,6 +49,7 @@ export class CreateAnnouncementPage extends BasePage{
    vehicleManufacturerAsterix: Locator;
    loupeSymbol: Locator;
    vehicleManufacturerInput: Locator;
+   vehicleManufacturerField: Locator;
    vehicleManufacturerErrorText: Locator;
    vehicleManufacturerDropdown: Locator;
    vehicleManufacturerSearchResult: Locator;
@@ -92,18 +94,56 @@ export class CreateAnnouncementPage extends BasePage{
 
    // Photo section
    photoTitle: Locator;
-   technicalToolPhoto: Locator;
-   technicalToolAsterix: Locator;
+   imageuploadTitle: Locator;
+   imageuploadAsterix: Locator;
    clueLine: Locator;
    imageUnit: Locator;
    imageDelete: Locator;
    mainImageLabel: Locator;
+   imageBlock: Locator;
+   image1: Locator;
+   imageSrcFirst: Locator;
+   image2: Locator;
+   imageSrcSecond: Locator;
+   popUpError: Locator;
+   popUpCloseIcon: Locator;
+   imageUploadedAll: Locator;
+   popUpSaveBtn: Locator;
+   popUpInvalidImageError: Locator;
+   popUpInvalidImageCloseIcon: Locator;
+   popUpInvalidImageSaveBtn: Locator;
+   popUpInvalidImage: Locator;
+
+   prevButton: Locator;
+   servisesHeader: Locator;
+   servicesSearchField: Locator;
+   servicesInputTitle: Locator;
+   servicesClueLine: Locator;
+   servicesSearchLoop: Locator;
+   servicesSearchInput: Locator;
+   servicesSearchDropdown: Locator;
+   servicesSearchResult: Locator;
+   servicesSearchResultFirst: Locator;
+   servicesSearchResultSecond: Locator;
+   markSelected: Locator;
+   choosedServicesTitle: Locator;
+   servicesList: Locator;
+   serviceListItem: Locator;
+   servicesListRemoveBtn: Locator;
+   notFoundServiceText: Locator;
+   addNewServiceBtn: Locator;
+   addNewServiceBtnIcon: Locator;
+   serviceListItemFirst: Locator;
+   serviceListItemSecond: Locator;
+   serviceListRemoveBtnFirst: Locator;
+   serviceListRemoveBtnSecond: Locator;
 
    constructor(page: Page) {
     super(page);
 
     this.createAnnouncementTitle = page.locator("main>div>div:nth-child(2)>div:nth-child(1)");
-
+    
+    this.mainInfoHeader = page.locator('[data-testid="wrapper-characteristics"]>div>div:nth-child(1)');
     this.mainInfoButton = page.locator('//button[1]/div/span');
     this.mainInfoButtonNumber = page.locator("//button[1]/div/div/span");
     this.photoButton = page.locator('//button[2]/div/span');
@@ -142,6 +182,7 @@ export class CreateAnnouncementPage extends BasePage{
    this.vehicleManufacturerAsterix = page.locator('div[class="SelectManufacturer_title__X9AEw"]>span');
    this.loupeSymbol = page.getByTestId('div-wrapper-customSelectWithSearch').locator('path');
    this.vehicleManufacturerInput = page.locator('[data-testid="input-customSelectWithSearch"]');
+   this.vehicleManufacturerField = page.getByTestId('div-wrapper-customSelectWithSearch');
    this.vehicleManufacturerInputError = page.locator('.CustomSelectWithSearch_searchResultError__Q9xtO');
    this.vehicleManufacturerErrorText = page.locator('.CustomSelectWithSearch_errorTextVisible__B5lZH');
    this.vehicleManufacturerDropdown = page.locator('.CustomSelectWithSearch_searchedServicesCat_wrapper__aOGc3');
@@ -181,12 +222,52 @@ export class CreateAnnouncementPage extends BasePage{
    this.nextButton = page.getByTestId('nextButton');
 
    this.photoTitle = page.locator('//div[@data-testid="ImagesUnitFlow"]/div[1]')
-   this.technicalToolPhoto = page.locator('div[data-testid="ImagesUnitFlow"]>div:nth-child(2)')
-   this.technicalToolAsterix = page.locator('div[data-testid="ImagesUnitFlow"]>div:nth-child(2)>span')
+   this.imageuploadTitle = page.locator('div[data-testid="ImagesUnitFlow"]>div:nth-child(2)')
+   this.imageuploadAsterix = page.locator('div[data-testid="ImagesUnitFlow"]>div:nth-child(2)>span')
    this.clueLine = page.locator('div[data-testid="ImagesUnitFlow"]>div:nth-child(3)')
    this.imageUnit = page.locator('div[data-testid="description"]~div>div:nth-child(1)')
    this.imageDelete = page.locator('div[data-testid="imageBlock"]:nth-child(1)>div~img~div[data-testid="deleteImage"]')
    this.mainImageLabel = page.locator('div[data-testid="mainImageLabel"]')
+   this.imageBlock = page.locator('div[data-testid="description"]~div>div')
+   this.image1 = page.locator('div[data-testid="imageBlock"]:nth-child(1)')
+   this.imageSrcFirst = page.locator('div[data-testid="imageBlock"]:nth-child(1) img')
+   this.image2 = page.locator('div[data-testid="imageBlock"]:nth-child(2)')
+   this.imageSrcSecond = page.locator('div[data-testid="imageBlock"]:nth-child(2) img')
+   this.imageUploadedAll = page.locator("//img[contains(@src, 'base')]")
+
+   this.popUpError = page.locator('div[data-testid="errorPopup"]')
+   this.popUpCloseIcon = page.locator('div[data-testid="closeIcon"]')
+   this.popUpSaveBtn = page.locator('div[style="order: unset;"]>button')
+   this.popUpInvalidImageError = page.locator('div[data-testid="errorPopup"]')
+   this.popUpInvalidImageCloseIcon = page.locator('div[data-testid="closeIcon"]')
+   this.popUpInvalidImageSaveBtn = page.locator('div[style="order: unset;"]>button')
+   this.popUpInvalidImage = page.locator('div[data-testid="wrapper"]>div')
+
+   this.prevButton = page.getByTestId('prevButton')
+   
+   this.servisesHeader = page.locator("div[class='ServicesUnitFlow_title__Z_rgF']:nth-child(1)")
+   this.servicesSearchField = page.locator('[data-testid="searchResult"]')
+   this.servicesInputTitle = page.locator('div[class="ServicesUnitFlow_paragraph__ATZCK"]')
+   this.servicesClueLine = page.getByTestId('add-info')
+   this.servicesSearchLoop = page.locator('div[data-testid="searchResult"]>div>svg')
+   this.servicesSearchInput = page.locator('div[data-testid="searchResult"]>div>input')
+   this.servicesSearchDropdown = page.locator('.ServicesUnitFlow_searchedServicesCatWrapper__O4kY_')
+   this.servicesSearchResult = page.locator('div[data-testid="searchItem-servicesUnitFlow"]>div')
+   this.servicesSearchResultFirst = page.locator('div[data-testid="searchItem-servicesUnitFlow"]:nth-child(1)>div')
+   this.markSelected = page.locator('div[data-testid="searchItem-servicesUnitFlow"]:nth-child(1)>button')
+   this.choosedServicesTitle = page.locator('div[class="ServicesUnitFlow_wrapper__XYbmA"]>div:nth-child(5)')
+   this.serviceListItem = page.getByTestId('item-servicesUnitFlow')
+   this.servicesList = page.locator('div[class="ServicesUnitFlow_searchedServicesCatWrapper__O4kY_"]>div')
+   this.servicesListRemoveBtn = page.getByTestId('remove-servicesUnitFlow')
+   this.notFoundServiceText = page.getByTestId('p2-notFound-addNewItem')
+   this.addNewServiceBtn = page.getByTestId('btn-addNewItem')
+   this.addNewServiceBtnIcon = page.getByTestId('svg-plus-addNewItem')
+   this.servicesSearchResultSecond = page.locator('div[data-testid="searchItem-servicesUnitFlow"]:nth-child(2)>div')
+   this.serviceListItemFirst = page.locator('[data-testid="item-servicesUnitFlow"]:nth-child(1)')
+   this.serviceListItemSecond = page.locator('[data-testid="item-servicesUnitFlow"]:nth-child(2)')
+   this.serviceListRemoveBtnFirst = page.locator('div[data-testid="item-servicesUnitFlow"]:nth-child(1) button')
+   this.serviceListRemoveBtnSecond = page.locator('div[data-testid="item-servicesUnitFlow"]:nth-child(2) button')
+   
    
    }
 
@@ -289,18 +370,72 @@ export class CreateAnnouncementPage extends BasePage{
       await this.page.keyboard.press("Control+C");
       await locator.clear();
       await this.page.keyboard.press("Control+V");
-  }
-  async verifyManufakturerNameNotFoundText101(name: string) {
-     await expect(this.vehicleManufacturerDropdownError)
+   }
+   
+   async verifyManufakturerNameNotFoundText101(name: string) {
+      await expect(this.vehicleManufacturerDropdownError)
          .toContainText(`На жаль, виробника ${'“'}${name[0].toUpperCase()}${name.slice(1, -1)}${'“'} не знайдено в нашій базі. Щоб додати виробника - зв\`яжіться із службою підтримки`);
-  }
-  async verifyManufakturerNameNotFound(name: string) {
-     await expect(this.vehicleManufacturerDropdownError)
+   }
+
+   async verifyManufakturerNameNotFound(name: string) {
+      await expect(this.vehicleManufacturerDropdownError)
          .toContainText(`На жаль, виробника ${'“'}${name}${'“'} не знайдено в нашій базі. Щоб додати виробника - зв\`яжіться із службою підтримки`);
-  }
+   }
 
-  async clickImageUnit(){
+   async clickImageUnit(){
    await this.imageUnit.click()
-  }
+   }
 
+   async clickImageBlock(locator: Locator){
+   await locator.click()
+   }
+
+   async clickPopUpCloseIcon(){
+   await this.popUpCloseIcon.click()
+   }
+
+   async clickPopUpSaveBtn(){
+   await this.popUpSaveBtn.click()
+   }
+
+   async clickPopUpInvalidImageCloseIcon(){
+   await this.popUpInvalidImageCloseIcon.click()
+   }
+
+   async clickPopUpInvalidImageSaveBtn(){
+   await this.popUpInvalidImageSaveBtn.click()
+   }
+
+   async clickPrevButton(){
+   await this.prevButton.click()
+   }
+
+   async fillServisesSearchInput(name: any){
+   await this.servicesSearchInput.fill(name)
+   }
+
+   async clearServisesSearchInput(){
+   await this.servicesSearchInput.clear()
+   }
+
+   async clickServicesSearchResultFirst(){
+   await this.servicesSearchResultFirst.click()
+   }
+
+   async verifyNotFoundServiceText(name: string){
+      expect(this.notFoundServiceText).toHaveText(`На жаль, послугу ${'“'}${name}${'“'} не знайдено в нашій базі. Ви можете додати послугу в категорію 
+         “Користувацькі”:`)
+   }
+
+   async clickAddNewServiceBtn(){
+   await this.addNewServiceBtn.click()
+   }
+
+     async clickServiceListRemoveBtnFirst(){
+   await this.serviceListRemoveBtnFirst.click()
+   }
+
+     async clickServiceListRemoveBtnSecond(){
+   await this.serviceListRemoveBtnSecond.click()
+   }
 }
