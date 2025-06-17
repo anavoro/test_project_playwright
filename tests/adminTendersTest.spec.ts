@@ -52,6 +52,7 @@ test.describe("Admin Tenders Verification", () => {
     await expect(page).toHaveURL(
       /https:\/\/dev\.rentzila\.com\.ua\/admin\/tenders\/edit\//
     );
+    
     await page.waitForTimeout(2200);
     const basicValueOfTenderName =
       await adminPage.inputEditTenderName.inputValue();
