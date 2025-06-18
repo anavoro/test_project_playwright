@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { HomePage } from "../pages/homePage";
 import { AdminPage } from "../pages/adminPage";
+import testData from "../data/dataMainPage.json";
 import * as dotenv from "dotenv";
 import { equal } from "assert";
 dotenv.config();
@@ -20,17 +21,19 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Admin Tenders Verification", () => {
-  test("C502 The tenders menu section functionality", async ({ page }) => {
+  test("C502 The tenders menu section functionality", async ({ page }, testInfo) => {
+    const baseUrl = testInfo.project.use.baseURL;
     await homePage.clickIconSuperUser();
-    expect(page.url()).toBe("https://dev.rentzila.com.ua/admin/");
+    expect(page.url()).toBe(baseUrl + testData.excerptOfUrl.admin);
     await adminPage.verifyWhetherAdminPageIsLoaded();
     await expect(adminPage.buttonTenders).toBeEnabled();
     await adminPage.clickButtonTenders();
     await expect(adminPage.tenderTitle).toBeVisible();
-    expect(page.url()).toBe("https://dev.rentzila.com.ua/admin/tenders/");
+    expect(page.url()).toBe(baseUrl + testData.excerptOfUrl.adminTenders);
   });
 
-  test('C506 The "Перегляд тендера" button functionality', async ({ page }) => {
+  test('C506 The "Перегляд тендера" button functionality', async ({ page }, testInfo) => {
+    const baseUrl = testInfo.project.use.baseURL;
     await homePage.clickIconSuperUser();
     await adminPage.verifyWhetherAdminPageIsLoaded();
     await adminPage.clickButtonTenders();
@@ -38,19 +41,20 @@ test.describe("Admin Tenders Verification", () => {
     await adminPage.verifyWhetherTendersPageContainsElements();
     await adminPage.clickButtonClose();
     await expect(adminPage.tenderTitle).toBeVisible();
-    expect(page.url()).toBe("https://dev.rentzila.com.ua/admin/tenders/");
+    expect(page.url()).toBe(baseUrl + testData.excerptOfUrl.adminTenders);
   });
 
   test('C507 The "Редагування тендера" button functionality', async ({
     page,
-  }) => {
+  }, testInfo) => {
+    const baseUrl = testInfo.project.use.baseURL;
     await homePage.clickIconSuperUser();
     await adminPage.verifyWhetherAdminPageIsLoaded();
     await adminPage.clickButtonTenders();
     await adminPage.clickButtonEditTender();
     await expect(adminPage.titleOfEditTenderPage).toBeVisible();
-    await expect(page).toHaveURL(
-      /https:\/\/dev\.rentzila\.com\.ua\/admin\/tenders\/edit\//
+    expect(page.url()).toContain(
+      baseUrl + testData.excerptOfUrl.adminTendersEdit
     );
     
     await page.waitForTimeout(2200);
@@ -66,7 +70,7 @@ test.describe("Admin Tenders Verification", () => {
     await expect(adminPage.formUploadedFile).toBeVisible();
     await adminPage.clickButtonCloseEditPage();
     await adminPage.tenderTitle.waitFor({ state: "visible", timeout: 5000 });
-    expect(page.url()).toBe("https://dev.rentzila.com.ua/admin/tenders/");
+    expect(page.url()).toBe(baseUrl + testData.excerptOfUrl.adminTenders);
     await expect(
       adminPage.formOfTenderOnTenderPageForEdit.first()
     ).toContainText(expectedValue);
@@ -76,7 +80,8 @@ test.describe("Admin Tenders Verification", () => {
 
   test('C508 The "Видалення тендера" button functionality', async ({
     page,
-  }) => {
+  }, testInfo) => {
+    const baseUrl = testInfo.project.use.baseURL;
     await homePage.clickIconSuperUser();
     await adminPage.verifyWhetherAdminPageIsLoaded();
     await adminPage.clickButtonTenders();
@@ -85,7 +90,7 @@ test.describe("Admin Tenders Verification", () => {
     await expect(adminPage.formDeleteTender).toBeVisible();
     await adminPage.clickButtonCancelDeleteTender();
     await expect(adminPage.tenderTitle).toBeVisible();
-    expect(page.url()).toBe("https://dev.rentzila.com.ua/admin/tenders/");
+    expect(page.url()).toBe(baseUrl + testData.excerptOfUrl.adminTenders);
     await expect(adminPage.formDeleteTender).toBeHidden();
 
     await adminPage.clickButtonDeleteTender();
