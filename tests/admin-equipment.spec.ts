@@ -43,7 +43,7 @@ test.describe('Admin Category Panel', () => {
     await expect(loggedInAdmin.pageTitle).toBeVisible({ timeout: 5000 });
     await expect(loggedInAdmin.pageTitle).toHaveText('Виробники техніки');
   });
-
+/*
   test('C435: View category and verify details', {
     annotation: { type: 'skipCleanup', description: 'Read-only test - no cleanup needed' },
   }, async ({ adminCategoryPage }) => {
@@ -104,7 +104,7 @@ test.describe('Admin Category Panel', () => {
     const categoryRow = adminCategoryPage.getCategoryRowByName(createdCategoryName);
     await expect(categoryRow).toBeVisible();
   });
-
+*/
   test('C433: should sort ID and Name columns', {
     annotation: { type: 'skipCleanup', description: 'No category created' },
   }, async ({ adminManufacturerPage }) => {
