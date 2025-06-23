@@ -21,7 +21,9 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Admin Tenders Verification", () => {
-  test("C502 The tenders menu section functionality", async ({ page }, testInfo) => {
+  test("C502 The tenders menu section functionality", async ({
+    page,
+  }, testInfo) => {
     const baseUrl = testInfo.project.use.baseURL;
     await homePage.clickIconSuperUser();
     expect(page.url()).toBe(baseUrl + testData.excerptOfUrl.admin);
@@ -32,7 +34,9 @@ test.describe("Admin Tenders Verification", () => {
     expect(page.url()).toBe(baseUrl + testData.excerptOfUrl.adminTenders);
   });
 
-  test('C506 The "Перегляд тендера" button functionality', async ({ page }, testInfo) => {
+  test('C506 The "Перегляд тендера" button functionality', async ({
+    page,
+  }, testInfo) => {
     const baseUrl = testInfo.project.use.baseURL;
     await homePage.clickIconSuperUser();
     await adminPage.verifyWhetherAdminPageIsLoaded();
@@ -51,19 +55,23 @@ test.describe("Admin Tenders Verification", () => {
     await homePage.clickIconSuperUser();
     await adminPage.verifyWhetherAdminPageIsLoaded();
     await adminPage.clickButtonTenders();
+    const idOfCurrentTender =
+      (await adminPage.idOfEditableTender.textContent()) ?? "";
     await adminPage.clickButtonEditTender();
     await expect(adminPage.titleOfEditTenderPage).toBeVisible();
     expect(page.url()).toContain(
       baseUrl + testData.excerptOfUrl.adminTendersEdit
     );
-    
+
     await page.waitForTimeout(2200);
     const basicValueOfTenderName =
       await adminPage.inputEditTenderName.inputValue();
     await adminPage.addValueToTenderName();
     const expectedValue = basicValueOfTenderName + "test";
     await expect(adminPage.inputEditTenderName).toHaveValue(expectedValue);
-    await adminPage.formToUploadFileEditTender.setInputFiles("Untitled.png");
+    await adminPage.formToUploadFileEditTender.setInputFiles(
+      "data/Untitled.png"
+    );
     if (await adminPage.buttonAlertAboutTheSameFile.isVisible()) {
       await adminPage.clickButtonAlertAboutTheSameFile();
     }
@@ -71,9 +79,12 @@ test.describe("Admin Tenders Verification", () => {
     await adminPage.clickButtonCloseEditPage();
     await adminPage.tenderTitle.waitFor({ state: "visible", timeout: 5000 });
     expect(page.url()).toBe(baseUrl + testData.excerptOfUrl.adminTenders);
-    await expect(
-      adminPage.formOfTenderOnTenderPageForEdit.first()
-    ).toContainText(expectedValue);
+    const needyElementForComparison = await adminPage.getNeedyelement(
+      idOfCurrentTender
+    );
+    await expect(needyElementForComparison.first()).toContainText(
+      expectedValue
+    );
     await adminPage.clickButtonReviewEditChanges();
     await adminPage.clickButtonApproveReviewEditChanges();
   });

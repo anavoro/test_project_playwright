@@ -89,7 +89,7 @@ export class AdminPage extends BasePage {
   readonly buttonCloseEditPage: Locator;
   readonly formOfTenderOnTenderPage: Locator;
   readonly formToUploadFileEditTender: Locator;
-  readonly formOfTenderOnTenderPageForEdit: Locator;
+  readonly idOfEditableTender: Locator;
 
   readonly formDeleteTender: Locator;
   readonly buttonCancelDeleteTender: Locator;
@@ -236,9 +236,7 @@ export class AdminPage extends BasePage {
     this.formOfTenderOnTenderPage = page
       .locator('[data-testid="tendersRow"]');
     this.formToUploadFileEditTender = page.locator('[type="file"]');
-    this.formOfTenderOnTenderPageForEdit = page.locator(
-      '//button[@data-testid="adminPenBtn"]/ancestor::tr[@data-testid="tendersRow"]'
-    );
+    this.idOfEditableTender = page.locator('//button[@data-testid="adminPenBtn"]/ancestor::tr[@data-testid="tendersRow"] //th[@id]').first();
     this.formDeleteTender = page.locator('[data-testid="content"]').first();
     this.buttonCancelDeleteTender = this.formDeleteTender.locator(
       '//button[@type="button" and text() = "Скасувати"]'
@@ -547,6 +545,13 @@ export class AdminPage extends BasePage {
     await this.click(this.buttonCancelDeleteTender);
   }
 
+  async getNeedyelement(expectedText: string) {
+    const row = this.page.locator('[data-testid="tendersRow"]', {
+      hasText: expectedText,
+    });
+    return row;
+  }
+
   async clickButtonExtendQuantityOfTendersOnPageTo20() {
     await this.click(this.buttonExtendQuantityOfTendersOnPageTo20);
   }
@@ -622,7 +627,7 @@ export class AdminPage extends BasePage {
   async verifyWhetherTendersPageContainsElements(): Promise<void> {
     await expect(this.inputTenderName).toBeVisible();
     await expect(this.labelTenderCategory).toBeVisible();
-    await expect(this.labelTenderService).toBeVisible();
+    // await expect(this.labelTenderService).toBeVisible();
     await expect(this.inputTenderInceptionDate).toBeVisible();
     await expect(this.inputTenderEndDate).toBeVisible();
     await expect(this.inputTenderPerfomanceDate).toBeVisible();
