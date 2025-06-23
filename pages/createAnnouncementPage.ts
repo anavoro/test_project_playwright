@@ -94,9 +94,9 @@ export class CreateAnnouncementPage extends BasePage{
 
    // Photo section
    photoTitle: Locator;
-   imageuploadTitle: Locator;
-   imageuploadAsterix: Locator;
-   clueLine: Locator;
+   imageUploadTitle: Locator;
+   imageUploadAsterix: Locator;
+   description: Locator;
    imageUnit: Locator;
    imageDelete: Locator;
    mainImageLabel: Locator;
@@ -141,13 +141,13 @@ export class CreateAnnouncementPage extends BasePage{
    constructor(page: Page) {
     super(page);
 
-    this.createAnnouncementTitle = page.locator("main>div>div:nth-child(2)>div:nth-child(1)");
+    this.createAnnouncementTitle = page.locator('[class*="CreateEditFlowLayout_title"]');
     
-    this.mainInfoHeader = page.locator('[data-testid="wrapper-characteristics"]>div>div:nth-child(1)');
+    this.mainInfoHeader = page.locator('[class*="Characteristics_title"]');
     this.mainInfoButton = page.locator('//button[1]/div/span');
     this.mainInfoButtonNumber = page.locator("//button[1]/div/div/span");
     this.photoButton = page.locator('//button[2]/div/span');
-    this.photoButtonNumber = page.locator("//button[2]/div/div/span");
+    this.photoButtonNumber = page.locator('//button[2]/div/div/span')
     this.servicesButton = page.locator('//button[3]/div/span');
     this.servicesButtonNumber = page.locator("//button[3]/div/div/span");
     this.costButton = page.locator('//button[4]/div/span');
@@ -155,13 +155,13 @@ export class CreateAnnouncementPage extends BasePage{
     this.contactsButton = page.locator('//button[5]/div/span');
     this.contactsButtonNumber = page.locator("//button[5]/div/div/span");
 
-   this.categoryTitle = page.locator('.CategorySelect_title__W8Hgo');
-   this.categoryAsterix = page.locator('//div[@data-testid="wrapper-characteristics"]/div/div/div/div[1]/div[1]');
-   this.categoryInput = page.locator('[data-testid="buttonDiv"]');
+   this.categoryTitle = page.locator('[class*="CategorySelect_title"]');
+   this.categoryAsterix = page.locator('[class*="CategorySelect_title"]>span');
+   this.categoryInput = page.getByTestId('buttonDiv');
    this.arrowDown = page.locator('[alt="Arrow-down"]');
-   this.categoryErrorText = page.locator('.CategorySelect_errorTextVisible__1Oyzh');
-   this.categoryPopUp = page.locator('.CategoryPopup_wrapper__JpUB1');
-   this.categoryPopUpTitle = page.locator('.CategoryPopup_title__19YOz');
+   this.categoryErrorText = page.locator('[class*="CategorySelect_errorTextVisible"]');
+   this.categoryPopUp = page.getByTestId('categoryPopupWrapper');
+   this.categoryPopUpTitle = page.locator('[class*="CategoryPopup_title"]');
    this.closeIcon = page.getByTestId('closeIcon').getByTestId('crossIcon');
    this.budivelnaTekhnikaLink = page.getByTestId('list__budivelna-tekhnika').getByTestId('firstCategoryLabel');
    this.buroviUstanovkiLink = page.getByTestId('list__burovi-ustanovki').locator('div').first();
@@ -169,64 +169,62 @@ export class CreateAnnouncementPage extends BasePage{
    this.komunalnaTekhnikaLink = page.getByTestId('list__komunalna-tekhnika').getByTestId('firstCategoryWrapper');
    this.skladskaTekhnikaLink = page.getByTestId('list__skladska-tekhnika').getByTestId('firstCategoryWrapper');
    this.avariiniMashiniLink = page.getByTestId('list__avariini-mashini').getByTestId('checkLabel');
-   this.avtomobiliShtabniLink = page.locator('div[data-testid="list__avtomobili-shtabni"]');
-   this.tekhnikaDlyaSkladuvanniaLink = page.locator('div[data-testid="list__tekhnika-dlya-skladuvannia"]');
-   this.vagyRoklaLink = page.locator('div[data-testid="list__vagi-rokla"]');
+   this.avtomobiliShtabniLink = page.getByTestId('list__avtomobili-shtabni');
+   this.tekhnikaDlyaSkladuvanniaLink = page.getByTestId('list__tekhnika-dlia-skladuvannia');
+   this.vagyRoklaLink = page.getByTestId('list__vagi-rokla');
        
-   this.unitNameTitle = page.locator('div[data-testid="customInputWrapper"]:nth-of-type(2)>div:nth-of-type(1)');
-   this.unitNameAsterix = page.locator('[data-testid="customInputStar"]');
-   this.unitNameInput = page.locator('div[class="UnitInfo_mainInfo__g4aYl"]>div:nth-child(2) input');
-   this.unitNameErrorText = page.locator('[data-testid="descriptionError"]');
+   this.unitNameTitle = page.locator('//div[@data-testid="customInputWrapper"][1]/div[1]');
+   this.unitNameAsterix = page.getByTestId('customInputStar');
+   this.unitNameInput = page.locator('//div[1]/div[2]/div/input');
+   this.unitNameErrorText = page.getByTestId('descriptionError');
 
-   this.vehicleManufacturerTitle = page.locator('.SelectManufacturer_title__X9AEw');
-   this.vehicleManufacturerAsterix = page.locator('div[class="SelectManufacturer_title__X9AEw"]>span');
+   this.vehicleManufacturerTitle = page.locator('[class*="SelectManufacturer_title"]');
+   this.vehicleManufacturerAsterix = page.locator('div[class*="SelectManufacturer_title"]>span');
    this.loupeSymbol = page.getByTestId('div-wrapper-customSelectWithSearch').locator('path');
-   this.vehicleManufacturerInput = page.locator('[data-testid="input-customSelectWithSearch"]');
+   this.vehicleManufacturerInput = page.getByTestId('input-customSelectWithSearch');
    this.vehicleManufacturerField = page.getByTestId('div-wrapper-customSelectWithSearch');
-   this.vehicleManufacturerInputError = page.locator('.CustomSelectWithSearch_searchResultError__Q9xtO');
-   this.vehicleManufacturerErrorText = page.locator('.CustomSelectWithSearch_errorTextVisible__B5lZH');
-   this.vehicleManufacturerDropdown = page.locator('.CustomSelectWithSearch_searchedServicesCat_wrapper__aOGc3');
-   this.vehicleManufacturerSearchResult = page.locator('.CustomSelectWithSearch_flexForServices__EW4k9:nth-child(1)');
-   this.vehicleManufacturerChoosenResult = page.locator('.CustomSelectWithSearch_serviceText__seBcv');
-   this.vehicleManufacturerDropdownError = page.locator('[data-testid="p2-notFound-addNewItem"]');
-   this.crossIcon = page.locator('[data-testid="closeButton"]');
+   this.vehicleManufacturerInputError = page.locator('[class*="CustomSelectWithSearch_searchResultError"]');
+   this.vehicleManufacturerErrorText = page.locator('[class*="CustomSelectWithSearch_errorTextVisible"]');
+   this.vehicleManufacturerDropdown = page.locator('[class*="CustomSelectWithSearch_searchedServicesCat_wrapper"]');
+   this.vehicleManufacturerSearchResult = page.locator('[class*="CustomSelectWithSearch_flexForServices"]:nth-child(1)');
+   this.vehicleManufacturerChoosenResult = page.locator('[class*="CustomSelectWithSearch_serviceText"]');
+   this.vehicleManufacturerDropdownError = page.getByTestId('p2-notFound-addNewItem');
+   this.crossIcon = page.getByTestId('closeButton');
    this.symbolsCounter = page.getByTestId('maxLength');
-   this.manufacturers = page.locator('[data-testid="item-customSelectWithSearch"]')
+   this.manufacturers = page.getByTestId('item-customSelectWithSearch')
 
-   this.modelNameTitle = page.locator('div[data-testid="customInputWrapper"]:nth-of-type(4)>div:nth-child(1)');
-   this.modelNameInput = page.locator('div[data-testid="customInputWrapper"]:nth-of-type(4)>div~div>input');
-   this.modelNameErrorText = page.locator('[data-testid="descriptionError"]');
+   this.modelNameTitle = page.locator('//div[@data-testid="customInputWrapper"][2]/div[1]');
+   this.modelNameInput = page.locator('//div[1]/div[4]/div/input');
+   this.modelNameErrorText = page.getByTestId('descriptionError');
 
-   this.techCharacteristicsTitle = page.locator('div[class="Characteristics_info__Eza6o"]>div:nth-child(2)>div:nth-child(1)');
+   this.techCharacteristicsTitle = page.locator('//div[@data-testid="wrapper-customTextAriaDescription"][1]/div[1]');
    this.techCharacteristicsTextArea = page.getByTestId('textarea-customTextAriaDescription').first();
    
-   this.descriptionTitle = page.locator('div[class="Characteristics_info__Eza6o"]>div:nth-child(3)>div:nth-child(1)');
-      
-   
+   this.descriptionTitle = page.locator('//div[@data-testid="wrapper-customTextAriaDescription"][2]/div[1]');
    this.descriptionTextArea = page.getByTestId('textarea-customTextAriaDescription').nth(1);
 
-   this.vehicleLocationTitle = page.locator('.AddressSelectionBlock_title__pTi78');
-   this.vehicleLocationInput = page.locator('[data-testid="mapLabel"]');
-   this.vehicleLocationAsterix = page.locator('[class="AddressSelectionBlock_title__pTi78"]>span');
-   this.vehicleLocationErrorText = page.locator('.AddressSelectionBlock_errorTextVisible__IAGKS');
+   this.vehicleLocationTitle = page.locator('[class*="AddressSelectionBlock_title"]');
+   this.vehicleLocationInput = page.getByTestId('mapLabel');
+   this.vehicleLocationAsterix = page.locator('[class*="AddressSelectionBlock_title"]>span');
+   this.vehicleLocationErrorText = page.locator('[class*="AddressSelectionBlock_errorTextVisible"]');
 
-   this.mapPopUp = page.locator('.MapPopup_body__gzgFm');
-   this.mapPopUpTitle = page.locator('.MapPopup_title__ykbd3');
-   this.mapPopUpCloseIcon = page.locator('.MapPopup_icon__aJopq');
-   this.mapPopUpSubmitButton = page.locator('.ItemButtons_darkBlueBtn__juupv ');
-   this.locationSelectButton = page.locator('.AddressSelectionBlock_locationBtn__IvqEL');
-   this.mapPopUpAddress = page.locator('.MapPopup_address__lu6NB');
+   this.mapPopUp = page.locator('[class*="MapPopup_body"]');
+   this.mapPopUpTitle = page.locator('[class*="MapPopup_title"]');
+   this.mapPopUpCloseIcon = page.locator('[class*="MapPopup_icon"]');
+   this.mapPopUpSubmitButton = page.locator('[class*="ItemButtons_darkBlueBtn"]');
+   this.locationSelectButton = page.locator('[class*="AddressSelectionBlock_locationBtn"]');
+   this.mapPopUpAddress = page.locator('[class*="MapPopup_address"]');
    this.map = page.locator('#map');
 
-   this.cancelButton = page.locator('.ButtonsFlow_emptyBtn__96V4x');
+   this.cancelButton = page.locator('[class*="ButtonsFlow_emptyBtn"]');
    this.nextButton = page.getByTestId('nextButton');
 
    this.photoTitle = page.locator('//div[@data-testid="ImagesUnitFlow"]/div[1]')
-   this.imageuploadTitle = page.locator('div[data-testid="ImagesUnitFlow"]>div:nth-child(2)')
-   this.imageuploadAsterix = page.locator('div[data-testid="ImagesUnitFlow"]>div:nth-child(2)>span')
-   this.clueLine = page.locator('div[data-testid="ImagesUnitFlow"]>div:nth-child(3)')
-   this.imageUnit = page.locator('div[data-testid="description"]~div>div:nth-child(1)')
-   this.imageDelete = page.locator('div[data-testid="imageBlock"]:nth-child(1)>div~img~div[data-testid="deleteImage"]')
+   this.imageUploadTitle = page.locator('[class*="ImagesUnitFlow_paragraph"]')
+   this.imageUploadAsterix = page.locator('[class*="ImagesUnitFlow_paragraph"]>span')
+   this.description = page.getByTestId('description')
+   this.imageUnit = page.locator('[data-testid="imageBlock"]:nth-child(1)')
+   this.imageDelete = page.locator('//div[@data-testid="imageBlock"][1]//div[@data-testid="deleteImage"]')
    this.mainImageLabel = page.locator('div[data-testid="mainImageLabel"]')
    this.imageBlock = page.locator('div[data-testid="description"]~div>div')
    this.image1 = page.locator('div[data-testid="imageBlock"]:nth-child(1)')
@@ -245,28 +243,28 @@ export class CreateAnnouncementPage extends BasePage{
 
    this.prevButton = page.getByTestId('prevButton')
    
-   this.servisesHeader = page.locator("div[class='ServicesUnitFlow_title__Z_rgF']:nth-child(1)")
-   this.servicesSearchField = page.locator('[data-testid="searchResult"]')
-   this.servicesInputTitle = page.locator('div[class="ServicesUnitFlow_paragraph__ATZCK"]')
+   this.servisesHeader = page.locator("[class*='ServicesUnitFlow_title']")
+   this.servicesSearchField = page.getByTestId('searchResult')
+   this.servicesInputTitle = page.locator('[class*="ServicesUnitFlow_paragraph"]')
    this.servicesClueLine = page.getByTestId('add-info')
    this.servicesSearchLoop = page.locator('div[data-testid="searchResult"]>div>svg')
    this.servicesSearchInput = page.locator('div[data-testid="searchResult"]>div>input')
-   this.servicesSearchDropdown = page.locator('.ServicesUnitFlow_searchedServicesCatWrapper__O4kY_')
-   this.servicesSearchResult = page.locator('div[data-testid="searchItem-servicesUnitFlow"]>div')
+   this.servicesSearchDropdown = page.locator('[class*="ServicesUnitFlow_searchedServicesCatWrapper"]')
+   this.servicesSearchResult = page.locator('//div[@data-testid="searchItem-servicesUnitFlow"]')
    this.servicesSearchResultFirst = page.locator('div[data-testid="searchItem-servicesUnitFlow"]:nth-child(1)>div')
-   this.markSelected = page.locator('div[data-testid="searchItem-servicesUnitFlow"]:nth-child(1)>button')
-   this.choosedServicesTitle = page.locator('div[class="ServicesUnitFlow_wrapper__XYbmA"]>div:nth-child(5)')
+   this.markSelected = page.locator('//div[@data-testid="searchItem-servicesUnitFlow"][1]')
+   this.choosedServicesTitle = page.locator('div[class*="ServicesUnitFlow_wrapper"]>div:nth-child(5)')
    this.serviceListItem = page.getByTestId('item-servicesUnitFlow')
-   this.servicesList = page.locator('div[class="ServicesUnitFlow_searchedServicesCatWrapper__O4kY_"]>div')
+   this.servicesList = page.locator('[class*="ServicesUnitFlow_searchedServicesCatWrapper"]>div')
    this.servicesListRemoveBtn = page.getByTestId('remove-servicesUnitFlow')
    this.notFoundServiceText = page.getByTestId('p2-notFound-addNewItem')
    this.addNewServiceBtn = page.getByTestId('btn-addNewItem')
    this.addNewServiceBtnIcon = page.getByTestId('svg-plus-addNewItem')
-   this.servicesSearchResultSecond = page.locator('div[data-testid="searchItem-servicesUnitFlow"]:nth-child(2)>div')
+   this.servicesSearchResultSecond = page.locator('//div[@data-testid="searchItem-servicesUnitFlow"][2]/div')
    this.serviceListItemFirst = page.locator('[data-testid="item-servicesUnitFlow"]:nth-child(1)')
    this.serviceListItemSecond = page.locator('[data-testid="item-servicesUnitFlow"]:nth-child(2)')
-   this.serviceListRemoveBtnFirst = page.locator('div[data-testid="item-servicesUnitFlow"]:nth-child(1) button')
-   this.serviceListRemoveBtnSecond = page.locator('div[data-testid="item-servicesUnitFlow"]:nth-child(2) button')
+   this.serviceListRemoveBtnFirst = page.locator('//div[@data-testid="item-servicesUnitFlow"][1]//button')
+   this.serviceListRemoveBtnSecond = page.locator('//div[@data-testid="item-servicesUnitFlow"][2]//button')
    
    
    }
@@ -372,12 +370,12 @@ export class CreateAnnouncementPage extends BasePage{
       await this.page.keyboard.press("Control+V");
    }
    
-   async verifyManufakturerNameNotFoundText101(name: string) {
+   async verifyManufacturerNameNotFoundText101(name: string) {
       await expect(this.vehicleManufacturerDropdownError)
          .toContainText(`На жаль, виробника ${'“'}${name[0].toUpperCase()}${name.slice(1, -1)}${'“'} не знайдено в нашій базі. Щоб додати виробника - зв\`яжіться із службою підтримки`);
    }
 
-   async verifyManufakturerNameNotFound(name: string) {
+   async verifyManufacturerNameNotFound(name: string) {
       await expect(this.vehicleManufacturerDropdownError)
          .toContainText(`На жаль, виробника ${'“'}${name}${'“'} не знайдено в нашій базі. Щоб додати виробника - зв\`яжіться із службою підтримки`);
    }

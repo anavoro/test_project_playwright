@@ -196,38 +196,38 @@ test.describe("Test create_unit page", async () => {
         await createAnnouncementPage.clearVehicleManufacturerInput();
         await createAnnouncementPage.fillVehicleManufacturerInput(invalidData.symbols);
         await expect(createAnnouncementPage.symbolsCounter).toContainText(`${invalidData.symbols.length} / 100`);
-        await createAnnouncementPage.verifyManufakturerNameNotFound(invalidData.symbols);
+        await createAnnouncementPage.verifyManufacturerNameNotFound(invalidData.symbols);
         await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
 
         await createAnnouncementPage.clearVehicleManufacturerInput();
         await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufacturerInput, invalidData.symbols);
         await expect(createAnnouncementPage.symbolsCounter).toContainText(`${invalidData.symbols.length} / 100`);
-        await createAnnouncementPage.verifyManufakturerNameNotFound(invalidData.symbols);
+        await createAnnouncementPage.verifyManufacturerNameNotFound(invalidData.symbols);
         await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
 
         await createAnnouncementPage.clearVehicleManufacturerInput();
         await createAnnouncementPage.fillVehicleManufacturerInput(invalidData.digits);
         await expect(createAnnouncementPage.symbolsCounter).toContainText(`${invalidData.digits.length} / 100`);
-        await createAnnouncementPage.verifyManufakturerNameNotFound(invalidData.digits);
+        await createAnnouncementPage.verifyManufacturerNameNotFound(invalidData.digits);
         await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
 
         await createAnnouncementPage.clearVehicleManufacturerInput();
         await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufacturerInput, invalidData.digits)
         await expect(createAnnouncementPage.symbolsCounter).toContainText(`${invalidData.digits.length} / 100`);
-        await createAnnouncementPage.verifyManufakturerNameNotFound(invalidData.digits);
+        await createAnnouncementPage.verifyManufacturerNameNotFound(invalidData.digits);
         await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
 
         await createAnnouncementPage.clearVehicleManufacturerInput();
         await createAnnouncementPage.fillVehicleManufacturerInput(invalidData.text101);
         await expect(createAnnouncementPage.symbolsCounter).toContainText(`${invalidData.text101.slice(0,-1).length} / 100`);
-        await createAnnouncementPage.verifyManufakturerNameNotFoundText101(invalidData.text101);
+        await createAnnouncementPage.verifyManufacturerNameNotFoundText101(invalidData.text101);
         await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
 
         await createAnnouncementPage.clearVehicleManufacturerInput();
         await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufacturerInput, invalidData.text101);
         await expect(createAnnouncementPage.vehicleManufacturerDropdownError).toBeVisible();
         await expect(createAnnouncementPage.symbolsCounter).toContainText(`${invalidData.text101.slice(0,-1).length} / 100`);
-        await createAnnouncementPage.verifyManufakturerNameNotFoundText101(invalidData.text101);
+        await createAnnouncementPage.verifyManufacturerNameNotFoundText101(invalidData.text101);
         await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
 
         let manufacturerNameUpper:string = "" 
