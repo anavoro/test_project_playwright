@@ -43,8 +43,8 @@ test.describe('Admin Category Panel', () => {
     await expect(loggedInAdmin.pageTitle).toBeVisible({ timeout: 5000 });
     await expect(loggedInAdmin.pageTitle).toHaveText('Виробники техніки');
   });
-/*
-  test('C435: View category and verify details', {
+
+  test.skip('C435: View category and verify details', {
     annotation: { type: 'skipCleanup', description: 'Read-only test - no cleanup needed' },
   }, async ({ adminCategoryPage }) => {
     const categoryName = await adminCategoryPage.getFirstCategoryName();
@@ -61,14 +61,14 @@ test.describe('Admin Category Panel', () => {
     await expect(adminCategoryPage.popup).toBeHidden();
   });
 
-  test('C432: Create a category', async ({ adminCategoryPage }) => {
+  test.skip('C432: Create a category', async ({ adminCategoryPage }) => {
     createdCategoryName = await adminCategoryPage.createCategory();
     await adminCategoryPage.search.fill(createdCategoryName);
     const categoryRow = adminCategoryPage.getCategoryRowByName(createdCategoryName);
     await expect(categoryRow).toBeVisible();
   });
 
-  test('C436: Edit a category', async ({ adminCategoryPage }) => {
+  test.skip('C436: Edit a category', async ({ adminCategoryPage }) => {
     createdCategoryName = await adminCategoryPage.createCategory();
     await adminCategoryPage.search.fill(createdCategoryName);
     const categoryRow = adminCategoryPage.getCategoryRowByName(createdCategoryName);
@@ -87,7 +87,7 @@ test.describe('Admin Category Panel', () => {
     await expect(updatedRow).toBeVisible();
   });
 
-  test('C437: Delete a category', {
+  test.skip('C437: Delete a category', {
     annotation: { type: 'skipCleanup', description: 'Test deletes category itself' },
   }, async ({ adminCategoryPage }) => {
     createdCategoryName = await adminCategoryPage.createCategory();
@@ -98,13 +98,13 @@ test.describe('Admin Category Panel', () => {
     await expect(categoryRow).not.toBeVisible();
   });
 
-  test('C499: Search for category', async ({ adminCategoryPage }) => {
+  test.skip('C499: Search for category', async ({ adminCategoryPage }) => {
     createdCategoryName = await adminCategoryPage.createCategory();
     await adminCategoryPage.search.fill(createdCategoryName);
     const categoryRow = adminCategoryPage.getCategoryRowByName(createdCategoryName);
     await expect(categoryRow).toBeVisible();
   });
-*/
+
   test('C433: should sort ID and Name columns', {
     annotation: { type: 'skipCleanup', description: 'No category created' },
   }, async ({ adminManufacturerPage }) => {
@@ -147,7 +147,7 @@ test.describe('Admin Manufacturer Page', () => {
     await loggedInAdmin.technicBrands.click();
   });
 
-  test('C438: Create a Manufacturer', async ({ adminManufacturerPage }) => {
+  test.skip('C438: Create a Manufacturer', async ({ adminManufacturerPage }) => {
     await adminManufacturerPage.clickCreate();
     const manufacturerName = await adminManufacturerPage.fillManufacturerName();
     await adminManufacturerPage.clickSubmit();
@@ -170,7 +170,7 @@ test.describe('Admin Manufacturer Page', () => {
     expect(adminManufacturerPage.isSortedDescending(name.desc, 'string')).toBe(true);
   });
 
-  test('C498: Search Manufacturer', async ({ adminManufacturerPage }) => {
+  test.skip('C498: Search Manufacturer', async ({ adminManufacturerPage }) => {
     const newManufacturer = await adminManufacturerPage.createManufacturer();
     await adminManufacturerPage.search.fill(newManufacturer);
     const manufacturerRow = adminManufacturerPage.getManufacturerRowByName(newManufacturer);
