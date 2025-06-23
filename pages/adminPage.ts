@@ -627,7 +627,6 @@ export class AdminPage extends BasePage {
   async verifyWhetherTendersPageContainsElements(): Promise<void> {
     await expect(this.inputTenderName).toBeVisible();
     await expect(this.labelTenderCategory).toBeVisible();
-    // await expect(this.labelTenderService).toBeVisible();
     await expect(this.inputTenderInceptionDate).toBeVisible();
     await expect(this.inputTenderEndDate).toBeVisible();
     await expect(this.inputTenderPerfomanceDate).toBeVisible();
