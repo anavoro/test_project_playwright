@@ -32,7 +32,9 @@ test.describe("Product Page Verification Of Map", () => {
         return await servicesPage.titleUrl.first().getAttribute("src");
       })
       .not.toBe(before);
-    await servicesPage.сlusters.first().waitFor({ state: "visible" });
+    await servicesPage.сlusters
+      .first()
+      .waitFor({ state: "visible", timeout: 10000 });
     await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
   });
@@ -48,7 +50,7 @@ test.describe("Product Page Verification Of Map", () => {
       .not.toBe(before);
     await servicesPage.marksOfAdvertisementsOnMap
       .first()
-      .waitFor({ state: "visible" });
+      .waitFor({ state: "visible", timeout: 10000 });
     mark = servicesPage.marksOfAdvertisementsOnMap.first();
     await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
@@ -59,7 +61,7 @@ test.describe("Product Page Verification Of Map", () => {
         return await servicesPage.titleUrl.first().getAttribute("src");
       })
       .not.toBe(before);
-    await mark.waitFor({ state: "hidden" });
+    await mark.waitFor({ state: "hidden", timeout: 10000 });
     await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
 
@@ -72,7 +74,7 @@ test.describe("Product Page Verification Of Map", () => {
       .not.toBe(before);
     await servicesPage.marksOfAdvertisementsOnMap
       .first()
-      .waitFor({ state: "visible" });
+      .waitFor({ state: "visible", timeout: 10000 });
     mark = servicesPage.marksOfAdvertisementsOnMap.first();
     await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
@@ -83,7 +85,7 @@ test.describe("Product Page Verification Of Map", () => {
         return await servicesPage.titleUrl.first().getAttribute("src");
       })
       .not.toBe(before);
-    await mark.waitFor({ state: "hidden" });
+    await mark.waitFor({ state: "hidden", timeout: 10000 });
     await servicesPage.verifyExistenceOfMarks();
     await servicesPage.verifyExistenceOfClusters();
   });
