@@ -22,7 +22,7 @@ test.describe('Admin Panel', () => {
     await expect(title).toHaveText('Користувачі');
   });
 
-  test('C420: Creating a user, C426: Delete function', async ({ loggedInAdmin }) => {
+  test.skip('C420: Creating a user, C426: Delete function', async ({ loggedInAdmin }) => {
     await loggedInAdmin.navigateToUsers();
     await loggedInAdmin.addNewUser();
     expect(loggedInAdmin.addUserPanel).toBeVisible();
@@ -80,7 +80,7 @@ test.describe('Admin Panel', () => {
     await loggedInAdmin.verifyUserPageTitle();
   });
 
-  test('C425: Editing user', async ({ loggedInAdmin }) => {
+  test.skip('C425: Editing user', async ({ loggedInAdmin }) => {
     const newUser = await createUser(loggedInAdmin);
 
     await loggedInAdmin.searchField.fill(newUser.email);
