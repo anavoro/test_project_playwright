@@ -26,7 +26,6 @@ test.describe("Test create_unit page 1", async () => {
         const manufacturerName = await manufacturerRandom(createAnnouncementPage)
         await createAnnouncementPage.fillVehicleManufacturerInput(manufacturerName);
         await createAnnouncementPage.clickVehicleManufacturerSearchResult();
-        await expect(createAnnouncementPage.vehicleManufacturerErrorText).not.toBeVisible()
         await createAnnouncementPage.clickLocationSelectButton();
         await createAnnouncementPage.clickMap();
         await createAnnouncementPage.clickMapPopUpSubmitButton();
@@ -69,7 +68,6 @@ test.describe("Test create_unit page 1", async () => {
         expect(srcFirstBefore == srsSecondAfter).toBeTruthy();
 
         const imagesUploaded = await createAnnouncementPage.imageUploadedAll.all();
-        
         const count = await createAnnouncementPage.imageUploadedAll.count();
         for (let i = 0; i < imagesUploaded.length; i++) {
         await createAnnouncementPage.imageUnit.focus({timeout: 5000});

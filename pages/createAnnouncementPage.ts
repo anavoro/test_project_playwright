@@ -301,8 +301,8 @@ export class CreateAnnouncementPage extends BasePage{
       await this.unitNameInput.fill(name);
    }
 
-   async fillVehicleManufacturerInput(name: string | any) {
-      await this.vehicleManufacturerInput.fill(name);
+   async fillVehicleManufacturerInput(term: string | any) {
+      await this.vehicleManufacturerInput.fill(term);
    }
 
    async clickVehicleManufacturerSearchResult() {
