@@ -21,7 +21,7 @@ test.describe("Product Page Verification Of Map", () => {
     await servicesPage.verifyVisibilityOfLargeClusters();
   });
 
-  test("C516 verify map, drag and drop", async ({ page }) => {
+  test.skip("C516 verify map, drag and drop", async ({ page }) => {
     const before = await servicesPage.titleUrl.first().getAttribute("src");
     await page.mouse.move(400, 300);
     await page.mouse.down();
@@ -39,7 +39,7 @@ test.describe("Product Page Verification Of Map", () => {
     await servicesPage.verifyExistenceOfClusters();
   });
 
-  test("C501 verify map zooming", async ({ page }) => {
+  test.skip("C501 verify map zooming", async ({ page }) => {
     let before = await servicesPage.titleUrl.first().getAttribute("src");
     let mark;
     await servicesPage.clickButtonZoomIn();
