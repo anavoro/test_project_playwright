@@ -23,5 +23,8 @@
     "@types/node": "^22.15.18",
     "allure-playwright": "^3.2.2",
     "dotenv": "^16.5.0"
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0"
   }
 }

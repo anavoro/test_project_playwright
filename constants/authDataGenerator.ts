@@ -22,6 +22,12 @@ const generateSimpleUsername = (): string => {
   return `${first}.${last}`;
 };
 
+export const tenderContact = {
+  lastName: faker.person.lastName(),
+  firstName: faker.person.firstName(),
+  validMobile: process.env.USER_MOBILE?.replace(/^\+380/, '') ?? '',
+};
+
 export const invalidUserCredentials = {
   invalidEmails: {
     withSpace: `${generateSimpleUsername()} ${faker.internet.domainName()}`,
@@ -51,5 +57,21 @@ export const invalidUserCredentials = {
     with11Numbers: validPhone.replace('+380', '0') + '0',
     withOtherCountryCode: validPhone.replace('+380', '+1'),
     without38: validPhone.replace('+380', '+0'),
-  }
+  },
+  name: {
+    oneSymbol: faker.string.alpha(),
+    moreThan25: faker.string.alpha(26),
+  },
+  invalidPhonesForContact: {
+      withRestrictedSymbol: {
+        lessThan: validPhone + '<',
+        greaterThan: validPhone + '>',
+        openBrace: validPhone + '{',
+        closeBrace: validPhone + '}',
+        semicolon: validPhone + ';',
+        caret: validPhone + '^',
+        quotation: validPhone + '"',
+        apostrophe: validPhone + '`',
+      },
+    }
 };
