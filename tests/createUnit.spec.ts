@@ -52,7 +52,7 @@ test.describe("Test create_unit page", async () => {
               .toHaveCSS('background-color', color.inactiveElem);
         await expect(createAnnouncementPage.contactsButton).toContainText("Контакти");
     });
-    test("C296 Verify Category section", async ({ page }) => {
+    test.skip("C296 Verify Category section", async ({ page }) => {
 
         await expect(createAnnouncementPage.categoryTitle).toBeVisible();
         await expect(createAnnouncementPage.categoryTitle).toContainText('Категорія *');

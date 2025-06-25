@@ -22,14 +22,14 @@ test.describe("Test create_unit page 1", async () => {
         await createAnnouncementPage.click(createAnnouncementPage.palebiiniUstanovkiLink);
         await expect(createAnnouncementPage.categoryErrorText).not.toBeVisible()
         await createAnnouncementPage.fillUnitNameInput(validData.unitName);
-        await expect(createAnnouncementPage.unitNameErrorText).not.toBeVisible()
+        await createAnnouncementPage.unitNameErrorText.waitFor({state: 'hidden'})
         const manufacturerName = await manufacturerRandom(createAnnouncementPage)
         await createAnnouncementPage.fillVehicleManufacturerInput(manufacturerName);
         await createAnnouncementPage.clickVehicleManufacturerSearchResult();
         await createAnnouncementPage.clickLocationSelectButton();
         await createAnnouncementPage.clickMap();
         await createAnnouncementPage.clickMapPopUpSubmitButton();
-        await expect(createAnnouncementPage.vehicleLocationErrorText).not.toBeVisible()
+        await createAnnouncementPage.vehicleLocationErrorText.waitFor({state: 'hidden'})
         await createAnnouncementPage.clickNextButton();
     })
     test('C367 Verify image upload panels', async ( {page, createAnnouncementPage} ) => {
