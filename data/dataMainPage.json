@@ -42,7 +42,10 @@
     "cookie": "/cookie-policy/",
     "termsConditions": "/terms-conditions/",
     "products": "/products/",
-    "tendersMap": "/tenders-map/"
+    "tendersMap": "/tenders-map/",
+    "admin": "/admin/",
+    "adminTenders": "/admin/tenders/",
+    "adminTendersEdit": "/admin/tenders/edit"
   },
   "adviceData": {
     "name": "Test",
