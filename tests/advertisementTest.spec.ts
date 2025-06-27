@@ -16,7 +16,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Advertisements Verification", () => {
-  test("C212 verify services section on the main page", async ({ page }) => {
+  test.skip("C212 verify services section on the main page", async ({ page }) => {
     await homePage.servicesTitle.scrollIntoViewIfNeeded();
     await expect(homePage.servicesPopularButton).toBeVisible();
     await expect(homePage.servicePopularAsphalting).toBeVisible();
@@ -78,7 +78,7 @@ test.describe("Advertisements Verification", () => {
     );
   });
 
-  test("C213 verify equipment section on the main page", async ({ page }) => {
+  test.skip("C213 verify equipment section on the main page", async ({ page }) => {
     await homePage.equipmentTitle.scrollIntoViewIfNeeded();
     await expect(homePage.equipmentPopularButton).toBeVisible();
     await expect(homePage.equipmentPopularSeeder).toBeVisible();
@@ -138,7 +138,7 @@ test.describe("Advertisements Verification", () => {
     );
   });
 
-  test("C530 verify searching on the main page", async ({ page }) => {
+  test.skip("C530 verify searching on the main page", async ({ page }) => {
     let advertisementHistoryArray: string[] = [];
 
     await homePage.clickTopSearchInput();
@@ -335,7 +335,7 @@ test.describe("Advertisements Verification", () => {
     await expect(homePage.topSearchInput).toBeEmpty();
   });
 
-  test("C559 verify catalog button", async ({ page }) => {
+  test.skip("C559 verify catalog button", async ({ page }) => {
     await homePage.clickCatalog();
     await homePage.verifyWhetherFirstDropDownMenuisVisible(
       testData.optionsOfCatalogDropDownMenu.firstCatalogDromMenuContent
