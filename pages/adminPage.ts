@@ -1,6 +1,10 @@
-import { Page, Locator, expect } from '@playwright/test';
-import { BasePage } from './basePage';
-import type { UserFormData, EditUserFormData, PaginationDetails } from '../utils/types';
+import { Page, Locator, expect } from "@playwright/test";
+import { BasePage } from "./basePage";
+import type {
+  UserFormData,
+  EditUserFormData,
+  PaginationDetails,
+} from "../utils/types";
 
 export class AdminPage extends BasePage {
   // ==================== NAVIGATION ELEMENTS ====================
@@ -84,6 +88,22 @@ export class AdminPage extends BasePage {
   readonly inputEditTenderName: Locator;
   readonly buttonCloseEditPage: Locator;
   readonly formOfTenderOnTenderPage: Locator;
+  readonly formToUploadFileEditTender: Locator;
+  readonly idOfEditableTender: Locator;
+
+  readonly formDeleteTender: Locator;
+  readonly buttonCancelDeleteTender: Locator;
+  readonly buttonApproveDeleteTender: Locator;
+  readonly tenderId: Locator;
+  readonly formUploadedFile: Locator;
+  readonly buttonReviewEditChanges: Locator;
+  readonly buttonApproveReviewEditChanges: Locator;
+  readonly buttonAlertAboutTheSameFile: Locator;
+  readonly buttonExtendQuantityOfTendersOnPage: Locator;
+  readonly buttonExtendQuantityOfTendersOnPageTo20: Locator;
+  readonly buttonExtendQuantityOfTendersOnPageTo50: Locator;
+  readonly buttonExtendQuantityOfTendersOnPageTo10: Locator;
+  readonly buttonDeleteTender: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -92,84 +112,161 @@ export class AdminPage extends BasePage {
     this.adminPanel = page.locator('a[href="/admin/"]');
     this.userPanel = page.locator('a[href="/admin/users/"]');
     this.technicPanel = page.getByText("Техніка");
-    this.technicCategories = page.getByText('Категорії техніки');
-    this.technicBrands = page.getByText('Виробники техніки');
+    this.technicCategories = page.getByText("Категорії техніки");
+    this.technicBrands = page.getByText("Виробники техніки");
     this.servicePanel = page.getByText("Сервіси");
     this.sideMenu = page.locator('[data-testid="navigationContainer"]');
-    this.generalPanel = page.locator('[class="AdminLayout_content_wrapper___EUUc"]');
+    this.generalPanel = page.locator(
+      '[class="AdminLayout_content_wrapper___EUUc"]'
+    );
     this.buttonSupport = page.locator('a[href="/admin/chat/"]');
     this.buttonMainPage = page.locator('[data-testid="homeButton"]');
 
     // ==================== USER TABLE ELEMENTS ====================
-    this.pageTitle = page.locator('div.AdminLayout_title__lqIgo');
+    this.pageTitle = page.locator("div.AdminLayout_title__lqIgo");
     this.userRows = page.locator('[data-testid="userRow"]');
     this.tableContainer = page.locator('[data-testid="adminRowContainer"]');
     this.userContainer = page.getByTestId("userContainer");
-    this.userRoleCells = page.locator('[data-testid="userRow"] td:nth-child(4)');
+    this.userRoleCells = page.locator(
+      '[data-testid="userRow"] td:nth-child(4)'
+    );
     this.searchField = page.getByTestId("input");
 
     // ==================== USER FORM ELEMENTS ====================
     this.addUserBtn = page.getByTestId("customButtonContainer");
     this.addUserPanel = page.getByTestId("content");
     this.userGroupDropdown = page.getByTestId("div_CustomSelect").first();
-    this.userGroupManagement = page.getByText('Відділ менеджменту');
-    this.userGroupClient = page.getByTestId('span-customSelect').filter({ hasText: 'Клієнт' });
+    this.userGroupManagement = page.getByText("Відділ менеджменту");
+    this.userGroupClient = page
+      .getByTestId("span-customSelect")
+      .filter({ hasText: "Клієнт" });
     this.lastName = page.locator('input[name="last_name"]');
     this.firstName = page.locator('input[name="first_name"]');
-    this.phone = page.locator('#mobile');
-    this.email = page.getByTestId('custom-input');
-    this.password = page.locator('#password');
-    this.saveButton = page.getByRole('button', { name: 'Зберегти' });
+    this.phone = page.locator("#mobile");
+    this.email = page.getByTestId("custom-input");
+    this.password = page.locator("#password");
+    this.saveButton = page.getByRole("button", { name: "Зберегти" });
     this.deleteButton = page.locator('[data-testid="bucketBtn"]');
-    this.confirmDeleteButton = page.getByRole('button', { name: 'Так' });
+    this.confirmDeleteButton = page.getByRole("button", { name: "Так" });
 
     // ==================== EDIT USER ELEMENTS ====================
-    this.reviewBtn = page.getByTestId('adminOkoButton');
-    this.userPage = page.getByText('Перегляд користувача');
-    this.editBtn = page.getByTestId('adminPenBtn');
-    this.editFirstName = page.locator('div[data-testid="customInputWrapper"]', { hasText: "Прізвище" }).locator('input[data-testid="custom-input"]');
-    this.editLastName = page.locator('div[data-testid="customInputWrapper"]', { hasText: "Ім\'я" }).locator('input[data-testid="custom-input"]');
-    this.editPhone = page.getByTestId('OwnerProfileNumber');
+    this.reviewBtn = page.getByTestId("adminOkoButton");
+    this.userPage = page.getByText("Перегляд користувача");
+    this.editBtn = page.getByTestId("adminPenBtn");
+    this.editFirstName = page
+      .locator('div[data-testid="customInputWrapper"]', { hasText: "Прізвище" })
+      .locator('input[data-testid="custom-input"]');
+    this.editLastName = page
+      .locator('div[data-testid="customInputWrapper"]', { hasText: "Ім'я" })
+      .locator('input[data-testid="custom-input"]');
+    this.editPhone = page.getByTestId("OwnerProfileNumber");
 
     // ==================== SORTING ELEMENTS ====================
     this.getSortButtonByName = (name: string) =>
-      page.locator(`span[role="button"][data-testid="sortLabelContainer"]:has-text("${name}")`);
+      page.locator(
+        `span[role="button"][data-testid="sortLabelContainer"]:has-text("${name}")`
+      );
 
     // ==================== PAGINATION ELEMENTS ====================
-    this.paginationDropdown = page.locator('.MuiTablePagination-select');
-    this.paginationSelect = page.locator('.MuiTablePagination-select');
-    this.paginationInfo = page.locator('.MuiTablePagination-displayedRows');
+    this.paginationDropdown = page.locator(".MuiTablePagination-select");
+    this.paginationSelect = page.locator(".MuiTablePagination-select");
+    this.paginationInfo = page.locator(".MuiTablePagination-displayedRows");
 
     // ==================== LOGIN ELEMENTS (Both versions) ====================
-    this.emailInput = page.locator('#email');
-    this.passwordInput = page.locator('#password');
-    this.loginButton = page.getByRole('button', { name: 'Увійти' });
+    this.emailInput = page.locator("#email");
+    this.passwordInput = page.locator("#password");
+    this.loginButton = page.getByRole("button", { name: "Увійти" });
     this.inputEmail = page.locator("#email");
     this.inputPassword = page.locator("#password");
     this.buttonLogin = page.getByRole("button", { name: "Увійти" });
 
     // ==================== TENDER ELEMENTS ====================
     this.buttonTenders = page.locator('[href="/admin/tenders/"]');
-    this.tenderTitle = page.locator('//div[@class="AdminLayout_title__lqIgo" and text() = "Teндери"]');
+    this.tenderTitle = page.locator(
+      '//div[@class="AdminLayout_title__lqIgo" and text() = "Teндери"]'
+    );
     this.adminEyeButton = page.locator('[data-testid="adminOkoButton"]');
-    this.inputTenderName = page.locator('//div[contains(text(), "Назва тендера")]/following-sibling::div');
-    this.labelTenderCategory = page.locator('//div[contains(text(), "Категорія")]/following-sibling::div');
-    this.labelTenderService = page.locator('//div[contains(text(), "Послуга яку потрібно виконати")]/following-sibling::div');
-    this.inputTenderInceptionDate = page.locator('//div[contains(text(), "Початок")]/following-sibling::div');
-    this.inputTenderEndDate = page.locator('//div[contains(text(), "Кінець")]/following-sibling::div');
-    this.inputTenderPerfomanceDate = page.locator('//div[contains(text(), "Період виконання робіт")]/following-sibling::div');
-    this.inputTenderPrice = page.locator('//div[contains(text(), "Оголошений бюджет*")]/following-sibling::div');
-    this.inputTenderExtraInfo = page.locator('//div[contains(text(), "Додаткова інформація")]/following-sibling::div');
-    this.inputTenderCompanyInfo = page.locator('//div[contains(text(), "Інформація про компанію")]/following-sibling::div');
-    this.inputTenderLastNameInfo = page.locator('//div[contains(text(), "Прізвище")]/following-sibling::div');
-    this.inputTenderFirstNameInfo = page.locator(`//div[contains(text(), "Ім'я")]/following-sibling::div`);
-    this.inputTenderNumberInfo = page.locator('//div[contains(text(), "Номер телефону")]/following-sibling::div');
+    this.inputTenderName = page.locator(
+      '//div[contains(text(), "Назва тендера")]/following-sibling::div'
+    );
+    this.labelTenderCategory = page.locator(
+      '//div[contains(text(), "Категорія")]/following-sibling::div'
+    );
+    this.labelTenderService = page.locator(
+      '//div[contains(text(), "Послуга яку потрібно виконати")]/following-sibling::div'
+    );
+    this.inputTenderInceptionDate = page.locator(
+      '//div[contains(text(), "Початок")]/following-sibling::div'
+    );
+    this.inputTenderEndDate = page.locator(
+      '//div[contains(text(), "Кінець")]/following-sibling::div'
+    );
+    this.inputTenderPerfomanceDate = page.locator(
+      '//div[contains(text(), "Період виконання робіт")]/following-sibling::div'
+    );
+    this.inputTenderPrice = page.locator(
+      '//div[contains(text(), "Оголошений бюджет*")]/following-sibling::div'
+    );
+    this.inputTenderExtraInfo = page.locator(
+      '//div[contains(text(), "Додаткова інформація")]/following-sibling::div'
+    );
+    this.inputTenderCompanyInfo = page.locator(
+      '//div[contains(text(), "Інформація про компанію")]/following-sibling::div'
+    );
+    this.inputTenderLastNameInfo = page.locator(
+      '//div[contains(text(), "Прізвище")]/following-sibling::div'
+    );
+    this.inputTenderFirstNameInfo = page.locator(
+      `//div[contains(text(), "Ім'я")]/following-sibling::div`
+    );
+    this.inputTenderNumberInfo = page.locator(
+      '//div[contains(text(), "Номер телефону")]/following-sibling::div'
+    );
     this.buttonClose = page.locator('[data-testid="closeBtn"]');
     this.buttonEditTender = page.locator('[data-testid="adminPenBtn"]').first();
-    this.titleOfEditTenderPage = page.locator('//div[@class="AdminLayout_title__lqIgo" and text()="Редагування тендера"]');
-    this.inputEditTenderName = page.locator('[data-testid="custom-input"]').first();
-    this.buttonCloseEditPage = page.locator('//span[@data-testid="nameNextBtn"]/ancestor::button');
-    this.formOfTenderOnTenderPage = page.locator('[data-testid="tendersRow"]').first();
+    this.titleOfEditTenderPage = page.locator(
+      '//div[@class="AdminLayout_title__lqIgo" and text()="Редагування тендера"]'
+    );
+    this.inputEditTenderName = page
+      .locator('[data-testid="custom-input"]')
+      .first();
+    this.buttonCloseEditPage = page.locator(
+      '//span[@data-testid="nameNextBtn"]/ancestor::button'
+    );
+    this.formOfTenderOnTenderPage = page
+      .locator('[data-testid="tendersRow"]');
+    this.formToUploadFileEditTender = page.locator('[type="file"]');
+    this.idOfEditableTender = page.locator('//button[@data-testid="adminPenBtn"]/ancestor::tr[@data-testid="tendersRow"] //th[@id]').first();
+    this.formDeleteTender = page.locator('[data-testid="content"]').first();
+    this.buttonCancelDeleteTender = this.formDeleteTender.locator(
+      '//button[@type="button" and text() = "Скасувати"]'
+    );
+    this.buttonApproveDeleteTender = this.formDeleteTender.locator(
+      '//button[@type="button" and text() = "Так"]'
+    );
+    this.tenderId = page
+      .locator(
+        '//button[@data-testid="bucketBtn"]/ancestor::tr[@data-testid="tendersRow"]'
+      )
+      .first();
+    this.formUploadedFile = page.locator('//div //div[text()="Untitled.png"]');
+    this.buttonReviewEditChanges = page
+      .locator('[data-testid="adminShowBtn"]')
+      .first();
+    this.buttonApproveReviewEditChanges = page.locator(
+      '[data-testid="acceptBtn"]'
+    );
+    this.buttonAlertAboutTheSameFile = page.locator(
+      '//button[@type="button" and text() = "Зрозуміло"]'
+    );
+    this.buttonExtendQuantityOfTendersOnPage = page.locator('[id="mui-1"]');
+    this.buttonExtendQuantityOfTendersOnPageTo20 =
+      page.locator('[data-value="20"]');
+    this.buttonExtendQuantityOfTendersOnPageTo50 =
+      page.locator('[data-value="50"]');
+    this.buttonExtendQuantityOfTendersOnPageTo10 =
+      page.locator('[data-value="10"]');
+    this.buttonDeleteTender = page.locator('[data-testid="bucketBtn"]').first();
   }
 
   // ==================== NAVIGATION METHODS ====================
@@ -178,7 +275,7 @@ export class AdminPage extends BasePage {
       await this.goto(baseUrl);
     } else {
       await this.userPanel.click();
-      await this.page.waitForURL('**/admin/users/', { timeout: 5000 });
+      await this.page.waitForURL("**/admin/users/", { timeout: 5000 });
     }
   }
 
@@ -216,11 +313,11 @@ export class AdminPage extends BasePage {
       }
     }
 
-    for (let i = 0; i < await this.loginButton.count(); i++) {
+    for (let i = 0; i < (await this.loginButton.count()); i++) {
       const btn = this.loginButton.nth(i);
       if (await btn.isVisible()) {
         try {
-          await btn.click({ force: true }); 
+          await btn.click({ force: true });
         } catch (e) {
           await btn.evaluate((b) => (b as HTMLElement).click());
         }
@@ -264,7 +361,7 @@ export class AdminPage extends BasePage {
     await expect(this.editLastName).toHaveValue(/.+/, { timeout: 5000 });
     await this.editLastName.fill(lastName);
     await this.editFirstName.fill(firstName);
-    await this.editPhone.fill('');
+    await this.editPhone.fill("");
     await this.editPhone.fill(phone);
     await this.saveButton.click();
   }
@@ -287,9 +384,9 @@ export class AdminPage extends BasePage {
   }
 
   async waitForUserRowByEmail(email: string): Promise<void> {
-    await this.page.locator(`tr:has-text("${email}")`).waitFor({ 
-      state: 'visible', 
-      timeout: 5000 
+    await this.page.locator(`tr:has-text("${email}")`).waitFor({
+      state: "visible",
+      timeout: 5000,
     });
   }
 
@@ -298,57 +395,74 @@ export class AdminPage extends BasePage {
   }
 
   async verifyUserPageTitle(): Promise<void> {
-    await this.userPage.waitFor({ state: 'visible' });
+    await this.userPage.waitFor({ state: "visible" });
     await expect(this.userPage).toBeVisible();
   }
 
   // ==================== FILTERING METHODS ====================
   async verifyAllFilteredUsersAreClients(): Promise<void> {
-    await expect(this.userRows.first()).toBeVisible({ timeout: 10000 }); 
-    await expect.poll(async () => {
-      const allRoleTexts = await this.userRoleCells.allInnerTexts();
-      return allRoleTexts.length > 0 && allRoleTexts.every(text => text.trim() === 'Клієнт');
-    }, {
-      timeout: 15000, 
-      message: 'Expected all filtered users to have the role "Клієнт".'
-    }).toBe(true);
+    await expect(this.userRows.first()).toBeVisible({ timeout: 10000 });
+    await expect
+      .poll(
+        async () => {
+          const allRoleTexts = await this.userRoleCells.allInnerTexts();
+          return (
+            allRoleTexts.length > 0 &&
+            allRoleTexts.every((text) => text.trim() === "Клієнт")
+          );
+        },
+        {
+          timeout: 15000,
+          message: 'Expected all filtered users to have the role "Клієнт".',
+        }
+      )
+      .toBe(true);
   }
 
   async verifyAllFilteredUsersHaveName(expectedName: string): Promise<void> {
-    const userNameCells = this.page.locator('[data-testid="userRow"] td:nth-child(3)');
+    const userNameCells = this.page.locator(
+      '[data-testid="userRow"] td:nth-child(3)'
+    );
     await expect(userNameCells.first()).toBeVisible();
 
-    await expect.poll(async () => {
-      const allNames = await userNameCells.allInnerTexts();
-      return allNames.every(name => name.includes(expectedName));
-    }).toBe(true);
+    await expect
+      .poll(async () => {
+        const allNames = await userNameCells.allInnerTexts();
+        return allNames.every((name) => name.includes(expectedName));
+      })
+      .toBe(true);
   }
 
   // ==================== SORTING METHODS ====================
   async clickSort(columnName: string): Promise<void> {
     await this.getSortButtonByName(columnName).click();
-    await this.page.locator('span.MuiBox-root', {
-      hasText: /sorted (ascending|descending)/,
-    }).first().waitFor({ state: 'visible', timeout: 5000 });
+    await this.page
+      .locator("span.MuiBox-root", {
+        hasText: /sorted (ascending|descending)/,
+      })
+      .first()
+      .waitFor({ state: "visible", timeout: 5000 });
   }
 
   async getColumnDataByIndex(columnIndex: number): Promise<string[]> {
     const cells = this.userRows.locator(`td:nth-child(${columnIndex})`);
 
-    await expect.poll(
-      async () => {
-        const count = await cells.count();
-        return count > 0;
-      },
-      { timeout: 10000, message: 'Waiting for table data to load' }
-    ).toBe(true);
+    await expect
+      .poll(
+        async () => {
+          const count = await cells.count();
+          return count > 0;
+        },
+        { timeout: 10000, message: "Waiting for table data to load" }
+      )
+      .toBe(true);
 
     return cells.allTextContents();
   }
 
   async getColumnIndexByHeaderText(headerText: string): Promise<number> {
-    const headers = await this.page.locator('thead th').allTextContents();
-    const index = headers.findIndex(text => text.includes(headerText));
+    const headers = await this.page.locator("thead th").allTextContents();
+    const index = headers.findIndex((text) => text.includes(headerText));
     if (index === -1) throw new Error(`Header "${headerText}" not found`);
     return index + 1;
   }
@@ -380,24 +494,24 @@ export class AdminPage extends BasePage {
   async selectPaginationOption(option: number): Promise<void> {
     await this.paginationDropdown.click();
     await this.page.locator(`[data-value="${option}"]`).click();
-    await this.page.waitForTimeout(500); 
+    await this.page.waitForTimeout(500);
   }
 
   async getUserRowsCount(): Promise<number> {
-    await this.userRows.first().waitFor({ state: 'visible' });
+    await this.userRows.first().waitFor({ state: "visible" });
     await this.page.waitForTimeout(200);
     return await this.userRows.count();
   }
 
   async waitForPaginationUpdate(): Promise<void> {
-    await this.userRows.first().waitFor({ state: 'visible' });
+    await this.userRows.first().waitFor({ state: "visible" });
     await expect(this.paginationInfo).not.toHaveText(/з 0 по 0 з 0/);
   }
 
   async waitForUserRowsToLoad(expectedMaxRows: number): Promise<void> {
     await this.page.waitForFunction(
       (maxRows) => {
-        const rows = document.querySelectorAll('tbody tr');
+        const rows = document.querySelectorAll("tbody tr");
         return rows.length > 0 && rows.length <= maxRows;
       },
       expectedMaxRows,
@@ -406,11 +520,11 @@ export class AdminPage extends BasePage {
   }
 
   async getSelectedPaginationValue(): Promise<string> {
-    return await this.paginationSelect.textContent() || '';
+    return (await this.paginationSelect.textContent()) || "";
   }
 
   async getPaginationInfoText(): Promise<string> {
-    return await this.paginationInfo.textContent() || '';
+    return (await this.paginationInfo.textContent()) || "";
   }
 
   async getPaginationDetails(): Promise<PaginationDetails> {
@@ -422,13 +536,68 @@ export class AdminPage extends BasePage {
     return {
       from: parseInt(match[1]),
       to: parseInt(match[2]),
-      total: parseInt(match[3])
+      total: parseInt(match[3]),
     };
   }
 
   // ==================== TENDER METHODS ====================
-  async addValueToTenderName(basicValue: string): Promise<void> {
-    await this.inputEditTenderName.fill(basicValue + "test");
+  async clickButtonCancelDeleteTender() {
+    await this.click(this.buttonCancelDeleteTender);
+  }
+
+  async getNeedyelement(expectedText: string) {
+    const row = this.page.locator('[data-testid="tendersRow"]', {
+      hasText: expectedText,
+    });
+    return row;
+  }
+
+  async clickButtonExtendQuantityOfTendersOnPageTo20() {
+    await this.click(this.buttonExtendQuantityOfTendersOnPageTo20);
+  }
+
+  async clickButtonExtendQuantityOfTendersOnPageTo10() {
+    await this.click(this.buttonExtendQuantityOfTendersOnPageTo10);
+  }
+
+  async clickButtonExtendQuantityOfTendersOnPageTo50() {
+    await this.click(this.buttonExtendQuantityOfTendersOnPageTo50);
+  }
+
+  async clickButtonExtendQuantityOfTendersOnPage() {
+    await this.click(this.buttonExtendQuantityOfTendersOnPage);
+  }
+
+  async verifyQuantityOfTendersOnPage(quantity: number) {
+    for (let i = 0; i < quantity; i++) {
+      await this.formOfTenderOnTenderPage.nth(i).scrollIntoViewIfNeeded();
+      await expect(this.formOfTenderOnTenderPage.nth(i)).toBeVisible();
+    }
+  }
+
+  async clickButtonApproveDeleteTender() {
+    await this.click(this.buttonApproveDeleteTender);
+  }
+
+  async clickButtonDeleteTender() {
+    await this.click(this.buttonDeleteTender);
+  }
+
+  async clickButtonReviewEditChanges() {
+    await this.click(this.buttonReviewEditChanges);
+  }
+
+  async clickButtonApproveReviewEditChanges() {
+    await this.click(this.buttonApproveReviewEditChanges);
+  }
+
+  async clickButtonAlertAboutTheSameFile() {
+    await this.click(this.buttonAlertAboutTheSameFile);
+  }
+
+  async addValueToTenderName() {
+    await this.inputEditTenderName.press("End");
+    await this.page.keyboard.type("test");
   }
 
   async clickAdminEyeButton(): Promise<void> {
@@ -458,7 +627,6 @@ export class AdminPage extends BasePage {
   async verifyWhetherTendersPageContainsElements(): Promise<void> {
     await expect(this.inputTenderName).toBeVisible();
     await expect(this.labelTenderCategory).toBeVisible();
-    await expect(this.labelTenderService).toBeVisible();
     await expect(this.inputTenderInceptionDate).toBeVisible();
     await expect(this.inputTenderEndDate).toBeVisible();
     await expect(this.inputTenderPerfomanceDate).toBeVisible();
