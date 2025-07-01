@@ -4,12 +4,9 @@ import { AdminPage } from '../pages/adminPage';
 import { AdminCategoryPage } from '../pages/adminCategoryPage';
 import { AdminManufacturerPage } from '../pages/adminManufacturerPage';
 import { CreateAnnouncementPage } from '../pages/createAnnouncementPage';
-import { HomePage } from '../pages/homePage';
-import { LoginPage } from '../pages/loginPage';
 import 'dotenv/config';
 import { LoginPage } from '../pages/loginPage';
 import { ProfilePage } from '../pages/profilePage';
-import { texts } from '../constants/authData';
 
 type MyFixtures = {
   loggedInAdmin: AdminPage;
