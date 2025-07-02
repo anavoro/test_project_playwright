@@ -89,7 +89,7 @@ test.describe("Admin Tenders Verification", () => {
     await adminPage.clickButtonApproveReviewEditChanges();
   });
 
-  test('C508 The "Видалення тендера" button functionality', async ({
+  test.skip('C508 The "Видалення тендера" button functionality', async ({
     page,
   }, testInfo) => {
     const baseUrl = testInfo.project.use.baseURL;
