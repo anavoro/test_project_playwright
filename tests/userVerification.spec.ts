@@ -18,11 +18,10 @@ test('C333: Should not validate empty first and last name fields', async ({profi
     await expect(profilePage.profileContainer).toBeVisible();
     await expect(profilePage.verifNumberText).toHaveText(texts.profileVerifNumberText);
     await profilePage.clickSave();
-        
     await expect(profilePage.getCustomInputErrorByLabel(FIELD_LABELS.LAST_NAME))
-        .toHaveText(texts.lastNameRequired);
+      .toHaveText(texts.requiredFieldError);
     await expect(profilePage.getCustomInputErrorByLabel(FIELD_LABELS.FIRST_NAME))
-        .toHaveText(texts.firstNameRequired);
+      .toHaveText(texts.requiredFieldError);
       });
 
 test('C350: Should not validate short EDRPOU', async ({profilePage}) => {
@@ -56,21 +55,21 @@ test('C351: Should not validate invalid tax number for different customer types'
         }
       });
       
-      test('C352: Should not validate all invalid data in name fields', async ({ profilePage }) => {
-        const invalidValues = Object.values(invalidUserData.invalidNames);
+test('C352: Should not validate all invalid data in name fields', async ({ profilePage }) => {
+    const invalidValues = Object.values(invalidUserData.invalidNames);
       
-        for (const field of nameFieldsData) {
-          for (const invalidValue of invalidValues) {
-            await test.step(`Field: ${field.label}, Value: ${invalidValue}`, async () => {
-              await profilePage.clearInputByLabel(field.label);
-              await profilePage.fillInputByLabel(field.label, invalidValue);
-              await profilePage.clickSave();
+    for (const field of nameFieldsData) {
+      for (const invalidValue of invalidValues) {
+        await test.step(`Field: ${field.label}, Value: ${invalidValue}`, async () => {
+        await profilePage.clearInputByLabel(field.label);
+        await profilePage.fillInputByLabel(field.label, invalidValue);
+        await profilePage.clickSave();
       
-              const error = profilePage.getCustomInputErrorByLabel(field.label);
-              await expect(error).toHaveText(field.expectedError);
-            });
-          }
+        const error = profilePage.getCustomInputErrorByLabel(field.label);
+        await expect(error).toHaveText(field.expectedError);
+          });
         }
+       }
       });
 
 test('C355: Should not validate phone number field with invalid inputs', async ({ profilePage }) => {
@@ -82,6 +81,7 @@ test('C355: Should not validate phone number field with invalid inputs', async (
     await expect(profilePage.phoneNumberError).toBeVisible();
     await expect(profilePage.phoneNumberError).toHaveText(texts.phoneNumberInvalid);
     });
+
 }
 });
 });
