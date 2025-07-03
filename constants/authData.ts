@@ -28,7 +28,14 @@ export const texts = {
     loginErrorText: 'Неправильний формат email або номера телефону',
     passwordErrorText: 'Пароль повинен містити як мінімум 1 цифру, 1 велику літеру і 1 малу літеру, також не повинен містити кирилицю та пробіли',
     loginFormErrorText: 'Невірний e-mail або пароль',
-    emptyFieldErrorText: 'Поле не може бути порожнім'
+    emptyFieldErrorText: 'Поле не може бути порожнім',
+    requiredFieldError: 'Це поле обов’язкове',
+    edrpouTooShort: "Код ЄДРПОУ не може бути коротше 8 символів",
+    ipnTooShort: "Код ІПН не може бути коротше 10 символів",
+    lastNameLettersError: "Прізвище має містити лише літери",
+    firstNameLettersError: "Ім'я має містити лише літери",
+    middleNameLettersError: "По-батькові має містити лише літери",
+    phoneNumberInvalid: 'Некоректний номер телефону',
 }
 
 export const cssStyle = {
