@@ -1,17 +1,13 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/loginPage';
-import { HomePage } from '../pages/homePage';
-import { TendersPage } from '../pages/tendersPage';
+import { test } from '../utils/fixtures';
+import { expect } from '@playwright/test';
 import { registeredUser } from '../constants/authData';
-import { texts } from '../constants/tendersData';
+import { texts, tenderStatus } from '../constants/tendersData';
 import * as tendersData from '../constants/tendersDataGenerator';
 import * as usersData from '../constants/authDataGenerator';
 import { formatDateValue, getNormalizedText, extractDay } from '../utils/formatHelper';
 
 test.describe('Tenders Tests', () => {
-  test.beforeEach(async ({ page }) => {
-    const homePage = new HomePage(page);
-    const loginPage = new LoginPage(page);
+  test.beforeEach(async ({ page, homePage, loginPage, tendersPage  }) => {
     const email = registeredUser.email;
     const password = registeredUser.password;
 
@@ -21,13 +17,12 @@ test.describe('Tenders Tests', () => {
     await homePage.clickLogin();
     await loginPage.login(email, password);
     await homePage.goToTenders();
+    await tendersPage.clickCreateTenderBtn();
   });
 
-    test('Create tender, empty fields validation', async ({page}) => {
-      const tendersPage = new TendersPage(page);
+    test('С231, Create tender, empty fields validation', async ({ tendersPage }) => {
       const {tenderName, serviceName, endDate, budget, city, info, periodOfWork: { start, end }} = tendersData.validTenderValues;
         
-      await tendersPage.clickCreateTenderBtn();
       await tendersPage.clickNextBtn();
       await expect(tendersPage.tenderNameError).toHaveText(texts.tenderNameErrorText);
       await expect(tendersPage.serviceNameError).toHaveText(texts.requiredFieldText);
@@ -45,14 +40,12 @@ test.describe('Tenders Tests', () => {
       await expect(tendersPage.infoError).not.toBeVisible();
     });
 
-    test('Create tender, TenderName field validation', async ({page}) => {
-      const tendersPage = new TendersPage(page);
+    test('С231, Create tender, TenderName field validation', async ({ tendersPage }) => {
       const {serviceName, endDate, budget, city, info, periodOfWork: { start, end }} = tendersData.validTenderValues;
       const lessThenTen = tendersData.invalidTenderValues.tenderName.lessThenTen;
       const withRestrictedSymbolName = Object.values(tendersData.invalidTenderValues.tenderName.withRestrictedSymbol);
       const with71Symbol = tendersData.invalidTenderValues.tenderName.with71Symbol;
 
-      await tendersPage.clickCreateTenderBtn();
       await tendersPage.fillTenderFields(undefined, serviceName, endDate, start, end, budget, city, info);
       await tendersPage.clickNextBtn();
       await expect(tendersPage.tenderNameError).toHaveText(texts.tenderNameErrorText);
@@ -79,13 +72,11 @@ test.describe('Tenders Tests', () => {
       await expect(tendersPage.tenderNameInput).toHaveValue(with71Symbol.slice(0, 70));
     });
 
-    test('Create tender, ServiceName field validation', async ({page}) => {
-      const tendersPage = new TendersPage(page);
+    test('С231, Create tender, ServiceName field validation', async ({ tendersPage }) => {
       const {tenderName, serviceName, endDate, budget, city, info, periodOfWork: { start, end }} = tendersData.validTenderValues;
       const withRestrictedSymbolService = Object.values(tendersData.invalidTenderValues.serviceName.withRestrictedSymbol);
       const with101Symbol = tendersData.invalidTenderValues.serviceName.with101Symbol;
         
-      await tendersPage.clickCreateTenderBtn();
       await tendersPage.fillTenderFields(tenderName, serviceName, endDate, start, end, budget, city, info);
       await tendersPage.resetServiceName();
       await expect(tendersPage.serviceNameCloseBtn).not.toBeVisible();
@@ -109,8 +100,7 @@ test.describe('Tenders Tests', () => {
       };
     });
 
-    test('Create tender, DataPicker fields validation', async ({ page }) => {
-      const tendersPage = new TendersPage(page);
+    test('С231, Create tender, DataPicker fields validation', async ({ tendersPage }) => {
       const {tenderName, serviceName, budget, city, info} = tendersData.validTenderValues;
       const invalidEndDay = tendersData.invalidTenderValues.endDateLessThan24H;
       const currDay = tendersData.invalidTenderValues.endDateCurrent
@@ -118,7 +108,6 @@ test.describe('Tenders Tests', () => {
       const nextDayFromCurr = tendersData.invalidTenderValues.nextDay
       const secondDayFromCurr = tendersData.invalidTenderValues.secondDay
         
-      await tendersPage.clickCreateTenderBtn();
       await tendersPage.fillTenderFields(tenderName, serviceName, invalidEndDay, undefined, undefined, budget, city, info);
       await tendersPage.clickNextBtn();
       await expect(tendersPage.periodOfProposalError).toHaveText(texts.endDateErrorText);
@@ -144,13 +133,11 @@ test.describe('Tenders Tests', () => {
       expect(extractDay(await tendersPage.periodOfWorkPicker.inputValue())).toEqual([Number(nextDayFromCurr), Number(secondDayFromCurr)]);
     });
 
-    test('Create tender, Budget field validation', async ({page}) => {
-      const tendersPage = new TendersPage(page);
+    test('С231, Create tender, Budget field validation', async ({ tendersPage }) => {
       const {tenderName, serviceName, endDate, city, info, periodOfWork: { start, end }} = tendersData.validTenderValues;
       const restrictedSymbolsBudget = Object.values(tendersData.invalidTenderValues.budget.withRestrictedSymbol);
       const moreThan9 = tendersData.invalidTenderValues.budget.moreThan9;
 
-      await tendersPage.clickCreateTenderBtn();
       await tendersPage.fillTenderFields(tenderName, serviceName, endDate, start, end, undefined, city, info);
       await tendersPage.clickNextBtn();
       await expect(tendersPage.budgetError).toHaveText(texts.requiredFieldText);
@@ -176,11 +163,9 @@ test.describe('Tenders Tests', () => {
       await expect(tendersPage.budgetInput).toHaveValue(moreThan9.slice(0, 9));
     });
 
-    test('Create tender, Map Validation', async ({page}) => {
-      const tendersPage = new TendersPage(page);
+    test('С231, Create tender, Map Validation', async ({ tendersPage }) => {
       const {tenderName, serviceName, endDate, budget, info, periodOfWork: { start, end }} = tendersData.validTenderValues;
       
-      await tendersPage.clickCreateTenderBtn();
       await tendersPage.fillTenderFields(tenderName, serviceName, endDate, start, end, budget, undefined, info);
       await tendersPage.clickChooseOnMap();
       await tendersPage.dragMapAndClickCenter();
@@ -188,13 +173,11 @@ test.describe('Tenders Tests', () => {
       await expect(tendersPage.choseOnMapError).toHaveText(texts.mapErrorText);
     });
 
-    test('Create tender, Additional Info Validation', async ({page}) => {
-      const tendersPage = new TendersPage(page);
+    test('С231, Create tender, Additional Info Validation', async ({ tendersPage }) => {
       const {tenderName, serviceName, endDate, budget, city, periodOfWork: { start, end }} = tendersData.validTenderValues;
       const thirtyNineSymbols = tendersData.invalidTenderValues.info.thirtyNineSymbols;
       const restrictedSymbolsText = Object.values(tendersData.invalidTenderValues.info.withRestrictedSymbol);
 
-      await tendersPage.clickCreateTenderBtn();
       await tendersPage.fillTenderFields(tenderName, serviceName, endDate, start, end, budget, city, undefined);
       await tendersPage.clickNextBtn();
       await expect(tendersPage.infoError).toHaveText(texts.textAreaErrorText(0));
@@ -214,19 +197,16 @@ test.describe('Tenders Tests', () => {
       }
     });
 
-    test('Create tender, Documentation Step Validation', async ({page}) => {
-      const tendersPage = new TendersPage(page);
+    test('С231, Create tender, Documentation Step Validation', async ({ tendersPage }) => {
       const {tenderName, serviceName, endDate, budget, city, info, periodOfWork: { start, end }} = tendersData.validTenderValues;
       const largeFiles = tendersData.generateRandomLargeFiles(2);
       const invalidFiles = tendersData.generateInvalidFormatFiles(3);
       const validFiles = tendersData.generateValidFiles(3);
 
-      await tendersPage.clickCreateTenderBtn();
       await tendersPage.fillTenderFields(tenderName, serviceName, endDate, start, end, budget, city, info);
       await tendersPage.clickNextBtn();
       await expect(tendersPage.documentContainer).toBeVisible();
       await tendersPage.clickNextBtn();
-      await page.waitForTimeout(300);
       await expect(tendersPage.documentationErrorText).toHaveText(texts.withoutDocumentErrorText);
       
       await tendersPage.uploadFiles(largeFiles);
@@ -247,8 +227,7 @@ test.describe('Tenders Tests', () => {
       await tendersPage.clickNextBtn();
     });
 
-    test('Create Tender, Contact Validation', async({page}) => {
-      const tendersPage = new TendersPage(page);
+    test('С231, Create Tender, Contact Validation', async({ tendersPage }) => {
       const {tenderName, serviceName, endDate, budget, city, info, periodOfWork: { start, end }} = tendersData.validTenderValues;
       const validFiles = tendersData.generateValidFiles(1);
       const {lastName, firstName, validMobile} = usersData.tenderContact;
@@ -256,7 +235,6 @@ test.describe('Tenders Tests', () => {
       const longName = usersData.invalidUserCredentials.name.moreThan25;
       const invalidMobiles = Object.values(usersData.invalidUserCredentials.invalidPhonesForContact.withRestrictedSymbol);
 
-      await tendersPage.clickCreateTenderBtn();
       await tendersPage.fillTenderFields(tenderName, serviceName, endDate, start, end, budget, city, info);
       await tendersPage.clickNextBtn();
       await tendersPage.uploadFiles(validFiles);
@@ -296,13 +274,11 @@ test.describe('Tenders Tests', () => {
       }
     });
 
-    test('Create Tender, Full Flow', async ({page}) => {
-      const tendersPage = new TendersPage(page);
+    test('С231, Create Tender, Full Flow', async ({ tendersPage, profilePage, homePage, adminPageNewTab }) => {
       const {tenderName, serviceName, endDate, budget, city, info, periodOfWork: { start, end }} = tendersData.validTenderValues;
       const validFiles = tendersData.generateValidFiles(1);
       const {lastName, firstName, validMobile} = usersData.tenderContact;
 
-      await tendersPage.clickCreateTenderBtn();
       await tendersPage.fillTenderFields(tenderName, serviceName, endDate, start, end, budget, city, info);
       await tendersPage.clickNextBtn();
       await tendersPage.uploadFiles(validFiles);
@@ -313,6 +289,27 @@ test.describe('Tenders Tests', () => {
       await tendersPage.fillContact(lastName, firstName, validMobile);
       await tendersPage.clickNextBtn();
       await expect(tendersPage.agreementPopup).toBeVisible();
-      await tendersPage.clickDeclineBtn();
+      await expect(tendersPage.agreementPopup).toContainText(texts.tenderCreationNote);
+      
+      await tendersPage.clickCreateBtn();
+      await expect(tendersPage.createdTenderText).toContainText(texts.tenderCreationText);
+      await tendersPage.goToCreatedTenders();
+      await expect(tendersPage.pendingTab).toHaveAttribute('aria-selected', 'true');
+      await expect(tendersPage.pendingTenderName.filter({ hasText: tenderName }).first()).toBeVisible();
+      expect(extractDay((await tendersPage.pendingTenderDates.textContent()) ?? '')).toEqual([Number(start), Number(end)]);
+      expect(((await tendersPage.pendingTenderBudget.textContent()) ?? '').replace(/\s+/g, '')).toBe(budget);
+
+      await profilePage.clickLogout();
+      await expect(homePage.loginButton).toBeVisible();
+      await adminPageNewTab.clickButtonTenders();
+      await adminPageNewTab.findTenderByName(tenderName);
+      await expect(adminPageNewTab.searchedTendersName).toHaveText(tenderName);
+      await expect(adminPageNewTab.searchedTendersStatus).toHaveText(tenderStatus.pending);
+      
+      //Deleting created tender:
+      await adminPageNewTab.acceptPendingTender();
+      await adminPageNewTab.findTenderByName(tenderName);
+      await expect(adminPageNewTab.searchedTendersName).toHaveText(tenderName);
+      await adminPageNewTab.deleteTender();
     })
 });

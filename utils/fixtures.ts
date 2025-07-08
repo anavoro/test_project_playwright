@@ -1,16 +1,31 @@
-import { test as base } from '@playwright/test';
+import { test as base, BrowserContext  } from '@playwright/test';
 import { AdminPage } from '../pages/adminPage';
 import { AdminCategoryPage } from '../pages/adminCategoryPage';
 import { AdminManufacturerPage } from '../pages/adminManufacturerPage';
+import { LoginPage } from '../pages/loginPage';
+import { HomePage } from '../pages/homePage';
+import { TendersPage } from '../pages/tendersPage';
 import 'dotenv/config';
+import { ProfilePage } from '../pages/profilePage';
 
 type MyFixtures = {
+  adminContext: BrowserContext;
   loggedInAdmin: AdminPage;
+  adminPageNewTab: AdminPage;
   adminCategoryPage: AdminCategoryPage;
   adminManufacturerPage: AdminManufacturerPage;
+  loginPage: LoginPage;
+  homePage: HomePage;
+  tendersPage: TendersPage;
+  profilePage: ProfilePage;
 };
 
 export const test = base.extend<MyFixtures>({
+  adminContext: async ({ browser }, use) => {
+    const context = await browser.newContext();
+    await use(context);
+  },
+
   loggedInAdmin: async ({ page }, use) => {
     const adminPage = new AdminPage(page);
     const adminEmail = process.env.ADMIN_EMAIL!;
@@ -19,6 +34,15 @@ export const test = base.extend<MyFixtures>({
     
     await page.goto(adminUrl);
     await adminPage.login(adminEmail, adminPassword);
+    await use(adminPage);
+  },
+
+  adminPageNewTab: async ({ adminContext }, use) => {
+    const newPage = await adminContext.newPage();
+    await newPage.setViewportSize({ width: 1536, height: 864 });
+    const adminPage = new AdminPage(newPage);
+    await newPage.goto(process.env.ADMIN_URL!);
+    await adminPage.login(process.env.ADMIN_EMAIL!, process.env.ADMIN_PASSWORD!);
     await use(adminPage);
   },
   
@@ -30,5 +54,21 @@ export const test = base.extend<MyFixtures>({
   adminManufacturerPage: async ({ page, loggedInAdmin}, use) => {
     const adminManufacturerPage = new AdminManufacturerPage(page);
     await use(adminManufacturerPage);
-  }
+  },
+
+  loginPage: async ({ page }, use) => {
+    await use(new LoginPage(page));
+  },
+
+  homePage: async ({ page }, use) => {
+    await use(new HomePage(page));
+  },
+
+  tendersPage: async ({ page }, use) => {
+    await use(new TendersPage(page));
+  },
+
+  profilePage: async ({ page }, use) => {
+    await use(new ProfilePage(page));
+  },
 });

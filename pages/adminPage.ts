@@ -84,6 +84,13 @@ export class AdminPage extends BasePage {
   readonly inputEditTenderName: Locator;
   readonly buttonCloseEditPage: Locator;
   readonly formOfTenderOnTenderPage: Locator;
+  readonly searchTenderInput: Locator;
+  readonly searchedTendersName: Locator;
+  readonly searchedTendersStatus: Locator;
+  readonly openPendingTenderBtn: Locator;
+  readonly acceptTenderBtn: Locator;
+  readonly deleteTenderBtn: Locator;
+  readonly confirmYesPopup: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -170,6 +177,13 @@ export class AdminPage extends BasePage {
     this.inputEditTenderName = page.locator('[data-testid="custom-input"]').first();
     this.buttonCloseEditPage = page.locator('//span[@data-testid="nameNextBtn"]/ancestor::button');
     this.formOfTenderOnTenderPage = page.locator('[data-testid="tendersRow"]').first();
+    this.searchTenderInput = page.getByPlaceholder('Знайти за id, власником, назвою або локацією');
+    this.searchedTendersName = page.locator('[class^="MuiTableCell-root MuiTableCell-body"]').nth(2);
+    this.searchedTendersStatus = page.locator('[class^="AdminTableRowTenders_status"]');
+    this.openPendingTenderBtn = page.locator('[data-testid="adminShowBtn"]');
+    this.acceptTenderBtn = page.locator('[data-testid="acceptBtn"]');
+    this.deleteTenderBtn = page.locator('[data-testid="bucketBtn"]');
+    this.confirmYesPopup = page.getByRole('button', { name: 'Так' });
   }
 
   // ==================== NAVIGATION METHODS ====================
@@ -446,6 +460,23 @@ export class AdminPage extends BasePage {
   async clickButtonCloseEditPage(): Promise<void> {
     await this.buttonCloseEditPage.scrollIntoViewIfNeeded();
     await this.click(this.buttonCloseEditPage);
+  }
+
+  async findTenderByName(name: string): Promise<void> {
+    await expect(this.searchTenderInput).toBeVisible();
+    await this.searchTenderInput.fill(name);
+  }
+
+  async acceptPendingTender() {
+    await this.openPendingTenderBtn.click();
+    await expect(this.acceptTenderBtn).toBeVisible();
+    await this.acceptTenderBtn.scrollIntoViewIfNeeded();
+    await this.acceptTenderBtn.click();
+  }
+
+  async deleteTender() {
+    await this.deleteTenderBtn.click();
+    await this.confirmYesPopup.click();
   }
 
   // ==================== VERIFICATION METHODS ====================

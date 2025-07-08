@@ -11,7 +11,16 @@ export const texts = {
     shortLastNameError: 'Прізвище має містити щонайменше дві літери',
     shortFirstNameError: "Ім'я має містити щонайменше дві літери",
     longNameError: 'Введіть не більше 25 символів',
-    phoneError: 'Введіть коректний мобільний номер телефону'
+    phoneError: 'Введіть коректний мобільний номер телефону',
+    tenderCreationNote: 'За створення тендера з вашого рахунку буде знято 10 балів',
+    tenderCreationText: 'Ваш тендер поданий на розгляд',
+}
+
+export const tenderStatus = {
+  pending: 'Очікує',
+  active: 'Активний',
+  rejected: 'Відхилений',
+  done: 'Завершений'
 }
 
 export const validServiceNames = [

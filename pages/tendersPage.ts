@@ -42,6 +42,7 @@ export class TendersPage extends BasePage {
   //Documentation
   documentContainer: Locator;
   documentationErrorText: Locator;
+  fileContainer: Locator;
   fileInput: Locator;
   errorPopup: Locator;
   popupAgreeBtn: Locator;
@@ -54,13 +55,24 @@ export class TendersPage extends BasePage {
   nameError: Locator;
   mobile: Locator;
   mobileError: Locator;
+
+  //Creation
   agreementPopup: Locator;
   acceptBtn: Locator;
   declineBtn: Locator;
+  createdTenderText: Locator;
+  createdTendersBtn: Locator;
+
+  //Pending
+  pendingTab: Locator;
+  pendingTenderName: Locator;
+  pendingTenderDates: Locator;
+  pendingTenderBudget: Locator;
 
   constructor(page: Page) {
     super(page);
 
+    //Main Information
     this.createTenderBtn = page.getByRole("button", {name: 'Створити тендер', exact: true});
     this.tenderNameInput = page.getByPlaceholder('Введіть назву тендера');
     this.tenderNameError = this.tenderNameInput.locator('..').locator('[data-testid="descriptionError"]');
@@ -96,12 +108,15 @@ export class TendersPage extends BasePage {
     this.nextBtn = page.locator('[data-testid="nextButton"]');
     this.telegramCrossIcon = page.locator('[class^="RequestsPopup"] [data-testid="crossButton"]');
 
+    //Documentation
     this.documentContainer = page.getByRole("tabpanel");
     this.documentationErrorText = page.locator('[data-testid="getFileDiv"]');
+    this.fileContainer = page.locator('[data-testid="dropDiv"]');
     this.fileInput = page.locator('[data-testid="dropDiv"] input');
     this.errorPopup = page.locator('[data-testid="errorPopup"]');
     this.popupAgreeBtn = page.locator('[data-testid="errorPopup"]~div button');
 
+    //Contacts
     this.userInfo = page.locator('[data-testid="userInfo"]');
     this.checkbox = page.locator('[data-testid="operatorCheckbox"]');
     this.lastName = page.locator('[data-testid="wrapper"] input').nth(0);
@@ -109,9 +124,19 @@ export class TendersPage extends BasePage {
     this.nameError = page.locator('[data-testid="errorDescr"]');
     this.mobile = page.locator('#mobile');
     this.mobileError = page.locator('[data-testid="errorMessage"]');
+
+    //Creation
     this.agreementPopup = page.locator('[data-testid="text"]');
     this.acceptBtn = page.getByRole("button", {name: 'Так, створити', exact: true});
     this.declineBtn = page.getByRole("button", {name: 'Скасувати', exact: true});
+    this.createdTenderText = page.locator('[class^="SuccessfullyCreatedPage_wrapper"]');
+    this.createdTendersBtn = page.getByRole("button", {name: 'Переглянути в моїх тендерах', exact: true});
+
+    //Pending
+    this.pendingTab = page.getByRole('tab', { name: 'Очікуючі' });
+    this.pendingTenderName = page.locator('[class^="CurrentItemInfo_name"]');
+    this.pendingTenderDates = page.locator('[class^="ParagraphWithIcon_paragraph"]').nth(0);
+    this.pendingTenderBudget = page.locator('[class^="CurrentItemPrice_price"]').nth(1);
   }
 
   getDayLocator(day: string) {
@@ -119,44 +144,51 @@ export class TendersPage extends BasePage {
   }
 
   async clickCreateTenderBtn() {
-    await this.click(this.createTenderBtn);
+    await this.createTenderBtn.click();
   }
 
   async clickNextBtn() {
-    await this.page.waitForTimeout(500);
-    await this.click(this.nextBtn);
+    await this.nextBtn.click();
   }
 
   async clickEndPicker() {
-    await this.click(this.endPicker);
+    await this.endPicker.click();
   }
 
   async clickPeriodOfWorkPicker() {
-    await this.click(this.periodOfWorkPicker);
+    await this.periodOfWorkPicker.click();
   }
 
   async clickChooseOnMap() {
-    await this.click(this.choseOnMapBtn);
+    await this.choseOnMapBtn.click();
   }
 
   async clickAgreeBtn() {
-    await this.click(this.popupAgreeBtn);
+    await this.popupAgreeBtn.click();
   }
 
   async clickDeclineBtn() {
-    await this.click(this.declineBtn);
+    await this.declineBtn.click();
+  }
+
+  async clickCreateBtn() {
+    await this.acceptBtn.click();
+  }
+
+  async goToCreatedTenders() {
+    await this.createdTendersBtn.click();
   }
 
   async closeMapWindow() {
-    await this.click(this.cancellBtn);
+    await this.cancellBtn.click();
   }
 
   async uncheckCheckbox() {
-    await this.click(this.checkbox);
+    await this.checkbox.click();
   }
 
     async resetServiceName() {
-    await this.click(this.serviceNameCloseBtn);
+    await this.serviceNameCloseBtn.click();
   }
 
   async fillTenderName(tenderName: string) {
@@ -199,7 +231,7 @@ export class TendersPage extends BasePage {
       await this.resetServiceName();
     }
     await this.pasteValue(this.serviceNameInput, value);
-    await this.click(this.serviceNameFirstItem);
+    await this.serviceNameFirstItem.click();
   }
 
   async pasteBudget(value: string) {
@@ -233,13 +265,13 @@ export class TendersPage extends BasePage {
       await this.resetServiceName();
     }
     await this.serviceNameInput.fill(serviceName);
-    await this.click(this.serviceNameFirstItem);
+    await this.serviceNameFirstItem.click();
   }
 
   async fillCity(city: string) {
     await this.clickChooseOnMap();
     await this.cityInput.fill(city);
-    await this.click(this.confirmBtn);
+    await this.confirmBtn.click();
   }
 
   async fillContact(lastName: string, firstName: string, phone: string) {
@@ -283,34 +315,31 @@ export class TendersPage extends BasePage {
     await this.pickTime(endTime);
   }
 
-async selectPeriodOfWork(from?: string, to?: string) {
-  if (from || to) {
-    await this.clickPeriodOfWorkPicker();
-    await this.page.waitForTimeout(300);
-
+  async selectPeriodOfWork(from?: string, to?: string) {
     if (from) {
+      await this.clickPeriodOfWorkPicker();
       await this.selectDay(from);
-      await this.page.waitForTimeout(300);
     }
 
     if (to) {
+      await this.clickPeriodOfWorkPicker();
+      await this.selectDay(to);
+
       const value = await this.periodOfWorkPicker.inputValue();
       const hasEnd = value.includes(' - ') && value.split(' - ')[1].trim().length > 0;
+
       if (!hasEnd) {
         await this.clickPeriodOfWorkPicker();
-        await this.page.waitForTimeout(300);
+        await this.selectDay(to);
       }
-
-      await this.selectDay(to);
     }
   }
-}
 
   async selectDay(day: string) {
-    let dayLocator = this.dayPicker.filter({ hasText: day });
+    let dayLocator = this.dayPicker.filter({ hasText: new RegExp(`^${day}$`) });
     if (await dayLocator.count() === 0) {
       await this.nextMonth.click();
-      dayLocator = this.dayPicker.filter({ hasText: day });
+      dayLocator = this.dayPicker.filter({ hasText: new RegExp(`^${day}$`) });
     }
     await dayLocator.first().click();
   }
@@ -321,7 +350,6 @@ async selectPeriodOfWork(from?: string, to?: string) {
     await map.hover();
     for (let i = 0; i < 3; i++) {
       await this.page.mouse.wheel(0, 1500);
-      await this.page.waitForTimeout(300);
     }
     const box = await map.boundingBox();
     if (!box) throw new Error('Map bounding box not found');
@@ -335,6 +363,10 @@ async selectPeriodOfWork(from?: string, to?: string) {
   }
   
   async uploadFiles(files: { name: string, mimeType: string, buffer: Buffer }[]) {
+    if (await this.fileContainer.isVisible()) {
+      await this.fileInput.setInputFiles(files);
+    }
+    this.clickNextBtn()
     await this.fileInput.setInputFiles(files);
   }
 }

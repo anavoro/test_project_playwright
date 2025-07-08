@@ -8,7 +8,7 @@ const periodStart = faker.date.between({from: addDays(endDateRaw, 1), to: addDay
 const periodEnd = faker.date.between({from: addDays(periodStart, 1), to: addDays(periodStart, 10),});
 const roundToHalfHour = (date: Date): Date => new Date(date.setHours(date.getMinutes() < 30 ? date.getHours() : date.getHours() + 1, date.getMinutes() < 30 ? 30 : 0, 0, 0));
 const endDate = roundToHalfHour(endDateRaw);
-
+const baseDate = new Date();
 
 export const validTenderValues = {
   tenderName: faker.lorem.words(5),
@@ -49,8 +49,8 @@ export const invalidTenderValues = {
   },
   endDateLessThan24H: format(new Date(endDate.getTime() - 30 * 60 * 1000), 'd h:mm'),
   endDateCurrent: format(new Date(), 'd'),
-  nextDay: format(addDays(new Date(), 1), 'd'),
-  secondDay: format(addDays(new Date(), 2), 'd'),
+  nextDay: format(addDays(baseDate, 1), 'd'),
+  secondDay: format(addDays(baseDate, 2), 'd'),
   budget: {
     withRestrictedSymbol: {
       quotation: '"' + faker.number.int({ max: 99999}) + '"',
