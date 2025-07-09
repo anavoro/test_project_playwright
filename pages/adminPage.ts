@@ -105,7 +105,7 @@ export class AdminPage extends BasePage {
   readonly buttonExtendQuantityOfTendersOnPageTo10: Locator;
   readonly buttonDeleteTender: Locator;
 
-    readonly searchTenderInput: Locator;
+  readonly searchTenderInput: Locator;
   readonly searchedTendersName: Locator;
   readonly searchedTendersStatus: Locator;
   readonly openPendingTenderBtn: Locator;

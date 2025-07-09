@@ -58,7 +58,7 @@ export const test = base.extend<MyFixtures>({
     await use(adminManufacturerPage);
   },
 
-    loggedInUser: async ({ page }, use) => {
+  loggedInUser: async ({ page }, use) => {
     const homePage = new HomePage(page);
     const loginPage = new LoginPage(page);
     const testEmail = process.env.TEST_EMAIL!;
@@ -74,7 +74,7 @@ export const test = base.extend<MyFixtures>({
     await use(new TendersPage(page));
   },
 
-    profilePage: async ({ page }, use) => {
+  profilePage: async ({ page }, use) => {
     const profilePage = new ProfilePage(page);
     await use(profilePage);
   },
