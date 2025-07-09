@@ -4,7 +4,7 @@ import { HomePage } from '../pages/homePage';
 import { ProfilePage } from '../pages/profilePage';
 import { registeredUser, texts, cssStyle } from '../constants/authData'
 import { invalidUserCredentials } from '../constants/authDataGenerator'
-import { normalizePhone } from '../utils/authHelpers';
+import { normalizePhone } from '../utils/formatHelper';
 
 test.describe('Authentication Tests', () => {
   test.beforeEach(async ({ page }) => {

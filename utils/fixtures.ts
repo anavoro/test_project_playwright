@@ -1,25 +1,34 @@
-import { test as base } from '@playwright/test';
-import { HomePage } from '../pages/homePage';
+import { test as base, BrowserContext  } from '@playwright/test';
 import { AdminPage } from '../pages/adminPage';
 import { AdminCategoryPage } from '../pages/adminCategoryPage';
 import { AdminManufacturerPage } from '../pages/adminManufacturerPage';
+import { LoginPage } from '../pages/loginPage';
+import { HomePage } from '../pages/homePage';
+import { TendersPage } from '../pages/tendersPage';
 import { CreateAnnouncementPage } from '../pages/createAnnouncementPage';
 import 'dotenv/config';
-import { LoginPage } from '../pages/loginPage';
 import { ProfilePage } from '../pages/profilePage';
 
 type MyFixtures = {
+  adminContext: BrowserContext;
   loggedInAdmin: AdminPage;
+  loggedInUser: HomePage;
+  adminPageNewTab: AdminPage;
   adminCategoryPage: AdminCategoryPage;
   adminManufacturerPage: AdminManufacturerPage;
-  loggedInUser: HomePage;
+  loginPage: LoginPage;
+  homePage: HomePage;
+  tendersPage: TendersPage;
   profilePage: ProfilePage;
   createAnnouncementPage: CreateAnnouncementPage;
-  homePage: HomePage;
-  loginPage: LoginPage;
 };
 
 export const test = base.extend<MyFixtures>({
+  adminContext: async ({ browser }, use) => {
+    const context = await browser.newContext();
+    await use(context);
+  },
+
   loggedInAdmin: async ({ page }, use) => {
     const adminPage = new AdminPage(page);
     const adminEmail = process.env.ADMIN_EMAIL!;
@@ -27,6 +36,15 @@ export const test = base.extend<MyFixtures>({
     const adminUrl = process.env.ADMIN_URL!;
     await page.goto(adminUrl);
     await adminPage.login(adminEmail, adminPassword);
+    await use(adminPage);
+  },
+
+  adminPageNewTab: async ({ adminContext }, use) => {
+    const newPage = await adminContext.newPage();
+    await newPage.setViewportSize({ width: 1536, height: 864 });
+    const adminPage = new AdminPage(newPage);
+    await newPage.goto(process.env.ADMIN_URL!);
+    await adminPage.login(process.env.ADMIN_EMAIL!, process.env.ADMIN_PASSWORD!);
     await use(adminPage);
   },
   
@@ -39,7 +57,7 @@ export const test = base.extend<MyFixtures>({
     const adminManufacturerPage = new AdminManufacturerPage(page);
     await use(adminManufacturerPage);
   },
-  
+
   loggedInUser: async ({ page }, use) => {
     const homePage = new HomePage(page);
     const loginPage = new LoginPage(page);
@@ -50,6 +68,10 @@ export const test = base.extend<MyFixtures>({
     await homePage.clickLogin();
     await loginPage.login(testEmail, testPassword);
     await use(homePage);
+  },
+
+  tendersPage: async ({ page }, use) => {
+    await use(new TendersPage(page));
   },
 
   profilePage: async ({ page }, use) => {
