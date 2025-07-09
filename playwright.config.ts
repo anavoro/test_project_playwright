@@ -23,13 +23,5 @@ export default defineConfig({
         permissions: ['clipboard-read', 'clipboard-write'],
        },
     },
-    /*{
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },*/
   ],
 });

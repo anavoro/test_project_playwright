@@ -5,6 +5,7 @@ import { AdminManufacturerPage } from '../pages/adminManufacturerPage';
 import { LoginPage } from '../pages/loginPage';
 import { HomePage } from '../pages/homePage';
 import { TendersPage } from '../pages/tendersPage';
+import { CreateAnnouncementPage } from '../pages/createAnnouncementPage';
 import 'dotenv/config';
 import { ProfilePage } from '../pages/profilePage';
 
@@ -18,6 +19,7 @@ type MyFixtures = {
   homePage: HomePage;
   tendersPage: TendersPage;
   profilePage: ProfilePage;
+  createAnnouncementPage: CreateAnnouncementPage;
 };
 
 export const test = base.extend<MyFixtures>({
@@ -56,14 +58,6 @@ export const test = base.extend<MyFixtures>({
     await use(adminManufacturerPage);
   },
 
-  loginPage: async ({ page }, use) => {
-    await use(new LoginPage(page));
-  },
-
-  homePage: async ({ page }, use) => {
-    await use(new HomePage(page));
-  },
-
   tendersPage: async ({ page }, use) => {
     await use(new TendersPage(page));
   },
@@ -71,4 +65,19 @@ export const test = base.extend<MyFixtures>({
   profilePage: async ({ page }, use) => {
     await use(new ProfilePage(page));
   },
+
+  createAnnouncementPage: async ({ page }, use) => {
+    const createAnnouncementPage = new CreateAnnouncementPage(page);
+    await use(createAnnouncementPage);
+  },
+
+  homePage: async ({ page }, use) => {
+    const homePage = new HomePage(page);
+    await use(homePage);
+  },
+
+  loginPage: async ({ page }, use) => {
+    const loginPage = new LoginPage(page);
+    await use(loginPage);
+  }
 });
