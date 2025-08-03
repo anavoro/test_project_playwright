@@ -1,0 +1,1076 @@
+{
+	"info": {
+		"_postman_id": "4284a927-4b60-46c4-b9d9-6c8ba4cbff66",
+		"name": "Rentzila",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40550627"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Create token for existing user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2NDg2Nzc4LCJqdGkiOiJlYzA2NDE0MGFiNjI0MTkyYWJmZjc5N2ViNzA2Yjc1ZSIsInVzZXJfaWQiOjE3NTJ9.83qXbDfZn_x8wy7SQa0V4otosOOJbxmfZzzaUmQW2PY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"testuserrentzila@gmail.com\",\r\n  \"password\": \"Testuser10\",\r\n  \"phone\": \"+380XXXXXXXXX\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}auth/jwt/create/",
+							"host": [
+								"{{baseUrl}}auth"
+							],
+							"path": [
+								"jwt",
+								"create",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin creds",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Qwerty123+",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "txt2021@ukr.net",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"txt2021@ukr.net\",\r\n  \"password\": \"Qwerty123+\",\r\n  \"phone\": \"+380XXXXXXXXX\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}auth/jwt/create/",
+							"host": [
+								"{{baseUrl}}auth"
+							],
+							"path": [
+								"jwt",
+								"create",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contract",
+			"item": [
+				{
+					"name": "Get contracts list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2NjQyMzMyLCJqdGkiOiI3OTZhYzdmMGNmMzc0MTgwOWExZmMyZGRiYmY4ZjI0MSIsInVzZXJfaWQiOjE3NDZ9.00QGu-UcLzq6Ym14AnupsVXDiAqCbdCEnx3OTrHnWlo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://dev.rentzila.com.ua/api/contract/",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"rentzila",
+								"com",
+								"ua"
+							],
+							"path": [
+								"api",
+								"contract",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create contract",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let contractData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"contractId\", contractData.id);\r",
+									"\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2NjQyMzMyLCJqdGkiOiI3OTZhYzdmMGNmMzc0MTgwOWExZmMyZGRiYmY4ZjI0MSIsInVzZXJfaWQiOjE3NDZ9.00QGu-UcLzq6Ym14AnupsVXDiAqCbdCEnx3OTrHnWlo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"client\": 999,\r\n  \"landlord\": 1746,\r\n  \"is_approved\": true,\r\n  \"is_client_signed\": true,\r\n  \"is_landlord_signed\": true,\r\n  \"client_delete_request\": true,\r\n  \"landlord_delete_request\": true,\r\n  \"is_active\": true,\r\n  \"unit\": 16508\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev.rentzila.com.ua/api/contract/",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"rentzila",
+								"com",
+								"ua"
+							],
+							"path": [
+								"api",
+								"contract",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get contracts list after update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 300ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"    });\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2NjQyMzMyLCJqdGkiOiI3OTZhYzdmMGNmMzc0MTgwOWExZmMyZGRiYmY4ZjI0MSIsInVzZXJfaWQiOjE3NDZ9.00QGu-UcLzq6Ym14AnupsVXDiAqCbdCEnx3OTrHnWlo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://dev.rentzila.com.ua/api/contract/",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"rentzila",
+								"com",
+								"ua"
+							],
+							"path": [
+								"api",
+								"contract",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete contract by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2NjQyMzMyLCJqdGkiOiI3OTZhYzdmMGNmMzc0MTgwOWExZmMyZGRiYmY4ZjI0MSIsInVzZXJfaWQiOjE3NDZ9.00QGu-UcLzq6Ym14AnupsVXDiAqCbdCEnx3OTrHnWlo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"client\": 999,\r\n  \"landlord\": 1746,\r\n  \"is_approved\": true,\r\n  \"is_client_signed\": true,\r\n  \"is_landlord_signed\": true,\r\n  \"client_delete_request\": true,\r\n  \"landlord_delete_request\": true,\r\n  \"is_active\": true,\r\n  \"unit\": 16508\r\n}"
+						},
+						"url": {
+							"raw": "https://dev.rentzila.com.ua/api/contract/{{contractId}}/",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"rentzila",
+								"com",
+								"ua"
+							],
+							"path": [
+								"api",
+								"contract",
+								"{{contractId}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get contract's list  after deletion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let contractData = pm.response.json();\r",
+									"let arr = [];\r",
+									"contractData.forEach(item => {\r",
+									"    arr.push(item.id);\r",
+									"});\r",
+									"pm.test(\"Created ID is deleated\", function () {\r",
+									"    pm.expect(arr[arr.length-1] !== \"{{contractId}}\").to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2NjQyMzMyLCJqdGkiOiI3OTZhYzdmMGNmMzc0MTgwOWExZmMyZGRiYmY4ZjI0MSIsInVzZXJfaWQiOjE3NDZ9.00QGu-UcLzq6Ym14AnupsVXDiAqCbdCEnx3OTrHnWlo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://dev.rentzila.com.ua/api/contract/",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"rentzila",
+								"com",
+								"ua"
+							],
+							"path": [
+								"api",
+								"contract",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Propose",
+			"item": [
+				{
+					"name": "Propose list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}propose/",
+							"host": [
+								"{{baseUrl}}propose"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Propose create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let proposeData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"createdId\", proposeData.id);\r",
+									"\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2NDg2Nzc4LCJqdGkiOiJlYzA2NDE0MGFiNjI0MTkyYWJmZjc5N2ViNzA2Yjc1ZSIsInVzZXJfaWQiOjE3NTJ9.83qXbDfZn_x8wy7SQa0V4otosOOJbxmfZzzaUmQW2PY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"is_agree_with_price\": true,\r\n  \"proposed_price\": \"500.00\",\r\n  \"currency\": \"UAH\",\r\n  \"comment\": \"no comments\",\r\n  \"statement\": \"APPLIED\",\r\n  \"date_created\": \"2025-08-01T05:41:38.578Z\",\r\n  \"user\": 6,\r\n  \"tender\": 877\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}propose/",
+							"host": [
+								"{{baseUrl}}propose"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Propose update price",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 202\", function () {\r",
+									"    pm.response.to.have.status(202);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2NDg2Nzc4LCJqdGkiOiJlYzA2NDE0MGFiNjI0MTkyYWJmZjc5N2ViNzA2Yjc1ZSIsInVzZXJfaWQiOjE3NTJ9.83qXbDfZn_x8wy7SQa0V4otosOOJbxmfZzzaUmQW2PY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"proposed_price\": \"1500.00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}propose/{{createdId}}/",
+							"host": [
+								"{{baseUrl}}propose"
+							],
+							"path": [
+								"{{createdId}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get list after price update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let proposeData = pm.response.json();\r",
+									"let price = proposeData[proposeData.length - 1].proposed_price;\r",
+									"\r",
+									"pm.test(\"Price is true\", function () {\r",
+									"    pm.expect(price === \"1500.00\").to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2NjQyMzMyLCJqdGkiOiI3OTZhYzdmMGNmMzc0MTgwOWExZmMyZGRiYmY4ZjI0MSIsInVzZXJfaWQiOjE3NDZ9.00QGu-UcLzq6Ym14AnupsVXDiAqCbdCEnx3OTrHnWlo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}propose/",
+							"host": [
+								"{{baseUrl}}propose"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Propose update comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 202\", function () {\r",
+									"    pm.response.to.have.status(202);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2NDg2Nzc4LCJqdGkiOiJlYzA2NDE0MGFiNjI0MTkyYWJmZjc5N2ViNzA2Yjc1ZSIsInVzZXJfaWQiOjE3NTJ9.83qXbDfZn_x8wy7SQa0V4otosOOJbxmfZzzaUmQW2PY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"comment\": \"good deal\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}propose/{{createdId}}/",
+							"host": [
+								"{{baseUrl}}propose"
+							],
+							"path": [
+								"{{createdId}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get list after comment update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let proposeData = pm.response.json();\r",
+									"let proposeComment = proposeData[proposeData.length - 1].comment;\r",
+									"\r",
+									"pm.test(\"Comment is true\", function () {\r",
+									"    pm.expect(proposeComment === \"good deal\").to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2NjQyMzMyLCJqdGkiOiI3OTZhYzdmMGNmMzc0MTgwOWExZmMyZGRiYmY4ZjI0MSIsInVzZXJfaWQiOjE3NDZ9.00QGu-UcLzq6Ym14AnupsVXDiAqCbdCEnx3OTrHnWlo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}propose/",
+							"host": [
+								"{{baseUrl}}propose"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete last propose",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2NjQyMzMyLCJqdGkiOiI3OTZhYzdmMGNmMzc0MTgwOWExZmMyZGRiYmY4ZjI0MSIsInVzZXJfaWQiOjE3NDZ9.00QGu-UcLzq6Ym14AnupsVXDiAqCbdCEnx3OTrHnWlo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}propose/{{createdId}}/",
+							"host": [
+								"{{baseUrl}}propose"
+							],
+							"path": [
+								"{{createdId}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get propose list after deletion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let proposeData = pm.response.json();\r",
+									"let arr = [];\r",
+									"proposeData.forEach(item => {\r",
+									"    arr.push(item.id);\r",
+									"});\r",
+									"pm.test(\"Created ID is deleated\", function () {\r",
+									"    pm.expect(arr[arr.length-1] !== \"{{CreatedID}}\").to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"proposed_price\": \"1500.00\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}propose/",
+							"host": [
+								"{{baseUrl}}propose"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Unit",
+			"item": [
+				{
+					"name": "The list of units",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}units/",
+							"host": [
+								"{{baseUrl}}units"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create unit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let proposeData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"createdNewId\", proposeData.id);\r",
+									"\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2NjQyMzMyLCJqdGkiOiI3OTZhYzdmMGNmMzc0MTgwOWExZmMyZGRiYmY4ZjI0MSIsInVzZXJfaWQiOjE3NDZ9.00QGu-UcLzq6Ym14AnupsVXDiAqCbdCEnx3OTrHnWlo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Agriculture technique\",\r\n  \"first_name\": \"Aha\",\r\n  \"last_name\": \"Aha\",\r\n  \"declined_incomplete\": true,\r\n  \"declined_censored\": true,\r\n  \"declined_incorrect_price\": true,\r\n  \"declined_incorrect_data\": true,\r\n  \"declined_invalid_img\": true,\r\n  \"slug\": \"gth\",\r\n  \"model_name\": \"string\",\r\n  \"description\": \"test test\",\r\n  \"features\": \"string\",\r\n  \"rating\": 0,\r\n  \"views_count\": 0,\r\n  \"type_of_work\": \"CHANGE\",\r\n  \"time_of_work\": \"FOUR\",\r\n  \"phone\": \"+380501234567\",\r\n  \"minimal_price\": 300,\r\n  \"money_value\": \"UAH\",\r\n  \"payment_method\": \"CASH_OR_CARD\",\r\n  \"lat\": 0,\r\n  \"lng\": 0,\r\n  \"count\": 0,\r\n  \"is_approved\": true,\r\n  \"is_archived\": true,\r\n  \"manufacturer\": 4,\r\n  \"owner\": 1746,\r\n  \"category\": 2411,\r\n  \"services\": [\r\n    5\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}units/",
+							"host": [
+								"{{baseUrl}}units"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get unit by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 300ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body is valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"    });\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2NjQyMzMyLCJqdGkiOiI3OTZhYzdmMGNmMzc0MTgwOWExZmMyZGRiYmY4ZjI0MSIsInVzZXJfaWQiOjE3NDZ9.00QGu-UcLzq6Ym14AnupsVXDiAqCbdCEnx3OTrHnWlo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Agriculture technique\",\r\n  \"first_name\": \"Aha\",\r\n  \"last_name\": \"Aha\",\r\n  \"declined_incomplete\": true,\r\n  \"declined_censored\": true,\r\n  \"declined_incorrect_price\": true,\r\n  \"declined_incorrect_data\": true,\r\n  \"declined_invalid_img\": true,\r\n  \"slug\": \"gth\",\r\n  \"model_name\": \"string\",\r\n  \"description\": \"test test\",\r\n  \"features\": \"string\",\r\n  \"rating\": 0,\r\n  \"views_count\": 0,\r\n  \"type_of_work\": \"CHANGE\",\r\n  \"time_of_work\": \"FOUR\",\r\n  \"phone\": \"+380501234567\",\r\n  \"minimal_price\": 300,\r\n  \"money_value\": \"UAH\",\r\n  \"payment_method\": \"CASH_OR_CARD\",\r\n  \"lat\": 0,\r\n  \"lng\": 0,\r\n  \"count\": 0,\r\n  \"is_approved\": true,\r\n  \"is_archived\": true,\r\n  \"manufacturer\": 4,\r\n  \"owner\": 1746,\r\n  \"category\": 2411,\r\n  \"services\": [\r\n    5\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}units/{{createdNewId}}/",
+							"host": [
+								"{{baseUrl}}units"
+							],
+							"path": [
+								"{{createdNewId}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete unit by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 300ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2NjQyMzMyLCJqdGkiOiI3OTZhYzdmMGNmMzc0MTgwOWExZmMyZGRiYmY4ZjI0MSIsInVzZXJfaWQiOjE3NDZ9.00QGu-UcLzq6Ym14AnupsVXDiAqCbdCEnx3OTrHnWlo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Agriculture technique\",\r\n  \"first_name\": \"Aha\",\r\n  \"last_name\": \"Aha\",\r\n  \"declined_incomplete\": true,\r\n  \"declined_censored\": true,\r\n  \"declined_incorrect_price\": true,\r\n  \"declined_incorrect_data\": true,\r\n  \"declined_invalid_img\": true,\r\n  \"slug\": \"gth\",\r\n  \"model_name\": \"string\",\r\n  \"description\": \"test test\",\r\n  \"features\": \"string\",\r\n  \"rating\": 0,\r\n  \"views_count\": 0,\r\n  \"type_of_work\": \"CHANGE\",\r\n  \"time_of_work\": \"FOUR\",\r\n  \"phone\": \"+380501234567\",\r\n  \"minimal_price\": 300,\r\n  \"money_value\": \"UAH\",\r\n  \"payment_method\": \"CASH_OR_CARD\",\r\n  \"lat\": 0,\r\n  \"lng\": 0,\r\n  \"count\": 0,\r\n  \"is_approved\": true,\r\n  \"is_archived\": true,\r\n  \"manufacturer\": 4,\r\n  \"owner\": 1746,\r\n  \"category\": 2411,\r\n  \"services\": [\r\n    5\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}units/{{createdNewId}}/",
+							"host": [
+								"{{baseUrl}}units"
+							],
+							"path": [
+								"{{createdNewId}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List of units after delition",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let unitsData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Created ID is deleated\", function () {\r",
+									"    pm.expect(unitsData.results[0].id !== \"{{createdNewId}}\").to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2NjQyMzMyLCJqdGkiOiI3OTZhYzdmMGNmMzc0MTgwOWExZmMyZGRiYmY4ZjI0MSIsInVzZXJfaWQiOjE3NDZ9.00QGu-UcLzq6Ym14AnupsVXDiAqCbdCEnx3OTrHnWlo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"proposed_price\": \"1500.00\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}units/",
+							"host": [
+								"{{baseUrl}}units"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": ""
+		},
+		{
+			"key": "createdId",
+			"value": ""
+		},
+		{
+			"key": "createdNewId",
+			"value": ""
+		},
+		{
+			"key": "createdID",
+			"value": ""
+		},
+		{
+			"key": "contractId",
+			"value": ""
+		}
+	]
+}
