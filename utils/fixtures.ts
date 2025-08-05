@@ -5,6 +5,7 @@ import { AdminManufacturerPage } from '../pages/adminManufacturerPage';
 import { CreateAnnouncementPage } from '../pages/createAnnouncementPage';
 import { HomePage } from '../pages/homePage';
 import { LoginPage } from '../pages/loginPage';
+import { ProfilePage } from '../pages/profilePage';
 import 'dotenv/config';
 
 type MyFixtures = {
@@ -14,6 +15,7 @@ type MyFixtures = {
   createAnnouncementPage: CreateAnnouncementPage;
   homePage: HomePage;
   loginPage: LoginPage;
+  profilePage: ProfilePage;
 };
 
 export const test = base.extend<MyFixtures>({
@@ -51,5 +53,11 @@ export const test = base.extend<MyFixtures>({
   loginPage: async ({ page }, use) => {
     const loginPage = new LoginPage(page);
     await use(loginPage);
-  }
+  },
+
+  profilePage: async ({ page }, use) => {
+    const profilePage = new ProfilePage(page);
+    await use(profilePage);
+  },
+  
 });

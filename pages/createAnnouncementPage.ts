@@ -137,6 +137,41 @@ export class CreateAnnouncementPage extends BasePage{
    serviceListItemSecond: Locator;
    serviceListRemoveBtnFirst: Locator;
    serviceListRemoveBtnSecond: Locator;
+   addInfoError: Locator;
+
+   priceTitle: Locator;
+   paymentMethodTitle: Locator;
+   paymentMethodAsterix: Locator;
+   paymentMethod: Locator;
+   paymentMethodField: Locator;
+   paymentMethodDropdown: Locator;
+   paymentCashOrCard: Locator;
+   paymentNonCashNoVAT: Locator;
+   paymentNonCashWithVAT: Locator;
+   minCostTitle: Locator;
+   minCostAsterix: Locator;
+   minCostInput: Locator;
+   currencyField: Locator;
+   minCostFieldError: Locator;
+   minCostField: Locator;
+
+   contactsHeader: Locator;
+   myContactsSurname: Locator;
+   myContactsEdrpou: Locator;
+   myContactsCellPhone: Locator;
+   myContactsEmail: Locator;
+   operatorContactsTitle: Locator;
+   operatorCheckBox: Locator;
+   checkBoxLabel: Locator;
+   lastNameTitle: Locator;
+   operatorLastNameField: Locator;
+   operatorLastNameFieldErr: Locator;
+   firstNameTitle: Locator;
+   operatorFirstNameField: Locator;
+   operatorFirstNameFieldErr: Locator;
+   operatorMobileTitle: Locator;
+   operatorMobileField: Locator;
+   operatorMobileFieldErr: Locator;
 
    constructor(page: Page) {
     super(page);
@@ -265,8 +300,43 @@ export class CreateAnnouncementPage extends BasePage{
    this.serviceListItemSecond = page.locator('[data-testid="item-servicesUnitFlow"]:nth-child(2)')
    this.serviceListRemoveBtnFirst = page.locator('//div[@data-testid="item-servicesUnitFlow"][1]//button')
    this.serviceListRemoveBtnSecond = page.locator('//div[@data-testid="item-servicesUnitFlow"][2]//button')
+   this.addInfoError = page.getByTestId('add-info');
+
+   this.priceTitle = page.locator('[class*="PricesUnitFlow_title"]');
+   this.paymentMethodTitle = page.locator('[class*="PricesUnitFlow_paragraph"]:nth-child(2)');
+   this.paymentMethodAsterix = page.locator('[class*="PricesUnitFlow_paragraph"]:nth-child(2)>span');
+   this.paymentMethod = page.locator('[class*="CustomSelect_value"]');
+   this.paymentMethodField = page.getByTestId('div_CustomSelect');
+   this.paymentMethodDropdown = page.getByTestId('listItems-customSelect');
+   this.paymentCashOrCard = page.locator('li[class*="CustomSelect_option"]:nth-child(1)');
+   this.paymentNonCashNoVAT = page.locator('li[class*="CustomSelect_option"]:nth-child(2)');
+   this.paymentNonCashWithVAT = page.locator('li[class*="CustomSelect_option"]:nth-child(3)');
+   this.minCostTitle = page.locator('[class*="PricesUnitFlow_paragraph"]:nth-child(4)');
+   this.minCostAsterix = page.locator('[class*="PricesUnitFlow_paragraph"]:nth-child(4)>span');
+   this.minCostInput = page.locator('[class*="RowUnitPrice_inputWithError"]>div>input');
+   this.minCostField = page.locator('[class*="RowUnitPrice_inputWithError"]>div:nth-child(1)');
+   this.currencyField = page.locator('[class*="RowUnitPrice_currencyText"]');
+   this.minCostFieldError = page.getByTestId('div_required_RowUnitPrice')
+
+   this.contactsHeader = page.locator('[class*="AuthContactCard_title"]')
+   this.myContactsSurname = page.locator('[data-testid="userName"]')
+   this.myContactsEdrpou = page.locator('[data-testid="edrpou"]')
+   this.myContactsCellPhone = page.locator('div[class*="AuthContactCard_info"]>div:nth-child(4)>div~div')
+   this.myContactsEmail = page.locator('div[class*="AuthContactCard_info"]>div:nth-child(5)>div~div')
+   this.operatorContactsTitle = page.locator('[class*="OperatorCheckbox_title"]')
+   this.operatorCheckBox = page.locator('#operator')
+   this.checkBoxLabel = page.locator('[for="operator"]')
+   this.lastNameTitle = page.locator('div[class*="OperatorForm_wrapperName"]>div:nth-child(1)>div:nth-child(1)')
+   this.operatorLastNameField = page.locator('[name="fNameOperator"]')
+   this.operatorLastNameFieldErr = page.locator('input[name="fNameOperator"]~div')
+   this.firstNameTitle = page.locator('div[class*="OperatorForm_wrapperName"]>div:nth-child(2)>div:nth-child(1)')
+   this.operatorFirstNameField = page.locator('input[name="lNameOperator"]')
+   this.operatorFirstNameFieldErr = page.locator('input[name="lNameOperator"]~div')
+   this.operatorMobileTitle = page.locator('[class*="OperatorForm_title"]')
+   this.operatorMobileField = page.locator('#mobile')
+   this.operatorMobileFieldErr = page.locator('input[id="mobile"]~p')
    
-   
+
    }
 
    async clickNextButton() {
@@ -433,7 +503,63 @@ export class CreateAnnouncementPage extends BasePage{
    await this.serviceListRemoveBtnFirst.click()
    }
 
-     async clickServiceListRemoveBtnSecond(){
+   async clickServiceListRemoveBtnSecond(){
    await this.serviceListRemoveBtnSecond.click()
    }
+
+   async clickPaymentMethodField(){
+   await this.paymentMethodField.click()
+   }
+
+   async clickPaymentCashOrCard(){
+   await this.paymentCashOrCard.click()
+   }
+
+   async clickPaymentNonCashNoVAT(){
+   await this.paymentNonCashNoVAT.click()
+   }
+
+   async clickPaymentNonCashWithVAT(){
+   await this.paymentNonCashWithVAT.click()
+   }
+
+   async fillMinCostField(value: any){
+   await this.minCostInput.fill(value)
+   }
+
+   async clearMinCostField(){
+   await this.minCostInput.clear()
+   }
+
+   async clickCheckBoxLabel(){
+   await this.checkBoxLabel.click()
+   }
+
+   async fillOperatorLastNameField(value: any){
+   await this.operatorLastNameField.fill(value)
+   }
+
+   async fillOperatorFirstNameField(value: any){
+   await this.operatorFirstNameField.fill(value)
+   }
+
+   async fillOperatorMobileField(value: any){
+   await this.operatorMobileField.fill(value)
+   }
+
+   async clickOperatorMobileField(){
+   await this.operatorMobileField.click()
+   }
+
+   async clearOperatorLastNameField(){
+   await this.operatorLastNameField.clear()
+   }
+
+   async clearOperatorFirstNameField(){
+   await this.operatorFirstNameField.clear()
+   }
+
+   async clearOperatorMobileField(){
+   await this.operatorMobileField.clear()
+   }  
 }
