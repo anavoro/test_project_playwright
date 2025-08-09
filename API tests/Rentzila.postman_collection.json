@@ -1,0 +1,636 @@
+{
+	"info": {
+		"_postman_id": "a1ba87d7-8f46-4fc1-9aa7-358e77302287",
+		"name": "Rentzila",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43901807",
+		"_collection_link": "https://serhii-8788702.postman.co/workspace/Serhii's-Workspace~48a536c6-c473-45c0-8a10-55448864bedf/collection/43901807-a1ba87d7-8f46-4fc1-9aa7-358e77302287?action=share&source=collection_link&creator=43901807"
+	},
+	"item": [
+		{
+			"name": "Propose",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have an array\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    responseData.forEach(function(product) {\r",
+							"        pm.expect(product).to.be.an('object');\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/propose/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"propose",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Regions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have an array\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    responseData.forEach(function(product) {\r",
+							"        pm.expect(product).to.be.an('object');\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/regions/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"regions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Price",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have an array\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    responseData.forEach(function(product) {\r",
+							"        pm.expect(product).to.be.an('object');\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseUrl}}/units/price/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"units",
+						"price",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Price",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 Created\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response includes all required fields\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData).to.have.property(\"price\");\r",
+							"    pm.expect(responseData).to.have.property(\"price_UAH\");\r",
+							"    pm.expect(responseData).to.have.property(\"price_USD\");\r",
+							"    pm.expect(responseData).to.have.property(\"price_EUR\");\r",
+							"    pm.expect(responseData).to.have.property(\"money_value\");\r",
+							"    pm.expect(responseData).to.have.property(\"type_of_work\");\r",
+							"    pm.expect(responseData).to.have.property(\"time_of_work\");\r",
+							"    pm.expect(responseData).to.have.property(\"service\");\r",
+							"    pm.expect(responseData).to.have.property(\"unit\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate response property types and values\", function () {\r",
+							"    const data = pm.response.json();\r",
+							"\r",
+							"    pm.expect(data.price).to.be.a('number').and.to.be.at.least(0);\r",
+							"    pm.expect(data.price_UAH).to.be.a('number').and.to.be.at.least(0);\r",
+							"    pm.expect(data.price_USD).to.be.a('number').and.to.be.at.least(0);\r",
+							"    pm.expect(data.price_EUR).to.be.a('number').and.to.be.at.least(0);\r",
+							"\r",
+							"    pm.expect(data.money_value).to.be.a('string').and.to.be.oneOf([\"UAH\", \"USD\", \"EUR\"]);\r",
+							"    pm.expect(data.type_of_work).to.be.a('string').and.to.be.oneOf([\"CHANGE\", \"INSTALL\", \"REPAIR\"]); // replace with real enums\r",
+							"    pm.expect(data.time_of_work).to.be.a('string').and.to.be.oneOf([\"ONE\", \"TWO\", \"THREE\", \"FOUR\"]); // replace with real enums\r",
+							"\r",
+							"    pm.expect(data.service).to.be.a('number').and.to.be.at.least(1); // assuming IDs start from 1\r",
+							"    pm.expect(data.unit).to.be.a('number').and.to.be.at.least(1);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"price\": 1000,\r\n  \"price_UAH\": 1000,\r\n  \"price_USD\": 27,\r\n  \"price_EUR\": 25,\r\n  \"money_value\": \"UAH\",\r\n  \"type_of_work\": \"CHANGE\",\r\n  \"time_of_work\": \"FOUR\",\r\n  \"service\": 1,\r\n  \"unit\": 1\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/units/price/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"units",
+						"price",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Price",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"price\": 1000,\r\n  \"price_UAH\": 1000,\r\n  \"price_USD\": 27,\r\n  \"price_EUR\": 25,\r\n  \"money_value\": \"UAH\",\r\n  \"type_of_work\": \"CHANGE\",\r\n  \"time_of_work\": \"FOUR\",\r\n  \"service\": 1,\r\n  \"unit\": 1\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/units/price/5/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"units",
+						"price",
+						"5",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Price",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/units/price/5/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"units",
+						"price",
+						"5",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Units",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have an object\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseUrl}}/units/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"units",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Units",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 Created\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response includes all required fields\", function () {\r",
+							"    const data = pm.response.json();\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object');\r",
+							"\r",
+							"    const requiredFields = [\r",
+							"        \"name\", \"first_name\", \"last_name\", \"declined_incomplete\", \"declined_censored\",\r",
+							"        \"declined_incorrect_price\", \"declined_incorrect_data\", \"declined_invalid_img\",\r",
+							"        \"slug\", \"model_name\", \"description\", \"features\", \"rating\", \"views_count\",\r",
+							"        \"type_of_work\", \"time_of_work\", \"phone\", \"minimal_price\", \"money_value\",\r",
+							"        \"payment_method\", \"lat\", \"lng\", \"count\", \"is_approved\", \"is_archived\",\r",
+							"        \"manufacturer\", \"owner\", \"category\", \"services\"\r",
+							"    ];\r",
+							"\r",
+							"    requiredFields.forEach(field => {\r",
+							"        pm.expect(data).to.have.property(field);\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate field types and values\", function () {\r",
+							"    const data = pm.response.json();\r",
+							"\r",
+							"    pm.expect(data.name).to.be.a('string');\r",
+							"    pm.expect(data.first_name).to.be.a('string');\r",
+							"    pm.expect(data.last_name).to.be.a('string');\r",
+							"    pm.expect(data.slug).to.be.a('string');\r",
+							"    pm.expect(data.model_name).to.be.a('string');\r",
+							"    pm.expect(data.description).to.be.a('string');\r",
+							"    pm.expect(data.features).to.be.a('string');\r",
+							"    pm.expect(data.phone).to.be.a('string');\r",
+							"    pm.expect(data.money_value).to.be.oneOf(['UAH', 'USD', 'EUR']);\r",
+							"    pm.expect(data.payment_method).to.be.oneOf(['CASH', 'CARD', 'CASH_OR_CARD']);\r",
+							"    pm.expect(data.type_of_work).to.be.oneOf(['CHANGE', 'REPAIR']);\r",
+							"    pm.expect(data.time_of_work).to.be.oneOf(['FOUR', 'EIGHT', 'TWELVE']);\r",
+							"\r",
+							"    pm.expect(data.rating).to.be.a('number').and.to.be.at.least(0);\r",
+							"    pm.expect(data.views_count).to.be.a('number').and.to.be.at.least(0);\r",
+							"    pm.expect(data.minimal_price).to.be.a('number').and.to.be.at.least(0);\r",
+							"    pm.expect(data.lat).to.be.a('number');\r",
+							"    pm.expect(data.lng).to.be.a('number');\r",
+							"    pm.expect(data.count).to.be.a('number').and.to.be.at.least(0);\r",
+							"\r",
+							"    pm.expect(data.declined_incomplete).to.be.a('boolean');\r",
+							"    pm.expect(data.declined_censored).to.be.a('boolean');\r",
+							"    pm.expect(data.declined_incorrect_price).to.be.a('boolean');\r",
+							"    pm.expect(data.declined_incorrect_data).to.be.a('boolean');\r",
+							"    pm.expect(data.declined_invalid_img).to.be.a('boolean');\r",
+							"    pm.expect(data.is_approved).to.be.a('boolean');\r",
+							"    pm.expect(data.is_archived).to.be.a('boolean');\r",
+							"\r",
+							"    pm.expect(data.manufacturer).to.be.a('number');\r",
+							"    pm.expect(data.owner).to.be.a('number');\r",
+							"    pm.expect(data.category).to.be.a('number');\r",
+							"    pm.expect(data.services).to.be.an('array');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MjMyNzY3LCJqdGkiOiJiODcwYjdiYTE1Zjg0N2ZhYjZiMjAzNzhkOTc3OGY3MSIsInVzZXJfaWQiOjE3NDZ9.eQfHutCgEwDhWdDvZqvHYRQXnOJppUX2GdQ61r18dbI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Drill Machine\",\r\n  \"first_name\": \"Ivan\",\r\n  \"last_name\": \"Petrenko\",\r\n  \"declined_incomplete\": false,\r\n  \"declined_censored\": false,\r\n  \"declined_incorrect_price\": false,\r\n  \"declined_incorrect_data\": false,\r\n  \"declined_invalid_img\": false,\r\n  \"slug\": \"drill-machine\",\r\n  \"model_name\": \"Bosch 350X\",\r\n  \"description\": \"Powerful electric drill for home and professional use.\",\r\n  \"features\": \"500W, 2-speed, ergonomic handle\",\r\n  \"rating\": 4.5,\r\n  \"views_count\": 120,\r\n  \"type_of_work\": \"CHANGE\",\r\n  \"time_of_work\": \"FOUR\",\r\n  \"phone\": \"+380501112233\",\r\n  \"minimal_price\": 1200,\r\n  \"money_value\": \"UAH\",\r\n  \"payment_method\": \"CASH_OR_CARD\",\r\n  \"lat\": 50.4501,\r\n  \"lng\": 30.5234,\r\n  \"count\": 5,\r\n  \"is_approved\": true,\r\n  \"is_archived\": false,\r\n  \"manufacturer\": 12,\r\n  \"owner\": 34,\r\n  \"category\": 2,\r\n  \"services\": [101, 102]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/units/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"units",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Units",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 202\", function () {\r",
+							"    pm.response.to.have.status(202);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Drill Machine\",\r\n  \"first_name\": \"Ivan\",\r\n  \"last_name\": \"Petrenko\",\r\n  \"declined_incomplete\": false,\r\n  \"declined_censored\": false,\r\n  \"declined_incorrect_price\": false,\r\n  \"declined_incorrect_data\": false,\r\n  \"declined_invalid_img\": false,\r\n  \"slug\": \"drill-machine\",\r\n  \"model_name\": \"Bosch 350X\",\r\n  \"description\": \"Powerful electric drill for home and professional use.\",\r\n  \"features\": \"500W, 2-speed, ergonomic handle\",\r\n  \"rating\": 4.5,\r\n  \"views_count\": 120,\r\n  \"type_of_work\": \"CHANGE\",\r\n  \"time_of_work\": \"FOUR\",\r\n  \"phone\": \"+380501112233\",\r\n  \"minimal_price\": 1200,\r\n  \"money_value\": \"UAH\",\r\n  \"payment_method\": \"CASH_OR_CARD\",\r\n  \"lat\": 50.4501,\r\n  \"lng\": 30.5234,\r\n  \"count\": 5,\r\n  \"is_approved\": true,\r\n  \"is_archived\": false,\r\n  \"manufacturer\": 12,\r\n  \"owner\": 34,\r\n  \"category\": 2,\r\n  \"services\": [101, 102]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/units/1/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"units",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Units",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/units/1/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"units",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "\thttps://dev.rentzila.com.ua/api",
+			"type": "string"
+		}
+	]
+}
