@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker';
 import { CreateAnnouncementPage } from '../pages/createAnnouncementPage';
-import { Page } from '@playwright/test';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -81,7 +80,6 @@ export const adminCreds = {
     email: "txt2021@ukr.net",
     password: "Qwerty123+",
     phone: "+380XXXXXXXXX",
-    
 }
 export const wrongCreds = {
     existingEmail: "newuser@test.com",

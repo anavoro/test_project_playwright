@@ -1,25 +1,34 @@
-import { test, expect} from '@playwright/test';
-import * as data from '../../testData/unitData';
-import { createToken } from '../../utils/auth';
+import { test, expect } from "@playwright/test";
+import * as data from "../../testData/unitData";
+import { createToken } from "../../api/auth";
+import UnitsApi from "../../api/units.api";
 
-test.describe.serial('Verify Units functionality', async () => {
-    let token = '';
+let unitsApi: any;
+
+test.describe.serial("Verify Units functionality", async () => {
+    let token = "";
     let unitsId = 0;
 
     test.beforeAll(async () => {
         token = await createToken();
     });
-     test("Get propose list", async ({ request }) => {
-        const response = await request.get(`/api/units/`);
+    test.beforeEach(async ({ request }) => {
+        unitsApi = new UnitsApi(request);
+    });
+    test("Get units list", async () => {
+        const response = await unitsApi.getUnitsList({
+            Authorization: `Bearer ${token}`,
+        });
+
         await expect(response).toHaveStatusCode(200);
         await expect(response).toHaveStatusText("OK");
     });
-    test("Create propose", async ( {request} ) => {
-        const response = await request.post(`/api/units/`, {
-            headers: {
+    test("Create unit", async () => {
+        const response = await unitsApi.createUnit(
+            {
                 Authorization: `Bearer ${token}`,
             },
-            data: {
+            {
                 name: "Agriculture technique",
                 first_name: "Aha",
                 last_name: "Aha",
@@ -48,38 +57,37 @@ test.describe.serial('Verify Units functionality', async () => {
                 manufacturer: 4,
                 owner: 1746,
                 category: 2411,
-                services: [
-                    5
-                ]
+                services: [5],
             }
-        });
+        );
         const dataUnits = await response.json();
         unitsId = await dataUnits.id;
         await expect(response).toHaveStatusCode(201);
         await expect(response).toHaveStatusText("Created");
     });
-    test("Get new propose after creating", async ({ request }) => {
-        const response = await request.get(`/api/units/${unitsId}/`);
+    test("Get unit by ID", async () => {
+        const response = await unitsApi.getUnitByID(unitsId, {
+            Authorization: `Bearer ${token}`,
+        });
         await expect(response).toHaveStatusCode(200);
         await expect(response).toHaveStatusText("OK");
-        
     });
-    test("Delete propose by ID", async ( {request} ) => {
-        const response = await request.delete(`/api/units/${unitsId}/`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+    test("Delete unit by ID", async () => {
+        const response = await unitsApi.deleteUnitByID(unitsId, {
+            Authorization: `Bearer ${token}`,
         });
         await expect(response).toHaveStatusCode(204);
         await expect(response).toHaveStatusText("No Content");
     });
-    test("Get new propose after deletion", async ({ request }) => {
-        const response = await request.get(`/api/units/${unitsId}/`);
+    test("Get new unit after deletion", async () => {
+        const response = await unitsApi.getUnitByID(unitsId, {
+            Authorization: `Bearer ${token}`,
+        });
         await expect(response).toHaveStatusCode(200);
         await expect(response).toHaveStatusText("OK");
         const dataUnits = await response.json();
         const deletedUnit = dataUnits["units"];
         expect(deletedUnit == undefined).toBeTruthy();
-        expect(dataUnits == data.text.unitDoesntExist).toBeTruthy();    
+        expect(dataUnits == data.text.unitDoesntExist).toBeTruthy();
     });
 });
