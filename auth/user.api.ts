@@ -1,13 +1,13 @@
 import { APIRequestContext} from "@playwright/test";
-import { BaseApi } from "./base.api";
+import { BaseApi } from "../api/base.api";
 
 export default class AuthUser extends BaseApi {
     constructor(request: APIRequestContext) {
-        super(request);
+        super(request, `/api/auth/users/`);
     }
 
     async createUser(userData: object) {
-        const response = await this.post(`/api/auth/users/`, userData);
+        const response = await this.post('', userData);
         return response;
     }
 }

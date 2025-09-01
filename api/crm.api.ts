@@ -3,16 +3,18 @@ import { BaseApi } from "./base.api";
 
 export default class CrmManufacturer extends BaseApi {
     constructor(request: APIRequestContext) {
-        super(request);
+        super(request, `/api/crm/manufacturers/`);
     }
 
     async getManufacturerList(headers: object) {
-        const response = await this.get(`/api/crm/manufacturers/`, headers);
+        const response = await this.get(
+            '',
+             headers);
         return response;
     }
     async createManufacturer(headers: object, userData: object) {
         const response = await this.post(
-            `/api/crm/manufacturers/`,
+            '',
             userData,
             headers
         );
@@ -20,14 +22,14 @@ export default class CrmManufacturer extends BaseApi {
     }
     async getManufacturerByID(id: number, headers: object) {
         const response = await this.get(
-            `/api/crm/manufacturers/${id}/`,
+            `${id}/`,
             headers
         );
         return response;
     }
     async deleteManufacturerByID(id: number, headers: object) {
         const response = await this.delete(
-            `/api/crm/manufacturers/${id}/`,
+            `${id}/`,
             headers
         );
         return response;

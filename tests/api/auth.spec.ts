@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import * as data from "../../testData/unitData";
-import AuthUser from "../../api/auth.api";
+import AuthUser from "../../auth/user.api";
 
 let authUser: any;
 
@@ -16,8 +16,6 @@ test.describe("Verify section Auth", () => {
             phone: data.rightCreds.phone,
         });
         const dataAuth = await response.json();
-        console.log(dataAuth);
-        console.log(response);
         const text = await dataAuth["email"][0];
         await expect(response).toHaveStatusCode(400);
         await expect(response).toHaveStatusText("Bad Request");

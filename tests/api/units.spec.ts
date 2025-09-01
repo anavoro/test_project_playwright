@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import * as data from "../../testData/unitData";
-import { createToken } from "../../api/auth";
+import { createToken } from "../../auth/jwt.api";
 import UnitsApi from "../../api/units.api";
 
 let unitsApi: any;

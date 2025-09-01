@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { createToken } from "../../api/auth";
+import { createToken } from "../../auth/jwt.api";
 import CrmManufacturer from "../../api/crm.api";
 
 let crmManufacturer: any;
