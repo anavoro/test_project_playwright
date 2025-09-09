@@ -1,4 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
+import { expect } from '@playwright/test';
+import playwrightApiMatchers from 'odottaa';
+
+expect.extend(playwrightApiMatchers);
 
 export default defineConfig({
   testDir: './tests',

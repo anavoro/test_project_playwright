@@ -1,11 +1,12 @@
 import { faker } from '@faker-js/faker';
 import { CreateAnnouncementPage } from '../pages/createAnnouncementPage';
-import { Page } from '@playwright/test';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
+export const baseUrlAPI = 'https://dev.rentzila.com.ua/api/'
+
 export const text = {
-    requiredField: "Це поле обов’язкове",
+    requiredField: 'Це поле обов’язкове',
     notLess10Symbols: /не менше 10 символів/,
     notMore100Symbols: /не більше 100 символів/,
     notMore25Symbols: /Введіть не більше 25 символів/,
@@ -15,6 +16,11 @@ export const text = {
     notLess2Symbols: /має містити щонайменше дві літери/,
     onlyLetters: /має містити лише літери/,
     enterCorrectNumber: /Введіть коректний мобільний номер телефону/
+    unitDoesntExist: 'The unit with this id does not exist',
+    existingEmail: "Profile with this email already exists.",
+    wrongFormatPass: "This password must contain at least 1 uppercase character, 1 lowercase character and 1 digit.",
+    existingPhone: "Profile with this phone already exists.",
+    landLinePhone: "You can`t use landline phone number. Use mobile number instead", main
 }
 
 export const color = {
@@ -89,6 +95,22 @@ export const searchService: string = services[Math.floor(Math.random()*services.
 export const newService = async (): Promise<string> => {
     let n = faker.string.numeric(5)
     return `${searchService[0].toUpperCase()}${searchService.slice(1)} ${n}`;
+}
+export const adminCreds = {
+    email: "txt2021@ukr.net",
+    password: "Qwerty123+",
+    phone: "+380XXXXXXXXX",
+}
+export const wrongCreds = {
+    existingEmail: "newuser@test.com",
+    password: "123qwerty",
+    existingPhone: "+380951234567",
+    landLinePhone: "+380441234567",
+}
+export const rightCreds = {
+    email: "newuser@test.net",
+    password: "123qwerty",
+    phone: "+380631234567",
 }
 
 const ext = [50, 66, 95, 99,67, 68, 96, 97, 98, 63, 73, 93, 91, 92, 94]
