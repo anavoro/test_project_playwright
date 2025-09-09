@@ -34,24 +34,21 @@ export const color = {
 export const validData = {
     email: process.env.USER_EMAIL ?? '',
     password: process.env.USER_PASSWORD ?? '',
-    digits16: faker.string.numeric(16),
     unitName: faker.string.alpha(10),
     letter: faker.string.alpha({casing: 'upper'}),
-    digits9: faker.string.numeric(9),
     text2: faker.string.fromCharacters('abc', 2),
     textDash: faker.string.fromCharacters('ab-crh', 2),
     text25: faker.string.fromCharacters('abcerdf', 25),
     cyrillic: faker.string.fromCharacters('фаглдч', 5),
+    digits: (i: number) => faker.string.numeric(i),
 }
 
 export const invalidData ={
     space: " ",
-    digits9: faker.string.numeric(9),
-    digits2: faker.string.numeric(2),
-    digits10: faker.string.numeric(10),
     text101: faker.string.fromCharacters('abcw', 101),
     text26: faker.string.fromCharacters('abcwr', 26),
     text10: faker.string.fromCharacters('abcwr', 10),
+    text9: faker.string.fromCharacters('abcwr', 9),
     textSpaceEnd: 'abcwr         ',
     textSpaceInside: faker.string.fromCharacters('abc wr', 10),
     text3: faker.string.fromCharacters('abc', 3),
@@ -61,16 +58,16 @@ export const invalidData ={
     spaceEnd: `${faker.string.numeric(15)} `,
     digitsSpaceEnd: `${faker.string.numeric(6)} `,
     digitsSpaceInside: faker.string.octal({ length: 3, prefix: '123 ' }),
-    digits15: faker.string.numeric(15),
     text9001: faker.string.fromCharacters('abcde ', 9001),
     fileType: "testData/photo/wrong_type.webp",
     fileSize: "testData/photo/wrong_size.jpg",
+    digits: (i: number) => faker.string.numeric(i),
 }
 
-export const manufacturerRandom = async (createAnnouncementPage: CreateAnnouncementPage): Promise<string> => {
+export const manufacturerRandom = async (createAnnouncementPage: CreateAnnouncementPage): Promise<any> => {
     await createAnnouncementPage.fillVehicleManufacturerInput('A');
     const manufacturer = await createAnnouncementPage.manufacturers.allInnerTexts()
-    const vehicleManufactureRandom: string = await manufacturer[Math.floor(Math.random()*manufacturer.length)]
+    const vehicleManufactureRandom = manufacturer[Math.floor(Math.random()*manufacturer.length)]
     await createAnnouncementPage.fillVehicleManufacturerInput(vehicleManufactureRandom)
     return vehicleManufactureRandom
 }
@@ -121,11 +118,3 @@ export const mobileNumber = async (): Promise<string> => {
        let phoneNumber = `${extRandom}${a}`
        return phoneNumber
 }
-
-
-
-
-
-
-
-    
