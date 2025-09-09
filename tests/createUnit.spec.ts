@@ -119,14 +119,18 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.unitNameInput).toHaveCSS('border', color.errorBorder);
         
         await createAnnouncementPage.clearUnitNameInput();
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.unitNameInput, invalidData.digits9);
+        await createAnnouncementPage.waitForElement(createAnnouncementPage.unitNameInput)
+        await expect(createAnnouncementPage.unitNameInput).toBeVisible();
+        await createAnnouncementPage.unitNameInput.focus();
+        
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.unitNameInput, invalidData.text9);
         await createAnnouncementPage.clickNextButton();
         await expect(createAnnouncementPage.unitNameErrorText).toContainText(text.notLess10Symbols);
         await expect(createAnnouncementPage.unitNameErrorText).toHaveCSS('color', color.error);
         await expect(createAnnouncementPage.unitNameInput).toHaveCSS('border', color.errorBorder);
         
         await createAnnouncementPage.clearUnitNameInput();
-        await createAnnouncementPage.fillUnitNameInput(invalidData.digits9);
+        await createAnnouncementPage.fillUnitNameInput(invalidData.digits(9));
         await createAnnouncementPage.clickNextButton();
         await expect(createAnnouncementPage.unitNameErrorText).toContainText(text.notLess10Symbols);
         await expect(createAnnouncementPage.unitNameErrorText).toHaveCSS('color', color.error);
@@ -166,13 +170,13 @@ test.describe("Test create_unit page", async () => {
               .toHaveCSS('border-color', color.error);
         
         await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufacturerInput, validData.letter);
-        await expect(createAnnouncementPage.vehicleManufacturerDropdown).toBeVisible();
+        await expect(createAnnouncementPage.vehicleManufacturerDropdown).toBeVisible({timeout: 10000});
 
         await createAnnouncementPage.clearVehicleManufacturerInput();
         await createAnnouncementPage.fillVehicleManufacturerInput(validData.letter);
         await expect(createAnnouncementPage.vehicleManufacturerDropdown).toBeVisible();
 
-        const manufacturerName: string = await manufacturerRandom(createAnnouncementPage)
+        const manufacturerName = await manufacturerRandom(createAnnouncementPage)
         await createAnnouncementPage.clearVehicleManufacturerInput();
         await createAnnouncementPage.fillVehicleManufacturerInput(manufacturerName);
         await expect(createAnnouncementPage.vehicleManufacturerSearchResult).toBeVisible({timeout: 10000});
@@ -200,21 +204,24 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
 
         await createAnnouncementPage.clearVehicleManufacturerInput();
+        await createAnnouncementPage.vehicleManufacturerInput.click()
+
         await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufacturerInput, invalidData.symbols);
         await expect(createAnnouncementPage.symbolsCounter).toContainText(`${invalidData.symbols.length} / 100`);
         await createAnnouncementPage.verifyManufacturerNameNotFound(invalidData.symbols);
         await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
 
+        const inputValue = invalidData.digits(9)
         await createAnnouncementPage.clearVehicleManufacturerInput();
-        await createAnnouncementPage.fillVehicleManufacturerInput(invalidData.digits9);
-        await expect(createAnnouncementPage.symbolsCounter).toContainText(`${invalidData.digits9.length} / 100`);
-        await createAnnouncementPage.verifyManufacturerNameNotFound(invalidData.digits9);
+        await createAnnouncementPage.fillVehicleManufacturerInput(inputValue);
+        await expect(createAnnouncementPage.symbolsCounter).toContainText(`${inputValue.length} / 100`);
+        await createAnnouncementPage.verifyManufacturerNameNotFound(inputValue);
         await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
 
         await createAnnouncementPage.clearVehicleManufacturerInput();
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufacturerInput, invalidData.digits9)
-        await expect(createAnnouncementPage.symbolsCounter).toContainText(`${invalidData.digits9.length} / 100`);
-        await createAnnouncementPage.verifyManufacturerNameNotFound(invalidData.digits9);
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.vehicleManufacturerInput, inputValue)
+        await expect(createAnnouncementPage.symbolsCounter).toContainText(`${inputValue.length} / 100`);
+        await createAnnouncementPage.verifyManufacturerNameNotFound(inputValue);
         await expect(createAnnouncementPage.vehicleManufacturerSearchResult).not.toBeVisible();
 
         await createAnnouncementPage.clearVehicleManufacturerInput();
@@ -258,14 +265,14 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.modelNameInput)
               .toHaveAttribute('placeholder', 'Введіть назву моделі');
 
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.modelNameInput, validData.digits16);
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.modelNameInput, validData.digits(16));
         await expect(createAnnouncementPage.modelNameErrorText).toBeVisible();
         await expect(createAnnouncementPage.modelNameErrorText).toHaveText(text.notMore15Symbols);
         await expect(createAnnouncementPage.modelNameErrorText).toHaveCSS('color', color.error);
         await expect(createAnnouncementPage.modelNameInput).toHaveCSS('border-color', color.error);
 
         await createAnnouncementPage.clearModelNameInput();
-        await createAnnouncementPage.fillModelNameInput(validData.digits16);
+        await createAnnouncementPage.fillModelNameInput(validData.digits(16));
         await expect(createAnnouncementPage.modelNameErrorText).toHaveText(text.notMore15Symbols);
         await expect(createAnnouncementPage.modelNameErrorText).toHaveCSS('color', color.error);
         await expect(createAnnouncementPage.modelNameInput).toHaveCSS('border-color', color.error);
@@ -303,7 +310,7 @@ test.describe("Test create_unit page", async () => {
         await expect(createAnnouncementPage.modelNameInput).toBeEmpty();
 
         await createAnnouncementPage.clearModelNameInput();
-        await createAnnouncementPage.copyPaste(createAnnouncementPage.modelNameInput, invalidData.digits15);
+        await createAnnouncementPage.copyPaste(createAnnouncementPage.modelNameInput, invalidData.digits(15));
         await expect(createAnnouncementPage.modelNameErrorText).not.toBeVisible();
     })
     test('C317 Verify Technical characteristics section', async ({ page }) => {

@@ -211,7 +211,7 @@ export class CreateAnnouncementPage extends BasePage{
    this.unitNameTitle = page.locator('//div[@data-testid="customInputWrapper"][1]/div[1]');
    this.unitNameAsterix = page.getByTestId('customInputStar');
    this.unitNameInput = page.locator('//div[1]/div[2]/div/input');
-   this.unitNameErrorText = page.getByTestId('descriptionError');
+   this.unitNameErrorText = page.locator('[class*="CustomInput_errorDescr"]');
 
    this.vehicleManufacturerTitle = page.locator('[class*="SelectManufacturer_title"]');
    this.vehicleManufacturerAsterix = page.locator('div[class*="SelectManufacturer_title"]>span');
@@ -371,7 +371,7 @@ export class CreateAnnouncementPage extends BasePage{
       await this.unitNameInput.fill(name);
    }
 
-   async fillVehicleManufacturerInput(term: string | any) {
+   async fillVehicleManufacturerInput(term: any) {
       await this.vehicleManufacturerInput.fill(term);
    }
 
@@ -432,13 +432,15 @@ export class CreateAnnouncementPage extends BasePage{
       await this.map.click({position: {x: 200, y: 100}});
    }
 
-   async copyPaste(locator: Locator, name: any) {
-      await locator.fill(name);
-      await this.page.keyboard.press("Control+A");
-      await this.page.keyboard.press("Control+C");
-      await locator.clear();
-      await this.page.keyboard.press("Control+V");
-   }
+   async copyPaste(locator: Locator, value: string) {
+      const mod = process.platform === "darwin" ? "Meta" : "Control";
+      await locator.fill(value);
+      await locator.press(`${mod}+A`);
+      await locator.press(`${mod}+C`);
+      await locator.fill('');
+      await locator.focus();
+      await locator.press(`${mod}+V`);
+      }
    
    async verifyManufacturerNameNotFoundText101(name: string) {
       await expect(this.vehicleManufacturerDropdownError)

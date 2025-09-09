@@ -4,12 +4,9 @@ import { AdminPage } from '../pages/adminPage';
 import { AdminCategoryPage } from '../pages/adminCategoryPage';
 import { AdminManufacturerPage } from '../pages/adminManufacturerPage';
 import { CreateAnnouncementPage } from '../pages/createAnnouncementPage';
-import { HomePage } from '../pages/homePage';
 import { LoginPage } from '../pages/loginPage';
 import { ProfilePage } from '../pages/profilePage';
 import 'dotenv/config';
-import { LoginPage } from '../pages/loginPage';
-import { ProfilePage } from '../pages/profilePage';
 
 type MyFixtures = {
   loggedInAdmin: AdminPage;
@@ -20,7 +17,6 @@ type MyFixtures = {
   createAnnouncementPage: CreateAnnouncementPage;
   homePage: HomePage;
   loginPage: LoginPage;
-  profilePage: ProfilePage;
 };
 
 export const test = base.extend<MyFixtures>({
@@ -75,9 +71,4 @@ export const test = base.extend<MyFixtures>({
     const loginPage = new LoginPage(page);
     await use(loginPage);
   },
-
-  profilePage: async ({ page }, use) => {
-    const profilePage = new ProfilePage(page);
-    await use(profilePage);
-  }
 });

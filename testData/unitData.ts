@@ -15,12 +15,12 @@ export const text = {
     choosePlaceOnMap:/[^Виберіть/ && /^місце]/,
     notLess2Symbols: /має містити щонайменше дві літери/,
     onlyLetters: /має містити лише літери/,
-    enterCorrectNumber: /Введіть коректний мобільний номер телефону/
+    enterCorrectNumber: /Введіть коректний мобільний номер телефону/,
     unitDoesntExist: 'The unit with this id does not exist',
     existingEmail: "Profile with this email already exists.",
     wrongFormatPass: "This password must contain at least 1 uppercase character, 1 lowercase character and 1 digit.",
     existingPhone: "Profile with this phone already exists.",
-    landLinePhone: "You can`t use landline phone number. Use mobile number instead", main
+    landLinePhone: "You can`t use landline phone number. Use mobile number instead",
 }
 
 export const color = {
