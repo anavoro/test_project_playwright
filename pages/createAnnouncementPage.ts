@@ -371,7 +371,7 @@ export class CreateAnnouncementPage extends BasePage{
       await this.unitNameInput.fill(name);
    }
 
-   async fillVehicleManufacturerInput(term: any) {
+   async fillVehicleManufacturerInput(term: string) {
       await this.vehicleManufacturerInput.fill(term);
    }
 
