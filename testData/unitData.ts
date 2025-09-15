@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { CreateAnnouncementPage } from '../pages/createAnnouncementPage';
 import * as dotenv from 'dotenv';
+import { expect } from '@playwright/test';
 dotenv.config();
 
 export const baseUrlAPI = 'https://dev.rentzila.com.ua/api/'
@@ -64,8 +65,9 @@ export const invalidData ={
     digits: (i: number) => faker.string.numeric(i),
 }
 
-export const manufacturerRandom = async (createAnnouncementPage: CreateAnnouncementPage): Promise<any> => {
+export const manufacturerRandom = async (createAnnouncementPage: CreateAnnouncementPage): Promise<string> => {
     await createAnnouncementPage.fillVehicleManufacturerInput('A');
+    await expect(createAnnouncementPage.manufacturers.first()).toBeVisible({ timeout: 10000 });
     const manufacturer = await createAnnouncementPage.manufacturers.allInnerTexts()
     const vehicleManufactureRandom = manufacturer[Math.floor(Math.random()*manufacturer.length)]
     await createAnnouncementPage.fillVehicleManufacturerInput(vehicleManufactureRandom)

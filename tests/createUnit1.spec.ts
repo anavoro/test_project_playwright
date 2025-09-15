@@ -394,6 +394,7 @@ test.describe('Verify Services section', () => {
         await expect(createAnnouncementPage.serviceListItem).toHaveText(searchResultFirstLine);
         await expect(createAnnouncementPage.servicesListRemoveBtn).toBeVisible();
     });
+    // Test C410 is skiped due not working Add service button
     test.skip('C410 Verify creating new service', async ( {page, createAnnouncementPage} ) => {
         const newServiceName = await data.newService();
         await createAnnouncementPage.fillServisesSearchInput(newServiceName);
