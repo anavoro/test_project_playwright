@@ -4,9 +4,9 @@ import { AdminPage } from '../pages/adminPage';
 import { AdminCategoryPage } from '../pages/adminCategoryPage';
 import { AdminManufacturerPage } from '../pages/adminManufacturerPage';
 import { CreateAnnouncementPage } from '../pages/createAnnouncementPage';
-import 'dotenv/config';
 import { LoginPage } from '../pages/loginPage';
 import { ProfilePage } from '../pages/profilePage';
+import 'dotenv/config';
 
 type MyFixtures = {
   loggedInAdmin: AdminPage;
@@ -70,5 +70,5 @@ export const test = base.extend<MyFixtures>({
   loginPage: async ({ page }, use) => {
     const loginPage = new LoginPage(page);
     await use(loginPage);
-  }
+  },
 });

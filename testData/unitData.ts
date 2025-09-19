@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { CreateAnnouncementPage } from '../pages/createAnnouncementPage';
 import * as dotenv from 'dotenv';
+import { expect } from '@playwright/test';
 dotenv.config();
 
 export const baseUrlAPI = 'https://dev.rentzila.com.ua/api/'
@@ -9,9 +10,13 @@ export const text = {
     requiredField: 'Це поле обов’язкове',
     notLess10Symbols: /не менше 10 символів/,
     notMore100Symbols: /не більше 100 символів/,
+    notMore25Symbols: /Введіть не більше 25 символів/,
     notMore15Symbols: /не більше 15 символів/,
     defaultAddress: /[^Київ/ && /Володимирська 21\/20]/,
     choosePlaceOnMap:/[^Виберіть/ && /^місце]/,
+    notLess2Symbols: /має містити щонайменше дві літери/,
+    onlyLetters: /має містити лише літери/,
+    enterCorrectNumber: /Введіть коректний мобільний номер телефону/,
     unitDoesntExist: 'The unit with this id does not exist',
     existingEmail: "Profile with this email already exists.",
     wrongFormatPass: "This password must contain at least 1 uppercase character, 1 lowercase character and 1 digit.",
@@ -24,33 +29,47 @@ export const color = {
     errorBorder: "1px solid rgb(247, 56, 89)",
     activeElem: "rgb(64, 75, 105)",
     inactiveElem: "rgb(196, 196, 196)",
+    noErrorBorder: "1px solid rgb(229, 229, 229)",
 }
 
 export const validData = {
     email: process.env.USER_EMAIL ?? '',
     password: process.env.USER_PASSWORD ?? '',
-    digits16: faker.string.numeric(16),
     unitName: faker.string.alpha(10),
     letter: faker.string.alpha({casing: 'upper'}),
+    text2: faker.string.fromCharacters('abc', 2),
+    textDash: faker.string.fromCharacters('ab-crh', 2),
+    text25: faker.string.fromCharacters('abcerdf', 25),
+    cyrillic: faker.string.fromCharacters('фаглдч', 5),
+    digits: (i: number) => faker.string.numeric(i),
 }
 
 export const invalidData ={
     space: " ",
-    digits: faker.string.numeric(9),
     text101: faker.string.fromCharacters('abcw', 101),
+    text26: faker.string.fromCharacters('abcwr', 26),
+    text10: faker.string.fromCharacters('abcwr', 10),
+    text9: faker.string.fromCharacters('abcwr', 9),
+    textSpaceEnd: 'abcwr         ',
+    textSpaceInside: faker.string.fromCharacters('abc wr', 10),
+    text3: faker.string.fromCharacters('abc', 3),
+    text1: faker.string.fromCharacters('abc', 1),
     symbols: faker.internet.password({length: 7, pattern: /[?$#&%@]/}),
     spaceInside: faker.string.octal({ length: 12, prefix: '123 ' }),
-    spaceEnd: `${faker.string.numeric(15)} + " "`,
-    digits15: faker.string.numeric(15),
+    spaceEnd: `${faker.string.numeric(15)} `,
+    digitsSpaceEnd: `${faker.string.numeric(6)} `,
+    digitsSpaceInside: faker.string.octal({ length: 3, prefix: '123 ' }),
     text9001: faker.string.fromCharacters('abcde ', 9001),
     fileType: "testData/photo/wrong_type.webp",
     fileSize: "testData/photo/wrong_size.jpg",
+    digits: (i: number) => faker.string.numeric(i),
 }
 
 export const manufacturerRandom = async (createAnnouncementPage: CreateAnnouncementPage): Promise<string> => {
     await createAnnouncementPage.fillVehicleManufacturerInput('A');
+    await expect(createAnnouncementPage.manufacturers.first()).toBeVisible({ timeout: 10000 });
     const manufacturer = await createAnnouncementPage.manufacturers.allInnerTexts()
-    const vehicleManufactureRandom: string = await manufacturer[Math.floor(Math.random()*manufacturer.length)]
+    const vehicleManufactureRandom = manufacturer[Math.floor(Math.random()*manufacturer.length)]
     await createAnnouncementPage.fillVehicleManufacturerInput(vehicleManufactureRandom)
     return vehicleManufactureRandom
 }
@@ -93,5 +112,11 @@ export const rightCreds = {
     phone: "+380631234567",
 }
 
+const ext = [50, 66, 95, 99,67, 68, 96, 97, 98, 63, 73, 93, 91, 92, 94]
 
-    
+export const mobileNumber = async (): Promise<string> => {
+    const extRandom = ext[Math.floor(Math.random()*ext.length)]
+    let a = faker.string.numeric(7)
+       let phoneNumber = `${extRandom}${a}`
+       return phoneNumber
+}
